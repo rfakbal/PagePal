@@ -1,8 +1,11 @@
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -13,70 +16,87 @@ public class App extends Application {
         VBox root = new VBox();
         root.setPrefSize(640, 400);
         
+        //MENU
         MenuBar menuBar = new MenuBar();
+
         Menu fileMenu = new Menu("File");
-        MenuItem newMenuItem = new MenuItem("New");
-        MenuItem openMenuItem = new MenuItem("Open…");
-        Menu openRecentMenu = new Menu("Open Recent");
+        MenuItem addMenuItem = new MenuItem("Add Book");
+        MenuItem importMenuItem = new MenuItem("Import Books");
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
-        MenuItem closeMenuItem = new MenuItem("Close");
+
         MenuItem saveMenuItem = new MenuItem("Save");
         MenuItem saveAsMenuItem = new MenuItem("Save As…");
-        MenuItem revertMenuItem = new MenuItem("Revert");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
+
         MenuItem preferencesMenuItem = new MenuItem("Preferences…");
         SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
+
         MenuItem quitMenuItem = new MenuItem("Quit");
         
         fileMenu.getItems().addAll(
-            newMenuItem, openMenuItem, openRecentMenu,
-            separatorMenuItem, closeMenuItem, saveMenuItem,
-            saveAsMenuItem, revertMenuItem, separatorMenuItem2,
+            addMenuItem, importMenuItem,
+            separatorMenuItem, saveMenuItem,
+            saveAsMenuItem, separatorMenuItem2,
             preferencesMenuItem, separatorMenuItem3, quitMenuItem
         );
         
         Menu helpMenu = new Menu("Help");
-        MenuItem aboutMenuItem = new MenuItem("About MyHelloApp");
-        helpMenu.getItems().add(aboutMenuItem);
+        MenuItem aboutMenuItem = new MenuItem("About PagePal");
+        MenuItem manualMenuItem = new MenuItem("Manual");
+        helpMenu.getItems().addAll(aboutMenuItem,manualMenuItem);
         
         menuBar.getMenus().addAll(fileMenu, helpMenu);
         
+        //WHAT İS THİS
         ContextMenu contextMenu = new ContextMenu(new MenuItem("Unspecified Action"));
         menuBar.setContextMenu(contextMenu);
         
-        AnchorPane anchorPane = new AnchorPane();
-        anchorPane.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        //main pane
+        HBox firstLine = new HBox();
+        firstLine.setAlignment(Pos.BOTTOM_LEFT);
+
+        HBox secondLine = new HBox(8);
+        secondLine.setAlignment(Pos.CENTER);
+
+        VBox thirdLine = new VBox();
+        thirdLine.setAlignment(Pos.CENTER);
+        
         
         Label label = new Label("Book Search");
-        label.setFont(new Font(18));
-        AnchorPane.setLeftAnchor(label, 142.0);
-        AnchorPane.setTopAnchor(label, 103.0);
+        label.setFont(new Font(25));
+        
         
         TextField textField = new TextField();
-        AnchorPane.setLeftAnchor(textField, 142.0);
-        AnchorPane.setTopAnchor(textField, 131.0);
+        textField.setPrefWidth(180);
+
+        HBox.setHgrow(textField, Priority.ALWAYS);
+        
         
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        AnchorPane.setLeftAnchor(choiceBox, 383.0);
-        AnchorPane.setTopAnchor(choiceBox, 132.0);
         
-        Label searchByLabel = new Label("Search by");
-        AnchorPane.setLeftAnchor(searchByLabel, 393.0);
-        AnchorPane.setTopAnchor(searchByLabel, 135.0);
+        
+        Label searchByLabel = new Label("Search by :");
+        
         
         Button addButton = new Button("Add Book");
         addButton.setFont(new Font(14));
-        addButton.setPrefSize(108.0, 46.0);
-        AnchorPane.setLeftAnchor(addButton, 262.0);
-        AnchorPane.setTopAnchor(addButton, 187.0);
+        addButton.setPrefSize(100.0, 45.0);
         
-        anchorPane.getChildren().addAll(label, textField, choiceBox, searchByLabel, addButton);
+        VBox.setMargin(firstLine, new Insets(8));
+        VBox.setMargin(secondLine, new Insets(8));
+        VBox.setMargin(thirdLine, new Insets(8));
         
-        root.getChildren().addAll(menuBar, anchorPane);
+        
+        firstLine.getChildren().addAll(label);
+        secondLine.getChildren().addAll(textField,searchByLabel,choiceBox);
+        thirdLine.getChildren().addAll(addButton);
+
+        
+        root.getChildren().addAll(menuBar, firstLine,secondLine,thirdLine);
         
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("My Hello App");
+        primaryStage.setTitle("PagePal");
         primaryStage.show();
     }
     
