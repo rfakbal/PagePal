@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "ce216_a1aaf128"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -16,8 +23,7 @@
             "request": "launch",
             "mainClass": "App",
             "projectName": "gui_3749089b",
-            "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-21.0.2/lib\" --add-modules javafx.controls,javafx.fxml"
-
+            "vmArgs": "--module-path \"lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }
