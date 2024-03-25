@@ -11,7 +11,7 @@ public class Book {
     private String date;
     private String edition;
     private String language;
-    private float rating;
+    private String rating;
     //private (JPG) cover will be added, do not forget to add set and get also;
 
     public Book(
@@ -25,7 +25,7 @@ public class Book {
         String date,
         String edition,
         String language,
-        float rating
+        String rating
     ){
         this.title = title;
         this.subTitle = subTitle;
@@ -59,7 +59,7 @@ public class Book {
 
     public void setLanguage(String language) { this.language = language; }
 
-    public void setRating(float rating) { this.rating = rating; }
+    public void setRating(String rating) { this.rating = rating; }
 
     public ArrayList<String> getAuthor() {
         return author;
@@ -75,5 +75,33 @@ public class Book {
 
     public ArrayList<String> getTag() {
         return tag;
+    }
+
+    public ArrayList<String> getTranslator() {
+        return translator;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+    
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getEdition() {
+        return edition;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getRating() {
+        return rating;
     }
 }
