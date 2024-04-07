@@ -69,7 +69,7 @@ public class App extends Application {
 
         //right/////////////////////////////////////////////////////
 
-        Label subtitle = new Label("SubTitle");
+        Label subtitle = new Label("Subtitle");
         subtitle.setFont(new Font(25));
 
         TextField subtitleTextField = new TextField();
