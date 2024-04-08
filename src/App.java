@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
@@ -196,6 +197,14 @@ public class App extends Application {
         
         Menu helpMenu = new Menu("Help");
         MenuItem aboutMenuItem = new MenuItem("About PagePal");
+        aboutMenuItem.setOnAction(e -> {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setHeaderText("About PagePal");
+            alert.setContentText("This application is made by Ege Sevindi, Ruşen Akbal, Arda Sarı and Ege Yılmaz. It is the project of the course CE 216.");
+            alert.setTitle("About");
+            alert.showAndWait();
+        });
+
         MenuItem manualMenuItem = new MenuItem("Manual");
         helpMenu.getItems().addAll(aboutMenuItem,manualMenuItem);
         
