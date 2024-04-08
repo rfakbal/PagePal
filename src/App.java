@@ -4,7 +4,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
@@ -13,20 +12,27 @@ import java.time.LocalDate;
 import java.util.*;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
-
+import javafx.scene.control.Alert.AlertType;
 
 
 
 public class App extends Application {
-
+    VBox root = new VBox();
     Library lib = new Library();
+    ListView<String> bookList = new ListView<>();
 
     private void searchResults(String input, String type) {
-        lib.searchBook(input, type);
+        root.getChildren().remove(bookList);
+        bookList.getItems().clear();
+        lib.setDisplayBooks(lib.searchBook(input, type));
 
         for (Book book : lib.getDisplayBooks()) {
+            bookList.getItems().add(book.getTitle()+" - "+book.getAuthor());
             System.out.println(book.getTitle());
         }
+
+        root.getChildren().add(bookList);
+
     }
 
     private void btnOkDetect(){
@@ -44,6 +50,11 @@ public class App extends Application {
 
         VBox rightBox = new VBox(8);
         rightBox.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox listBox = new VBox(8);
+        listBox.setAlignment(Pos.CENTER);
+
+        
 
         //LEFT////////////////////////////////////////////////////////////////////////////
 
@@ -168,7 +179,6 @@ public class App extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        VBox root = new VBox();
         root.setPrefSize(640, 400);
         
         //MENU
