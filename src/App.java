@@ -23,9 +23,10 @@ public class App extends Application {
     VBox root = new VBox();
     Library lib = new Library();
     ListView<String> bookList = new ListView<>();
-    VBox bookInfo = new VBox(10);
+    
 
     private void displayBookInfo(Book displayBook){
+        VBox bookInfo = new VBox(10);
         HBox bookInfoHB = new HBox();
 
         VBox leftVBox = new VBox();
@@ -106,8 +107,9 @@ public class App extends Application {
         bookInfoHB.getChildren().addAll(leftVBox, rightVBox);
 
         bookInfo.getChildren().add(bookInfoHB);
-        Scene infoScene = new Scene(bookInfo);
         Stage infoStage = new Stage();
+        Scene infoScene = new Scene(bookInfo);
+        
         infoStage.setScene(infoScene);
         infoStage.show();
     }
