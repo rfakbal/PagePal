@@ -21,6 +21,9 @@ public class App extends Application {
     Library lib = new Library();
 
     private void searchResults(String input, String type) {
+        if(input==null || type==null){
+            return;
+        }
         lib.searchBook(input, type);
 
         for (Book book : lib.getDisplayBooks()) {
@@ -72,7 +75,7 @@ public class App extends Application {
         Label coverLabel = new Label("Cover");
         coverLabel.setFont(new Font(25));
 
-        //upload thing
+        //upload cover thing
 
         Label ratingLabel = new Label("Rating");
         ratingLabel.setFont(new Font(25));
@@ -133,7 +136,7 @@ public class App extends Application {
             lib.addBook(new Book(titleField.getText(),subtitleField.getText(),author, translator, tag, isbnField.getText(), publisherField.getText(), datepPicker.getValue(), editionField.getText(), languageField.getText(), ratingField.getText()));
             secondStage.close();
         });
-
+        //what is this-arda
         Region spacer = new Region();
 
 
@@ -201,7 +204,7 @@ public class App extends Application {
         
         menuBar.getMenus().addAll(fileMenu, helpMenu);
         
-        //WHAT İS THİS
+        //What is this
         ContextMenu contextMenu = new ContextMenu(new MenuItem("Unspecified Action"));
         menuBar.setContextMenu(contextMenu);
         
@@ -253,7 +256,7 @@ public class App extends Application {
         
         firstLine.getChildren().addAll(label);
         secondLine.getChildren().addAll(searchField,searchByLabel,choiceBox);
-        thirdLine.getChildren().addAll(addButton, searchButton);
+        thirdLine.getChildren().addAll(searchButton, addButton);
 
         
         root.getChildren().addAll(menuBar, firstLine,secondLine,thirdLine);
