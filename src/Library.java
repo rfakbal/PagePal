@@ -6,103 +6,88 @@ public class Library {
 
     // public void edit(Book book) { }
     public ArrayList<Book> searchBook(String input, String type) {
-        switch (type) {
-            case "Title":
-                for (Book book_Search : libraryBooks) {
-                    if (book_Search.getTitle().equals("input"))
-                        ;
-                    displayBooks.add(book_Search);
-                }
-                break;
+        displayBooks.clear(); // Önceki aramaların sonuçlarını temizle
 
-            case "Subtitle":
-                for (Book book_Search : libraryBooks) {
-                    if (book_Search.getSubTitle().equals("input"))
-                        ;
-                    displayBooks.add(book_Search);
+        if ("Title".equals(type)) {
+            for (Book book : libraryBooks) {
+                if (book.getTitle().equals(input)) {
+                    displayBooks.add(book);
                 }
-                break;
-
-            case "Author":
-                for (Book book_Search : libraryBooks) {
-                    for (String author : book_Search.getAuthor()) {
-                        if (author.equals(input)) {
-                            displayBooks.add(book_Search);
-                        }
+            }
+        } else if ("Subtitle".equals(type)) {
+            for (Book book : libraryBooks) {
+                if (book.getSubTitle().equals(input)) {
+                    displayBooks.add(book);
+                }
+            }
+        } else if ("Author".equals(type)) {
+            for (Book book : libraryBooks) {
+                for (String author : book.getAuthor()) {
+                    if (author.equals(input)) {
+                        displayBooks.add(book);
+                        break; // İç içe döngüden çık
                     }
                 }
-                break;
-
-            case "Translator":
-                for (Book book_Search : libraryBooks) {
-                    for (String translator : book_Search.getTranslator()) {
-                        if (translator.equals(input)) {
-                            displayBooks.add(book_Search);
-                        }
+            }
+        } else if ("Translator".equals(type)) {
+            for (Book book : libraryBooks) {
+                for (String translator : book.getTranslator()) {
+                    if (translator.equals(input)) {
+                        displayBooks.add(book);
+                        break; // İç içe döngüden çık
                     }
                 }
-                break;
-
-            case "Tag":
-                for (Book book_Search : libraryBooks) {
-                    for (String tag : book_Search.getTag()) {
-                        if (tag.equals(input)) {
-                            displayBooks.add(book_Search);
-                        }
+            }
+        } else if ("Tag".equals(type)) {
+            for (Book book : libraryBooks) {
+                for (String tag : book.getTag()) {
+                    if (tag.equals(input)) {
+                        displayBooks.add(book);
+                        break; // İç içe döngüden çık
                     }
                 }
-                break;
-
-            case "ISBN":
-                for (Book book_Search : libraryBooks) {
-                    if (book_Search.getIsbn().equals(input)) {
-                        displayBooks.add(book_Search);
-                        break;
-                    }
+            }
+        } else if ("ISBN".equals(type)) {
+            for (Book book : libraryBooks) {
+                if (book.getIsbn().equals(input)) {
+                    displayBooks.add(book);
+                    break;
                 }
-                break;
-
-            case "Publisher":
-                for (Book book_Search : libraryBooks) {
-                    if (book_Search.getPublisher().equals(input)) {
-                        displayBooks.add(book_Search);
-                    }
+            }
+        } else if ("Publisher".equals(type)) {
+            for (Book book : libraryBooks) {
+                if (book.getPublisher().equals(input)) {
+                    displayBooks.add(book);
                 }
-                break;
-
-            case "Date":
-                for (Book book_Search : libraryBooks) {
-                    if (book_Search.getDate().equals(input)) {
-                        displayBooks.add(book_Search);
-                    }
+            }
+        } else if ("Date".equals(type)) {
+            for (Book book : libraryBooks) {
+                if (book.getDate().equals(input)) {
+                    displayBooks.add(book);
                 }
-                break;
-
-            case "Edition":
-                for (Book book_Search : libraryBooks) {
-                    if (book_Search.getEdition().equals(input)) {
-                        displayBooks.add(book_Search);
-                    }
+            }
+        } else if ("Edition".equals(type)) {
+            for (Book book : libraryBooks) {
+                if (book.getEdition().equals(input)) {
+                    displayBooks.add(book);
                 }
-                break;
-
-            case "Language":
-                for (Book book_Search : libraryBooks) {
-                    if (book_Search.getLanguage().equals(input)) {
-                        displayBooks.add(book_Search);
-                    }
+            }
+        } else if ("Language".equals(type)) {
+            for (Book book : libraryBooks) {
+                if (book.getLanguage().equals(input)) {
+                    displayBooks.add(book);
                 }
-                break;
-
-            case "Rating":
-                for (Book book_Search : libraryBooks) {
-                    if (book_Search.getRating().equals(input)) {
-                        displayBooks.add(book_Search);
-                    }
+            }
+        } else if ("Rating".equals(type)) {
+            for (Book book : libraryBooks) {
+                if (book.getRating().equals(input)) {
+                    displayBooks.add(book);
                 }
-                break;
-
+            }
+        } else {
+            System.out.println("Geçersiz arama türü: " + type);
         }
+
         return displayBooks;
     }
 

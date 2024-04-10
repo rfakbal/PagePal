@@ -12,23 +12,31 @@ import java.time.LocalDate;
 import java.util.*;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
-
+import javafx.scene.control.Alert.AlertType;
 
 
 
 public class App extends Application {
-
+    VBox root = new VBox();
     Library lib = new Library();
+    ListView<String> bookList = new ListView<>();
 
     private void searchResults(String input, String type) {
         if(input==null || type==null){
             return;
         }
         lib.searchBook(input, type);
+        root.getChildren().remove(bookList);
+        bookList.getItems().clear();
+        lib.setDisplayBooks(lib.searchBook(input, type));
 
         for (Book book : lib.getDisplayBooks()) {
+            bookList.getItems().add(book.getTitle()+" - "+book.getAuthor());
             System.out.println(book.getTitle());
         }
+
+        root.getChildren().add(bookList);
+
     }
 
     private void btnOkDetect(){
@@ -46,6 +54,11 @@ public class App extends Application {
 
         VBox rightBox = new VBox(8);
         rightBox.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox listBox = new VBox(8);
+        listBox.setAlignment(Pos.CENTER);
+
+        
 
         //LEFT////////////////////////////////////////////////////////////////////////////
 
@@ -170,7 +183,6 @@ public class App extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        VBox root = new VBox();
         root.setPrefSize(640, 400);
         
         //MENU
@@ -199,6 +211,14 @@ public class App extends Application {
         
         Menu helpMenu = new Menu("Help");
         MenuItem aboutMenuItem = new MenuItem("About PagePal");
+        aboutMenuItem.setOnAction(e -> {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setHeaderText("About PagePal");
+            alert.setContentText("This application is made by Ege Sevindi, Ruşen Akbal, Arda Sarı and Ege Yılmaz. It is the project of the course CE 216.");
+            alert.setTitle("About");
+            alert.showAndWait();
+        });
+
         MenuItem manualMenuItem = new MenuItem("Manual");
         helpMenu.getItems().addAll(aboutMenuItem,manualMenuItem);
         
