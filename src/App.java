@@ -1,4 +1,3 @@
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +12,9 @@ import java.util.*;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert.AlertType;
+import java.io.FileInputStream;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 
@@ -280,6 +282,90 @@ public class App extends Application {
 
         
         root.getChildren().addAll(menuBar, firstLine,secondLine,thirdLine);
+
+        // Book Information Window:
+        VBox bookInfo = new VBox(10);
+
+        HBox bookInfoHB = new HBox();
+
+        VBox leftVBox = new VBox();
+        leftVBox.setAlignment(Pos.CENTER);
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(130.0);
+        imageView.setFitHeight(195.0);
+        imageView.setPickOnBounds(true);
+        imageView.setPreserveRatio(true);
+        //FileInputStream im = new FileInputStream("/Users/rusenakbal/Desktop/FXTest/testProject/src/RUSENRUSEN.jpg");
+        //Image imm = new Image(im);
+        //imageView.setImage(imm);
+        leftVBox.getChildren().add(imageView);
+
+        VBox rightVBox = new VBox();
+
+        VBox titleVBox = new VBox();
+        Label titleLabel = new Label("Title");
+        titleLabel.setFont(new Font(18.0));
+        titleVBox.getChildren().add(titleLabel);
+
+        Label subTitleLabel = new Label("SubTitle");
+        subTitleLabel.setFont(new Font(9.0));
+        titleVBox.getChildren().add(subTitleLabel);
+        rightVBox.getChildren().add(titleVBox);
+
+        VBox infoVBox = new VBox();
+
+        Label[] infoLabels = {
+                new Label("Author  :"),
+                new Label("Rating : "),
+                new Label("Tags: "),
+                new Label("Publisher :"),
+                new Label("Date :"),
+                new Label("Edition :"),
+                new Label("Language : "),
+                new Label("ISBN :"),
+        };
+
+        for (Label labels : infoLabels) {
+            infoVBox.getChildren().add(labels);
+        }
+
+        rightVBox.getChildren().add(infoVBox);
+
+        HBox buttonsHBox = new HBox();
+
+        VBox bottomVBox = new VBox();
+        Label translatorLabel = new Label("Translator  :");
+        translatorLabel.setFont(new Font(10.0));
+        bottomVBox.getChildren().add(translatorLabel);
+        HBox.setMargin(bottomVBox, new Insets(0, 15, 0, 0));
+        buttonsHBox.getChildren().add(bottomVBox);
+
+        VBox editVBox = new VBox();
+        editVBox.setAlignment(Pos.CENTER_RIGHT);
+        HBox editButtonsHBox = new HBox(8);
+        editButtonsHBox.setAlignment(Pos.CENTER_RIGHT);
+
+        Button deleteButton = new Button("Delete Book");
+        deleteButton.setMnemonicParsing(false);
+        deleteButton.setPrefWidth(100);
+
+        Button editButton = new Button("Edit Book");
+        editButton.setMnemonicParsing(false);
+        editButton.setPrefWidth(100);
+        editButtonsHBox.getChildren().addAll(deleteButton,editButton);
+        editVBox.getChildren().add(editButtonsHBox);
+        HBox.setHgrow(editButtonsHBox, Priority.ALWAYS);
+
+        HBox bottomRightHBox = new HBox();
+        bottomRightHBox.getChildren().add(editVBox);
+        HBox.setMargin(editVBox, new Insets(0, 0, 0, 120));
+        
+        buttonsHBox.getChildren().add(bottomRightHBox);
+        rightVBox.getChildren().add(buttonsHBox);
+
+        bookInfoHB.getChildren().addAll(leftVBox, rightVBox);
+        bookInfo.getChildren().add(bookInfoHB);
+        //
         
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
