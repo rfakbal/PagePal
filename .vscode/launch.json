@@ -18,10 +18,15 @@
             "name": "Launch App 216",
             "request": "launch",
             "mainClass": "App",
-            // "projectName": "gui_3749089b", //\"C:/Program Files/Java/javafx-sdk-21.0.2/lib\"
             "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-21.0.2/lib\" --add-modules javafx.controls,javafx.fxml",
+        },
+        {
             "vmArgs": "--module-path \"C:/Users/egese/Documents/JavaFX/javafx-sdk-22/lib\" --add-modules javafx.controls,javafx.fxml",
+
+        },
+        {
             "vmArgs": "--module-path \"/Users/rusenakbal/Downloads/javafx-sdk-22/lib\" --add-modules javafx.controls,javafx.fxml"
+
         }
     ]
 }
