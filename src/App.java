@@ -329,7 +329,7 @@ public class App extends Application {
         }
         });
         MenuItem exportMenuItem = new MenuItem("Export Books");
-        exportMenuItem.setOnAction(e->mainLibrary.exportJSON(filePath));
+        exportMenuItem.setOnAction(e->lib.exportJSON("/Users/rusenakbal/Desktop/test.json"));
         MenuItem createMenuItem = new MenuItem("Create Library");
         createMenuItem.setOnAction(e->{
             Gson gson = new Gson();
