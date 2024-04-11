@@ -34,8 +34,6 @@ public class App extends Application {
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
-    String filePath;
-
     @SuppressWarnings("unlikely-arg-type")
     
     //DISPLAY BOOK TAB 
@@ -320,9 +318,9 @@ public class App extends Application {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
             if (selectedFile != null) {
                 try {
-                    filePath = selectedFile.getAbsolutePath();
+                    mainLibrary.setFilePath(selectedFile.getAbsolutePath());
 
-                    mainLibrary.importJSON(filePath);
+                    mainLibrary.importJSON(mainLibrary.getFilePath());
                     System.out.println("JSON file imported successfully.");
                 } catch (Exception ex) {
                     System.out.println("Error importing JSON file: " + ex.getMessage());
@@ -335,9 +333,9 @@ public class App extends Application {
         createMenuItem.setOnAction(e->{
             Gson gson = new Gson();
         
-            filePath = "library.json";
+            mainLibrary.setFilePath("library.json");
             try {
-                FileWriter writer = new FileWriter(filePath);
+                FileWriter writer = new FileWriter(mainLibrary.getFilePath());
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
