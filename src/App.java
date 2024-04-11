@@ -6,9 +6,17 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 //import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 //import java.time.LocalDate;
 import java.util.*;
+
+import com.google.gson.Gson;
+
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert.AlertType;
@@ -26,7 +34,11 @@ public class App extends Application {
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
+    String filePath;
+
     @SuppressWarnings("unlikely-arg-type")
+    
+    //DISPLAY BOOK TAB 
     private void displayBookInfo(Book displayBook){
         VBox bookInfo = new VBox(10);
         HBox bookInfoHB = new HBox();
@@ -124,7 +136,7 @@ public class App extends Application {
         infoStage.setScene(infoScene);
         infoStage.show();
     }
-
+    //SEARCH RESULT SHOW FUNCTİON
     private void searchResults(String input, String type) {
         if(input==null || type==null){
             return;
@@ -147,7 +159,8 @@ public class App extends Application {
 
     private void btnOkDetect(){
         
-        //display stage
+        //button ok stage
+
         Stage secondStage = new Stage();
         
         VBox root = new VBox();
@@ -189,7 +202,7 @@ public class App extends Application {
         Label dateLabel = new Label("Date");
         dateLabel.setFont(new Font(25));
 
-        DatePicker datepPicker = new DatePicker();
+        // date eklenecek DatePicker datepPicker = new DatePicker();
 
         Label coverLabel = new Label("Cover");
         coverLabel.setFont(new Font(25));
@@ -255,7 +268,7 @@ public class App extends Application {
             lib.addBook(new Book(titleField.getText(),subtitleField.getText(),author, translator, tag, isbnField.getText(), publisherField.getText(), /*datepPicker.getValue()*/ editionField.getText(), languageField.getText(), ratingField.getText()));
             secondStage.close();
         });
-        //what is this-arda
+        //what is this-arda 
         Region spacer = new Region();
 
 
@@ -270,7 +283,7 @@ public class App extends Application {
 
 
 
-        leftBox.getChildren().addAll(titleLabel,titleField,authorLabel,authorField,isbnLabel,isbnField,dateLabel,datepPicker,coverLabel,ratingLabel,ratingField);
+        leftBox.getChildren().addAll(titleLabel,titleField,authorLabel,authorField,isbnLabel,isbnField,dateLabel,coverLabel,ratingLabel,ratingField);
 
         rightBox.getChildren().addAll(subtitle,subtitleField,translatorLabel,translatorField,publisherLabel,publisherField,editionLabel,editionField,languagLabel,languageField,tagLabel,tagField,spacer, addBookButton);
 
@@ -290,6 +303,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         root.setPrefSize(640, 400);
+        Library mainLibrary = new Library();
         
         //MENU
         MenuBar menuBar = new MenuBar();
@@ -297,6 +311,37 @@ public class App extends Application {
         Menu fileMenu = new Menu("File");
         MenuItem addMenuItem = new MenuItem("Add Book");
         MenuItem importMenuItem = new MenuItem("Import Books");
+        importMenuItem.setOnAction(e->{
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select JSON File");
+            fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JSON Files", "*.json")
+            );
+            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            if (selectedFile != null) {
+                try {
+                    filePath = selectedFile.getAbsolutePath();
+                    mainLibrary.importJSON(filePath);
+                    System.out.println("JSON file imported successfully.");
+                } catch (Exception ex) {
+                    System.out.println("Error importing JSON file: " + ex.getMessage());
+                }
+        }
+        });
+        MenuItem exportMenuItem = new MenuItem("Export Books");
+        exportMenuItem.setOnAction(e->mainLibrary.exportJSON(filePath));
+        MenuItem createMenuItem = new MenuItem("Create Library");
+        createMenuItem.setOnAction(e->{
+            Gson gson = new Gson();
+        
+            filePath = "library.json";
+            try {
+                FileWriter writer = new FileWriter(filePath);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 
         MenuItem saveMenuItem = new MenuItem("Save");
@@ -309,7 +354,7 @@ public class App extends Application {
         MenuItem quitMenuItem = new MenuItem("Quit");
         
         fileMenu.getItems().addAll(
-            addMenuItem, importMenuItem,
+            addMenuItem, importMenuItem, exportMenuItem, createMenuItem,
             separatorMenuItem, saveMenuItem,
             saveAsMenuItem, separatorMenuItem2,
             preferencesMenuItem, separatorMenuItem3, quitMenuItem

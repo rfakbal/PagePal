@@ -108,11 +108,12 @@ public class Library {
     }
 
     public void importJSON(String path) throws Exception {
+        //empty json file error - will be solved
         Gson gson = new Gson();
 
         JsonReader reader = new JsonReader(new FileReader(path));
         Book[] data = gson.fromJson(reader, Book[].class);
-
+        
         for(int i = 0;i<data.length;i++){
             addBook(data[i]);
         }
