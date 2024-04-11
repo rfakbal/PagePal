@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 
 public class Book {
     private String title;
@@ -9,7 +9,7 @@ public class Book {
     private ArrayList<String> tag;
     private String isbn;
     private String publisher;
-    private LocalDate date;
+    //private LocalDate date;
     private String edition;
     private String language;
     private String rating;
@@ -23,7 +23,7 @@ public class Book {
         ArrayList<String> tag,
         String isbn,
         String publisher,
-        LocalDate date,
+       // LocalDate date,
         String edition,
         String language,
         String rating
@@ -34,7 +34,7 @@ public class Book {
         this.tag = tag;
         this.isbn = isbn;
         this.publisher = publisher;
-        this.date = date;
+       // this.date = date;
         this.edition = edition;
         this.language = language;
         this.rating = rating;
@@ -54,7 +54,7 @@ public class Book {
 
     public void setPublisher(String publisher) { this.publisher = publisher; }
 
-    public void setDate(LocalDate date) { this.date = date; }
+    //public void setDate(LocalDate date) { this.date = date; }
 
     public void setEdition(String edition) { this.edition = edition; }
 
@@ -90,9 +90,9 @@ public class Book {
         return publisher;
     }
 
-    public LocalDate getDate() {
+    /*public LocalDate getDate() {
         return date;
-    }
+    }*/
 
     public String getEdition() {
         return edition;
