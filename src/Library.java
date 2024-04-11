@@ -128,6 +128,7 @@ public class Library {
             booksArray[i] = gson.toJson(libraryBooks.get(i));
         }
         try (FileWriter writer = new FileWriter(path)) {
+            writer.write("[\n");
             for (int i = 0; i < libraryBooks.size(); i++) {
                 writer.write("{\n");
                 writer.write("  \"title\": \"" + libraryBooks.get(i).getTitle() + "\",\n");
@@ -140,8 +141,14 @@ public class Library {
                 writer.write("  \"edition\": \"" + libraryBooks.get(i).getEdition() + "\",\n");
                 writer.write("  \"language\": \"" + libraryBooks.get(i).getLanguage() + "\",\n");
                 writer.write("  \"rating\": \"" + libraryBooks.get(i).getRating() + "\"\n");
-                writer.write("}\n");
+                if(i==libraryBooks.size()-1){
+                    writer.write("}\n");
+                }
+                else{
+                    writer.write("},\n");
+                }
             }
+            writer.write("]");
         } catch (IOException e) {
             e.printStackTrace();
         }
