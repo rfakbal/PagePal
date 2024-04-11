@@ -301,7 +301,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         root.setPrefSize(640, 400);
-        Library mainLibrary = new Library();
+        
         
         //MENU
         MenuBar menuBar = new MenuBar();
@@ -318,9 +318,9 @@ public class App extends Application {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
             if (selectedFile != null) {
                 try {
-                    mainLibrary.setFilePath(selectedFile.getAbsolutePath());
+                    lib.setFilePath(selectedFile.getAbsolutePath());
 
-                    mainLibrary.importJSON(mainLibrary.getFilePath());
+                    lib.importJSON(lib.getFilePath());
                     System.out.println("JSON file imported successfully.");
                 } catch (Exception ex) {
                     System.out.println("Error importing JSON file: " + ex.getMessage());
@@ -328,14 +328,14 @@ public class App extends Application {
         }
         });
         MenuItem exportMenuItem = new MenuItem("Export Books");
-        exportMenuItem.setOnAction(e->mainLibrary.exportJSON("library.json"));
+        exportMenuItem.setOnAction(e->lib.exportJSON("library.json"));
         MenuItem createMenuItem = new MenuItem("Create Library");
         createMenuItem.setOnAction(e->{
             Gson gson = new Gson();
         
-            mainLibrary.setFilePath("library.json");
+            lib.setFilePath("library.json");
             try {
-                FileWriter writer = new FileWriter(mainLibrary.getFilePath());
+                FileWriter writer = new FileWriter(lib.getFilePath());
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
