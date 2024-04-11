@@ -88,6 +88,7 @@ public class App extends Application {
         editButtonsHBox.setAlignment(Pos.CENTER_RIGHT);
 
         Button deleteButton = new Button("Delete Book");
+        deleteButton.setStyle("-fx-background-color: Crimson");
         deleteButton.setMnemonicParsing(false);
         deleteButton.setPrefWidth(100);
 
