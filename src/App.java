@@ -4,16 +4,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.VLineTo;
+//import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.*;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert.AlertType;
-import java.io.FileInputStream;
-import javafx.scene.image.Image;
+//import java.io.FileInputStream;
+//import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
@@ -26,6 +26,7 @@ public class App extends Application {
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
+    @SuppressWarnings("unlikely-arg-type")
     private void displayBookInfo(Book displayBook){
         VBox bookInfo = new VBox(10);
         HBox bookInfoHB = new HBox();
@@ -61,7 +62,7 @@ public class App extends Application {
                 new Label("Rating : "+displayBook.getRating()),
                 new Label("Tags: "+displayBook.getTag()),
                 new Label("Publisher :"+displayBook.getPublisher()),
-                new Label("Date :"+displayBook.getDate()),
+                //new Label("Date :"+displayBook.getDate()),
                 new Label("Edition :"+displayBook.getEdition()),
                 new Label("Language : "+displayBook.getLanguage()),
                 new Label("ISBN :"+displayBook.getIsbn()),
@@ -251,7 +252,7 @@ public class App extends Application {
             translator.add(translatorField.getText());
             ArrayList<String> tag = new ArrayList<>();
             tag.add(tagField.getText());
-            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),author, translator, tag, isbnField.getText(), publisherField.getText(), datepPicker.getValue(), editionField.getText(), languageField.getText(), ratingField.getText()));
+            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),author, translator, tag, isbnField.getText(), publisherField.getText(), /*datepPicker.getValue()*/ editionField.getText(), languageField.getText(), ratingField.getText()));
             secondStage.close();
         });
         //what is this-arda

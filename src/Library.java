@@ -1,5 +1,13 @@
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+
+//import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Library {
     private ArrayList<Book> libraryBooks = new ArrayList<>();
     private ArrayList<Book> displayBooks = new ArrayList<>();
@@ -60,13 +68,13 @@ public class Library {
                     displayBooks.add(book);
                 }
             }
-        } else if ("Date".equals(type)) {
+        } /*else if ("Date".equals(type)) {
             for (Book book : libraryBooks) {
                 if (book.getDate().equals(input)) {
                     displayBooks.add(book);
                 }
             }
-        } else if ("Edition".equals(type)) {
+        }*/else if ("Edition".equals(type)) {
             for (Book book : libraryBooks) {
                 if (book.getEdition().equals(input)) {
                     displayBooks.add(book);
@@ -99,10 +107,42 @@ public class Library {
         libraryBooks.remove(book);
     }
 
-    public void importJSON(String path) {
+    public void importJSON(String path) throws Exception {
+        Gson gson = new Gson();
+
+        JsonReader reader = new JsonReader(new FileReader(path));
+        Book[] data = gson.fromJson(reader, Book[].class);
+
+        for(int i = 0;i<data.length;i++){
+            addBook(data[i]);
+        }
+
     }
 
-    public void exportJSON() {
+    public void exportJSON(String path) {
+        Gson gson = new Gson();
+        String[] booksArray = new String[libraryBooks.size()];  
+        for (int i = 0; i < libraryBooks.size(); i++) {
+            booksArray[i] = gson.toJson(libraryBooks.get(i));
+        }
+        try (FileWriter writer = new FileWriter(path)) {
+            for (int i = 0; i < libraryBooks.size(); i++) {
+                writer.write("{\n");
+                writer.write("  \"title\": \"" + libraryBooks.get(i).getTitle() + "\",\n");
+                writer.write("  \"subTitle\": \"" + libraryBooks.get(i).getSubTitle() + "\",\n");
+                writer.write("  \"author\": " + gson.toJson(libraryBooks.get(i).getAuthor()) + ",\n");
+                writer.write("  \"translator\": " + gson.toJson(libraryBooks.get(i).getTranslator()) + ",\n");
+                writer.write("  \"tag\": " + gson.toJson(libraryBooks.get(i).getTag()) + ",\n");
+                writer.write("  \"isbn\": \"" + libraryBooks.get(i).getIsbn() + "\",\n");
+                writer.write("  \"publisher\": \"" + libraryBooks.get(i).getPublisher() + "\",\n");
+                writer.write("  \"edition\": \"" + libraryBooks.get(i).getEdition() + "\",\n");
+                writer.write("  \"language\": \"" + libraryBooks.get(i).getLanguage() + "\",\n");
+                writer.write("  \"rating\": \"" + libraryBooks.get(i).getRating() + "\"\n");
+                writer.write("}\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Book> getLibraryBooks() {
