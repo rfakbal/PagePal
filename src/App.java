@@ -23,7 +23,8 @@ public class App extends Application {
     VBox root = new VBox();
     Library lib = new Library();
     ListView<String> bookList = new ListView<>();
-    
+    TextField searchField = new TextField();
+    ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
     private void displayBookInfo(Book displayBook){
         VBox bookInfo = new VBox(10);
@@ -58,7 +59,7 @@ public class App extends Application {
         Label[] infoLabels = {
                 new Label("Author  : "+ displayBook.getAuthor()),
                 new Label("Rating : "+displayBook.getRating()),
-                new Label("Tags: "+displayBook.getEdition()),
+                new Label("Tags: "+displayBook.getTag()),
                 new Label("Publisher :"+displayBook.getPublisher()),
                 new Label("Date :"+displayBook.getDate()),
                 new Label("Edition :"+displayBook.getEdition()),
@@ -90,6 +91,15 @@ public class App extends Application {
         deleteButton.setMnemonicParsing(false);
         deleteButton.setPrefWidth(100);
 
+        Stage infoStage = new Stage();
+
+        deleteButton.setOnAction(e->{
+            bookList.getItems().remove(displayBook);
+            lib.removeBook(displayBook);
+            searchResults(searchField.getText(), choiceBox.getValue());
+            infoStage.close();
+        });
+
         Button editButton = new Button("Edit Book");
         editButton.setMnemonicParsing(false);
         editButton.setPrefWidth(100);
@@ -107,7 +117,6 @@ public class App extends Application {
         bookInfoHB.getChildren().addAll(leftVBox, rightVBox);
 
         bookInfo.getChildren().add(bookInfoHB);
-        Stage infoStage = new Stage();
         Scene infoScene = new Scene(bookInfo);
         
         infoStage.setScene(infoScene);
@@ -339,13 +348,11 @@ public class App extends Application {
         label.setFont(new Font(25));
         
         
-        TextField searchField = new TextField();
         searchField.setPrefWidth(180);
 
         HBox.setHgrow(searchField, Priority.ALWAYS);
         
         
-        ChoiceBox<String> choiceBox = new ChoiceBox<>();
         ObservableList<String> options = FXCollections.observableArrayList();
         options.addAll("Title", "Subtitle", "Author", "Translator", "Tag", "ISBN", "Publisher", "Date", "Edition", "Language", "Rating");
         choiceBox.setItems(options);
