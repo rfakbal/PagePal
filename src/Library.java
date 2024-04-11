@@ -11,6 +11,7 @@ import java.io.IOException;
 public class Library {
     private ArrayList<Book> libraryBooks = new ArrayList<>();
     private ArrayList<Book> displayBooks = new ArrayList<>();
+    private String filePath;
 
     // public void edit(Book book) { }
     public ArrayList<Book> searchBook(String input, String type) {
@@ -160,6 +161,14 @@ public class Library {
 
     public void setDisplayBooks(ArrayList<Book> displayBooks) {
         this.displayBooks = displayBooks;
+    }
+
+    public String getFilePath(){
+        return filePath;
+    }
+
+    public void setFilePath(String filePath){
+        this.filePath = filePath;
     }
 
 }

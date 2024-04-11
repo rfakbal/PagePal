@@ -321,6 +321,7 @@ public class App extends Application {
             if (selectedFile != null) {
                 try {
                     filePath = selectedFile.getAbsolutePath();
+
                     mainLibrary.importJSON(filePath);
                     System.out.println("JSON file imported successfully.");
                 } catch (Exception ex) {
@@ -329,7 +330,7 @@ public class App extends Application {
         }
         });
         MenuItem exportMenuItem = new MenuItem("Export Books");
-        exportMenuItem.setOnAction(e->lib.exportJSON("/Users/rusenakbal/Desktop/test.json"));
+        exportMenuItem.setOnAction(e->mainLibrary.exportJSON("library.json"));
         MenuItem createMenuItem = new MenuItem("Create Library");
         createMenuItem.setOnAction(e->{
             Gson gson = new Gson();
