@@ -87,9 +87,10 @@ public class App extends Application {
         dateLabel.setFont(new Font(25));
     
         DatePicker datepPicker = new DatePicker();
-        if (book.getDate() != null) {
+        if (!"null".equals(book.getDate()) && book.getDate() != null) {
             datepPicker.setValue(LocalDate.parse(book.getDate()));
         }
+
         Label coverLabel = new Label("Cover");
         coverLabel.setFont(new Font(25));
     
@@ -177,7 +178,7 @@ public class App extends Application {
             book.setTag(tagList);
             book.setTranslator(translatorList);
             String editedDate;
-            if (datepPicker.getValue() !=null ) {
+            if (datepPicker.getValue() != null ) {
                 editedDate = datepPicker.getValue().toString();
             } else {
                 editedDate = null;
@@ -217,6 +218,7 @@ public class App extends Application {
     
     //DISPLAY BOOK TAB 
     private void displayBookInfo(Book displayBook){
+        System.out.println(displayBook.getDate());
         VBox bookInfo = new VBox(10);
         HBox bookInfoHB = new HBox();
 
@@ -248,7 +250,7 @@ public class App extends Application {
 
         Label convertedDate;
 
-        if (displayBook.getDate() != null) {
+        if (!"null".equals(displayBook.getDate()) && displayBook.getDate() != null) {
             convertedDate = new Label("Date : "+displayBook.getDate().toString());
         } else {
             convertedDate = new Label("Date : ");
