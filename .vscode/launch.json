@@ -4,33 +4,27 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-
-
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "org.example.pagepal.App",
+            "projectName": "app",
+            "vmArgs": "--module-path \"C:/Users/egese/Documents/JavaFX/javafx-sdk-21.0.2/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
         {
             "type": "java",
             "name": "Current File",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "${file}",
+            "vmArgs": "--module-path \"C:/Users/egese/Documents/JavaFX/javafx-sdk-21.0.2/lib\" --add-modules javafx.controls,javafx.fxml"
         },
         {
             "type": "java",
             "name": "Launch App 216",
             "request": "launch",
             "mainClass": "App",
-            "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-21.0.2/lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "vmArgs": "--module-path \"C:/Users/egese/Documents/JavaFX/javafx-sdk-22/lib\" --add-modules javafx.controls,javafx.fxml"
-
-        },
-        {
-            "vmArgs": "--module-path \"/Users/rusenakbal/Downloads/javafx-sdk-22/lib\" --add-modules javafx.controls,javafx.fxml"
-
-        },
-        {
-            "vmArgs": "--module-path \"C:/Users/egeyi/Downloads/jfx/lib\" --add-modules javafx.controls,javafx.fxml"
-
+            "vmArgs": "--module-path \"C:/Users/egese/Documents/JavaFX/javafx-sdk-21.0.2/lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }

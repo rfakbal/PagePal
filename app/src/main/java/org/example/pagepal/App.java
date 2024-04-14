@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-//import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.*;
 
 import com.google.gson.Gson;
@@ -36,6 +36,154 @@ public class App extends Application {
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
     @SuppressWarnings("unlikely-arg-type")
+
+    //EDIT BOOK TAB
+    private void editBookInfo(Book book){
+        //button ok stage
+        Stage secondStage = new Stage();
+                    
+        VBox root = new VBox();
+        HBox main = new HBox(20);
+        root.setPrefSize(500, 550);
+    
+    
+        VBox leftBox = new VBox(8);
+        leftBox.setAlignment(Pos.CENTER_LEFT);
+    
+        VBox rightBox = new VBox(8);
+        rightBox.setAlignment(Pos.CENTER_RIGHT);
+    
+        VBox listBox = new VBox(8);
+        listBox.setAlignment(Pos.CENTER);
+    
+        //LEFT////////////////////////////////////////////////////////////////////////////
+        Label titleLabel = new Label("Title");
+        titleLabel.setFont(new Font(25));
+    
+        TextField titleField = new TextField();
+        titleField.setPrefWidth(180);
+        titleField.setText(book.getTitle());
+    
+        Label authorLabel = new Label("Author/Authors");
+        authorLabel.setFont(new Font(25));
+    
+        TextField authorField = new TextField();
+        authorField.setPrefWidth(180);
+        ArrayList<String> authors = book.getAuthor();
+        StringBuilder authorText = new StringBuilder();
+        if(!authors.isEmpty()){
+            for (String author : authors) {
+                authorText.append(author).append(","); // Yazarları virgülle ayırarak birleştir
+            }
+            authorField.setText(authorText.toString());
+        }
+    
+        Label isbnLabel = new Label("ISBN");
+        isbnLabel.setFont(new Font(25));
+    
+        TextField isbnField = new TextField();
+        isbnField.setPrefWidth(180);
+        isbnField.setText(book.getIsbn());
+    
+        Label dateLabel = new Label("Date");
+        dateLabel.setFont(new Font(25));
+    
+        DatePicker datepPicker = new DatePicker();
+        datepPicker.setValue(book.getDate());
+    
+        Label coverLabel = new Label("Cover");
+        coverLabel.setFont(new Font(25));
+    
+        //upload cover thing
+    
+        Label ratingLabel = new Label("Rating");
+        ratingLabel.setFont(new Font(25));
+    
+        TextField ratingField = new TextField();
+        ratingField.setPrefWidth(180);
+        ratingField.setText(book.getRating());
+    
+        //right/////////////////////////////////////////////////////
+    
+        Label subtitle = new Label("Subtitle");
+        subtitle.setFont(new Font(25));
+    
+        TextField subtitleField = new TextField();
+        subtitleField.setPrefWidth(180);
+        subtitleField.setText(book.getSubTitle());
+    
+        Label translatorLabel = new Label("Translator/Translators");
+        translatorLabel.setFont(new Font(25));
+    
+        TextField translatorField = new TextField();
+        translatorField.setPrefWidth(180);
+        ArrayList<String> translators = book.getAuthor();
+        StringBuilder translatorText = new StringBuilder();
+        if(!translators.isEmpty()){
+            for (String translator : translators) {
+                translatorText.append(translator).append(","); // Yazarları virgülle ayırarak birleştir
+            }
+            translatorField.setText(translatorText.toString());
+        }
+
+        Label publisherLabel = new Label("Publisher");
+        publisherLabel.setFont(new Font(25));
+    
+        TextField publisherField = new TextField();
+        publisherField.setPrefWidth(180);
+        publisherField.setText(book.getPublisher());
+    
+        Label editionLabel = new Label("Edition");
+        editionLabel.setFont(new Font(25));
+    
+        TextField editionField = new TextField();
+        editionField.setPrefWidth(180);
+        editionField.setText(book.getEdition());
+    
+        Label languagLabel = new Label("Language");
+        languagLabel.setFont(new Font(25));
+
+        TextField languageField = new TextField();
+        languageField.setPrefWidth(180);
+        languageField.setText(book.getLanguage());
+    
+        Label tagLabel = new Label("Tag/Tags");
+        tagLabel.setFont(new Font(25));
+
+        TextField tagField = new TextField();
+        tagField.setPrefWidth(180);
+        ArrayList<String> tags = book.getAuthor();
+        StringBuilder tagText = new StringBuilder();
+        if(!tags.isEmpty()){
+            for (String tag : tags) {
+                tagText.append(tag).append(","); // Yazarları virgülle ayırarak birleştir
+            }
+            tagField.setText(tagText.toString());
+        }
+
+        Button saveButton = new Button("Save");
+        saveButton.setFont(new Font(14));
+
+        saveButton.setPrefSize(100.0, 45.0);
+        Region spacer = new Region();
+    
+        VBox.setMargin(leftBox, new Insets(8));
+        VBox.setMargin(rightBox, new Insets(8));
+        VBox.setMargin(main, new Insets(8));
+    
+
+        leftBox.getChildren().addAll(titleLabel,titleField,authorLabel,authorField,isbnLabel,isbnField,dateLabel,datepPicker,coverLabel,ratingLabel,ratingField);
+        rightBox.getChildren().addAll(subtitle,subtitleField,translatorLabel,translatorField,publisherLabel,publisherField,editionLabel,editionField,languagLabel,languageField,tagLabel,tagField,spacer, saveButton);
+        main.getChildren().addAll(leftBox,rightBox);
+        root.getChildren().addAll(main);
+    
+            Scene scene = new Scene(root);
+        secondStage.setScene(scene);
+        secondStage.setTitle("Edit Book");
+        secondStage.show();
+        
+    }
+
     
     //DISPLAY BOOK TAB 
     private void displayBookInfo(Book displayBook){
@@ -73,7 +221,7 @@ public class App extends Application {
                 new Label("Rating : "+displayBook.getRating()),
                 new Label("Tags: "+displayBook.getTag()),
                 new Label("Publisher :"+displayBook.getPublisher()),
-                //new Label("Date :"+displayBook.getDate()),
+                new Label("Date :"+displayBook.getDate().toString()),
                 new Label("Edition :"+displayBook.getEdition()),
                 new Label("Language : "+displayBook.getLanguage()),
                 new Label("ISBN :"+displayBook.getIsbn()),
@@ -116,6 +264,7 @@ public class App extends Application {
         Button editButton = new Button("Edit Book");
         editButton.setMnemonicParsing(false);
         editButton.setPrefWidth(100);
+        editButton.setOnAction(e -> editBookInfo(displayBook));
         editButtonsHBox.getChildren().addAll(deleteButton,editButton);
         editVBox.getChildren().add(editButtonsHBox);
         HBox.setHgrow(editButtonsHBox, Priority.ALWAYS);
@@ -201,7 +350,7 @@ public class App extends Application {
         Label dateLabel = new Label("Date");
         dateLabel.setFont(new Font(25));
 
-        // date eklenecek DatePicker datepPicker = new DatePicker();
+        DatePicker datepPicker = new DatePicker();
 
         Label coverLabel = new Label("Cover");
         coverLabel.setFont(new Font(25));
@@ -264,7 +413,7 @@ public class App extends Application {
             translator.add(translatorField.getText());
             ArrayList<String> tag = new ArrayList<>();
             tag.add(tagField.getText());
-            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),author, translator, tag, isbnField.getText(), publisherField.getText(), /*datepPicker.getValue()*/ editionField.getText(), languageField.getText(), ratingField.getText()));
+            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),author, translator, tag, isbnField.getText(), publisherField.getText(), datepPicker.getValue().toString(), editionField.getText(), languageField.getText(), ratingField.getText()));
             secondStage.close();
         });
         //what is this-arda 
@@ -282,7 +431,7 @@ public class App extends Application {
 
 
 
-        leftBox.getChildren().addAll(titleLabel,titleField,authorLabel,authorField,isbnLabel,isbnField,dateLabel,coverLabel,ratingLabel,ratingField);
+        leftBox.getChildren().addAll(titleLabel,titleField,authorLabel,authorField,isbnLabel,isbnField,dateLabel,datepPicker,coverLabel,ratingLabel,ratingField);
 
         rightBox.getChildren().addAll(subtitle,subtitleField,translatorLabel,translatorField,publisherLabel,publisherField,editionLabel,editionField,languagLabel,languageField,tagLabel,tagField,spacer, addBookButton);
 

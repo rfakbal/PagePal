@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-//import java.io.FileNotFoundException;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -70,13 +70,13 @@ public class Library {
                     displayBooks.add(book);
                 }
             }
-        } /*else if ("Date".equals(type)) {
+        } else if ("Date".equals(type)) {
             for (Book book : libraryBooks) {
                 if (book.getDate().equals(input)) {
                     displayBooks.add(book);
                 }
             }
-        }*/else if ("Edition".equals(type)) {
+        }else if ("Edition".equals(type)) {
             for (Book book : libraryBooks) {
                 if (book.getEdition().equals(input)) {
                     displayBooks.add(book);
@@ -115,6 +115,8 @@ public class Library {
 
         JsonReader reader = new JsonReader(new FileReader(path));
         Book[] data = gson.fromJson(reader, Book[].class);
+        libraryBooks.clear();
+        displayBooks.clear();
         
         for(int i = 0;i<data.length;i++){
             addBook(data[i]);
@@ -141,7 +143,8 @@ public class Library {
                 writer.write("  \"publisher\": \"" + libraryBooks.get(i).getPublisher() + "\",\n");
                 writer.write("  \"edition\": \"" + libraryBooks.get(i).getEdition() + "\",\n");
                 writer.write("  \"language\": \"" + libraryBooks.get(i).getLanguage() + "\",\n");
-                writer.write("  \"rating\": \"" + libraryBooks.get(i).getRating() + "\"\n");
+                writer.write("  \"rating\": \"" + libraryBooks.get(i).getRating() + "\",\n");
+                writer.write("  \"date\": \"" + libraryBooks.get(i).getDate().toString() + "\"\n");
                 if(i==libraryBooks.size()-1){
                     writer.write("}\n");
                 }
