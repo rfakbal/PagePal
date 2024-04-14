@@ -92,8 +92,8 @@ public class Book {
         return publisher;
     }
 
-    public LocalDate getDate() {
-        return LocalDate.parse(date);
+    public String getDate() {
+        return date;
     }
 
     public String getEdition() {

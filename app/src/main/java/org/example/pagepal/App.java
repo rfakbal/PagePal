@@ -87,8 +87,9 @@ public class App extends Application {
         dateLabel.setFont(new Font(25));
     
         DatePicker datepPicker = new DatePicker();
-        datepPicker.setValue(book.getDate());
-    
+        if (book.getDate() != null) {
+            datepPicker.setValue(LocalDate.parse(book.getDate()));
+        }
         Label coverLabel = new Label("Cover");
         coverLabel.setFont(new Font(25));
     
@@ -239,12 +240,20 @@ public class App extends Application {
 
         VBox infoVBox = new VBox();
 
+        Label convertedDate;
+
+        if (displayBook.getDate() != null) {
+            convertedDate = new Label("Date : "+displayBook.getDate().toString());
+        } else {
+            convertedDate = new Label("Date : ");
+        }
+
         Label[] infoLabels = {
                 new Label("Author  : "+ displayBook.getAuthor()),
                 new Label("Rating : "+displayBook.getRating()),
                 new Label("Tags : "+displayBook.getTag()),
                 new Label("Publisher : "+displayBook.getPublisher()),
-                new Label("Date : "+displayBook.getDate().toString()),
+                convertedDate,
                 new Label("Edition : "+displayBook.getEdition()),
                 new Label("Language : "+displayBook.getLanguage()),
                 new Label("ISBN : "+displayBook.getIsbn()),
@@ -432,8 +441,16 @@ public class App extends Application {
 
             String[] translatorArray = translatorField.getText().split(",");
             ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
-    
-            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), datepPicker.getValue().toString(), editionField.getText(), languageField.getText(), ratingField.getText()));
+
+            String convertedDate;
+
+            if(datepPicker.getValue() != null) {
+                convertedDate = datepPicker.getValue().toString();
+            } else {
+                convertedDate = null;
+            }
+
+            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText()));
             secondStage.close();
         });
         //what is this-arda 
