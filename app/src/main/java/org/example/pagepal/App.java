@@ -69,9 +69,12 @@ public class App extends Application {
         authorField.setPrefWidth(180);
         ArrayList<String> authors = book.getAuthor();
         StringBuilder authorText = new StringBuilder();
-        if(!authors.isEmpty()){
-            for (String author : authors) {
-                authorText.append(author).append(","); // Yazarları virgülle ayırarak birleştir
+        if (!authors.isEmpty()) {
+            for (int i = 0; i < authors.size(); i++) {
+                authorText.append(authors.get(i));
+                if (i < authors.size() - 1) {
+                    authorText.append(", "); // Son yazar dışındaki yazarların sonuna virgül ekle
+                }
             }
             authorField.setText(authorText.toString());
         }
