@@ -37,6 +37,7 @@ public class Book {
         this.publisher = publisher;
         this.date = date;
         this.edition = edition;
+        this.translator = translator;
         this.language = language;
         this.rating = rating;
     }

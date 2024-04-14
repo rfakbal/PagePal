@@ -39,13 +39,11 @@ public class App extends Application {
 
     //EDIT BOOK TAB
     private void editBookInfo(Book book){
-        //button ok stage
         Stage secondStage = new Stage();
                     
         VBox root = new VBox();
         HBox main = new HBox(20);
         root.setPrefSize(500, 550);
-    
     
         VBox leftBox = new VBox(8);
         leftBox.setAlignment(Pos.CENTER_LEFT);
@@ -117,7 +115,7 @@ public class App extends Application {
     
         TextField translatorField = new TextField();
         translatorField.setPrefWidth(180);
-        ArrayList<String> translators = book.getAuthor();
+        ArrayList<String> translators = book.getTranslator();
         StringBuilder translatorText = new StringBuilder();
         if(!translators.isEmpty()){
             for (String translator : translators) {
@@ -152,7 +150,7 @@ public class App extends Application {
 
         TextField tagField = new TextField();
         tagField.setPrefWidth(180);
-        ArrayList<String> tags = book.getAuthor();
+        ArrayList<String> tags = book.getTag();
         StringBuilder tagText = new StringBuilder();
         if(!tags.isEmpty()){
             for (String tag : tags) {
@@ -163,6 +161,31 @@ public class App extends Application {
 
         Button saveButton = new Button("Save");
         saveButton.setFont(new Font(14));
+
+        saveButton.setOnAction(e -> {
+            String[] authorArray = authorField.getText().split(",");
+            ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
+    
+            String[] tagArray = tagField.getText().split(",");
+            ArrayList<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+    
+            String[] translatorArray = translatorField.getText().split(",");
+            ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
+
+            book.setAuthor(authorList);
+            book.setTag(tagList);
+            book.setTranslator(translatorList);;
+            book.setDate(datepPicker.getValue());
+            book.setEdition(editionField.getText());
+            book.setIsbn(isbnField.getText());
+            book.setLanguage(languageField.getText());
+            book.setPublisher(publisherField.getText());
+            book.setRating(ratingField.getText());
+            book.setSubTitle(subtitleField.getText());
+            book.setTitle(titleField.getText());
+            secondStage.close();
+        });
+
 
         saveButton.setPrefSize(100.0, 45.0);
         Region spacer = new Region();
@@ -177,7 +200,7 @@ public class App extends Application {
         main.getChildren().addAll(leftBox,rightBox);
         root.getChildren().addAll(main);
     
-            Scene scene = new Scene(root);
+        Scene scene = new Scene(root);
         secondStage.setScene(scene);
         secondStage.setTitle("Edit Book");
         secondStage.show();
@@ -219,12 +242,13 @@ public class App extends Application {
         Label[] infoLabels = {
                 new Label("Author  : "+ displayBook.getAuthor()),
                 new Label("Rating : "+displayBook.getRating()),
-                new Label("Tags: "+displayBook.getTag()),
-                new Label("Publisher :"+displayBook.getPublisher()),
-                new Label("Date :"+displayBook.getDate().toString()),
-                new Label("Edition :"+displayBook.getEdition()),
+                new Label("Tags : "+displayBook.getTag()),
+                new Label("Publisher : "+displayBook.getPublisher()),
+                new Label("Date : "+displayBook.getDate().toString()),
+                new Label("Edition : "+displayBook.getEdition()),
                 new Label("Language : "+displayBook.getLanguage()),
-                new Label("ISBN :"+displayBook.getIsbn()),
+                new Label("ISBN : "+displayBook.getIsbn()),
+                new Label ("Translators : " + displayBook.getTranslator()),
         };
 
         for (Label labels : infoLabels) {
@@ -232,13 +256,9 @@ public class App extends Application {
         }
 
         rightVBox.getChildren().add(infoVBox);
-
         HBox buttonsHBox = new HBox();
-
         VBox bottomVBox = new VBox();
-        Label translatorLabel = new Label("Translator  :");
-        translatorLabel.setFont(new Font(10.0));
-        bottomVBox.getChildren().add(translatorLabel);
+
         HBox.setMargin(bottomVBox, new Insets(0, 15, 0, 0));
         buttonsHBox.getChildren().add(bottomVBox);
 
@@ -325,8 +345,6 @@ public class App extends Application {
         VBox listBox = new VBox(8);
         listBox.setAlignment(Pos.CENTER);
 
-        
-
         //LEFT////////////////////////////////////////////////////////////////////////////
 
         Label titleLabel = new Label("Title");
@@ -362,8 +380,6 @@ public class App extends Application {
 
         TextField ratingField = new TextField();
         ratingField.setPrefWidth(180);
-
-
 
         //right/////////////////////////////////////////////////////
 
@@ -407,13 +423,17 @@ public class App extends Application {
         addBookButton.setFont(new Font(14));
         addBookButton.setPrefSize(100.0, 45.0);
         addBookButton.setOnAction(e -> {
-            ArrayList<String> author = new ArrayList<>();
-            author.add(authorField.getText());
-            ArrayList<String> translator = new ArrayList<>();
-            translator.add(translatorField.getText());
-            ArrayList<String> tag = new ArrayList<>();
-            tag.add(tagField.getText());
-            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),author, translator, tag, isbnField.getText(), publisherField.getText(), datepPicker.getValue().toString(), editionField.getText(), languageField.getText(), ratingField.getText()));
+
+            String[] authorArray = authorField.getText().split(",");
+            ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
+
+            String[] tagArray = tagField.getText().split(",");
+            ArrayList<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+
+            String[] translatorArray = translatorField.getText().split(",");
+            ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
+    
+            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), datepPicker.getValue().toString(), editionField.getText(), languageField.getText(), ratingField.getText()));
             secondStage.close();
         });
         //what is this-arda 
