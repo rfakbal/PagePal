@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -21,8 +22,7 @@ import com.google.gson.Gson;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert.AlertType;
-//import java.io.FileInputStream;
-//import javafx.scene.image.Image;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
@@ -232,9 +232,16 @@ public class App extends Application {
         imageView.setFitHeight(195.0);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        //FileInputStream im = new FileInputStream("/Users/rusenakbal/Desktop/FXTest/testProject/src/RUSENRUSEN.jpg");
-        //Image imm = new Image(im);
-        //imageView.setImage(imm);
+        if(displayBook.getCover()==null){
+            displayBook.setCover("");
+        }
+        try (FileInputStream im = new FileInputStream(displayBook.getCover())) {
+            Image imm = new Image(im);
+            imageView.setImage(imm);
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         leftVBox.getChildren().add(imageView);
 
         VBox rightVBox = new VBox();
@@ -461,7 +468,7 @@ public class App extends Application {
                 convertedDate = null;
             }
 
-            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText()));
+            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(),""));
             secondStage.close();
         });
         //what is this-arda 
