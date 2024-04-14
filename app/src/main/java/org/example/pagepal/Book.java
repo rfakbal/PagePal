@@ -56,7 +56,7 @@ public class Book {
 
     public void setPublisher(String publisher) { this.publisher = publisher; }
 
-    public void setDate(LocalDate date) { this.date = date.toString(); }
+    public void setDate(String date) { this.date = date; }
 
     public void setEdition(String edition) { this.edition = edition; }
 

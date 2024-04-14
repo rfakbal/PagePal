@@ -175,8 +175,14 @@ public class App extends Application {
 
             book.setAuthor(authorList);
             book.setTag(tagList);
-            book.setTranslator(translatorList);;
-            book.setDate(datepPicker.getValue());
+            book.setTranslator(translatorList);
+            String editedDate;
+            if (datepPicker.getValue() !=null ) {
+                editedDate = datepPicker.getValue().toString();
+            } else {
+                editedDate = null;
+            }
+            book.setDate(editedDate);
             book.setEdition(editionField.getText());
             book.setIsbn(isbnField.getText());
             book.setLanguage(languageField.getText());
