@@ -73,7 +73,7 @@ public class App extends Application {
             for (int i = 0; i < authors.size(); i++) {
                 authorText.append(authors.get(i));
                 if (i < authors.size() - 1) {
-                    authorText.append(","); 
+                    authorText.append(", "); // Son yazar dışındaki yazarların sonuna virgül ekle
                 }
             }
             authorField.setText(authorText.toString());
@@ -122,12 +122,9 @@ public class App extends Application {
         translatorField.setPrefWidth(180);
         ArrayList<String> translators = book.getTranslator();
         StringBuilder translatorText = new StringBuilder();
-        if (!translators.isEmpty()) {
-            for (int i = 0; i < translators.size(); i++) {
-                translatorText.append(translators.get(i));
-                if (i < translators.size() - 1) {
-                    translatorText.append(","); 
-                }
+        if(!translators.isEmpty()){
+            for (String translator : translators) {
+                translatorText.append(translator).append(","); // Yazarları virgülle ayırarak birleştir
             }
             translatorField.setText(translatorText.toString());
         }
@@ -160,12 +157,9 @@ public class App extends Application {
         tagField.setPrefWidth(180);
         ArrayList<String> tags = book.getTag();
         StringBuilder tagText = new StringBuilder();
-        if (!tags.isEmpty()) {
-            for (int i = 0; i < tags.size(); i++) {
-                tagText.append(tags.get(i));
-                if (i < tags.size() - 1) {
-                    tagText.append(",");
-                }
+        if(!tags.isEmpty()){
+            for (String tag : tags) {
+                tagText.append(tag).append(","); // Yazarları virgülle ayırarak birleştir
             }
             tagField.setText(tagText.toString());
         }
