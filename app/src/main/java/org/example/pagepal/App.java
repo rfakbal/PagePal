@@ -232,16 +232,6 @@ public class App extends Application {
         imageView.setFitHeight(195.0);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        if(displayBook.getCover()==null){
-            displayBook.setCover("");
-        }
-        try (FileInputStream im = new FileInputStream(displayBook.getCover())) {
-            Image imm = new Image(im);
-            imageView.setImage(imm);
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
         leftVBox.getChildren().add(imageView);
 
         VBox rightVBox = new VBox();
@@ -468,7 +458,7 @@ public class App extends Application {
                 convertedDate = null;
             }
 
-            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(),""));
+            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText()));
             secondStage.close();
         });
         //what is this-arda 
