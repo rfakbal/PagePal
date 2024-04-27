@@ -370,10 +370,18 @@ public class App extends Application {
         Stage infoStage = new Stage();
 
         deleteButton.setOnAction(e->{
-            bookList.getItems().remove(displayBook);
-            lib.removeBook(displayBook);
-            searchResults(searchField.getText(), choiceBox.getValue());
-            infoStage.close();
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setHeaderText("Deleteion");
+            alert.setContentText("You are about to delete this book. Are you sure?");
+            alert.setTitle("Warning");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                bookList.getItems().remove(displayBook);
+                lib.removeBook(displayBook);
+                searchResults(searchField.getText(), choiceBox.getValue());
+                infoStage.close();
+            }
         });
 
         Button editButton = new Button("Edit Book");
