@@ -10,7 +10,7 @@ public class Controller {
     @FXML
     private TextField tfName;
     
-    private Stage mainWindow; // Define mainWindow as a variable of type Stage
+    private Stage mainWindow; 
 
     public void setMainWindow(Stage mainWindow) {
         this.mainWindow = mainWindow;
@@ -18,7 +18,7 @@ public class Controller {
 
 
     @FXML
-    void btnOkDetect(ActionEvent event) {
+    void genBookInfo(ActionEvent event) {
         String title = tfName.getText();
         mainWindow.setTitle(title);
     }
