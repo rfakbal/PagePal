@@ -13,6 +13,7 @@ public class Book {
     private String edition;
     private String language;
     private String rating;
+    private String cover;
 
     public Book(
         String title, 
@@ -25,7 +26,8 @@ public class Book {
         String date,
         String edition,
         String language,
-        String rating
+        String rating,
+        String cover
     ){
         this.title = title;
         this.subTitle = subTitle;
@@ -38,6 +40,7 @@ public class Book {
         this.translator = translator;
         this.language = language;
         this.rating = rating;
+        this.cover = cover;
     }
 
     public void setTitle(String title) { this.title = title; }
@@ -61,6 +64,8 @@ public class Book {
     public void setLanguage(String language) { this.language = language; }
 
     public void setRating(String rating) { this.rating = rating; }
+
+    public void setCover(String cover){this.cover = cover;}
 
 
     public ArrayList<String> getAuthor() {
@@ -105,6 +110,10 @@ public class Book {
 
     public String getRating() {
         return rating;
+    }
+
+    public String getCover(){
+        return cover;
     }
     
 }

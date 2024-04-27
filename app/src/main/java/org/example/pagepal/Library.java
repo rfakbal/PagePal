@@ -144,7 +144,8 @@ public class Library {
                 writer.write("  \"edition\": \"" + libraryBooks.get(i).getEdition() + "\",\n");
                 writer.write("  \"language\": \"" + libraryBooks.get(i).getLanguage() + "\",\n");
                 writer.write("  \"rating\": \"" + libraryBooks.get(i).getRating() + "\",\n");
-                writer.write("  \"date\": \"" + libraryBooks.get(i).getDate() + "\"\n");
+                writer.write("  \"date\": \"" + libraryBooks.get(i).getDate() + "\",\n");
+                writer.write("  \"cover\": \"" + libraryBooks.get(i).getCover() + "\"\n");
                 if(i==libraryBooks.size()-1){
                     writer.write("}\n");
                 }
