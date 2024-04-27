@@ -29,15 +29,17 @@ import javafx.scene.image.ImageView;
 
 public class App extends Application {
 
+    Stage infoStage = new Stage();
     VBox root = new VBox();
     Library lib = new Library();
     ListView<String> bookList = new ListView<>();
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    String newPath;
 
     @SuppressWarnings("unlikely-arg-type")
 
-    //EDIT BOOK TAB
+    //BOTH FOR EDIT AND SAVE BOOK TAB
     private void genBookInfo(Book book, int type){  // Type 1 = edit | Type 0 = add || genBookInfo is short for general book information
         Stage secondStage = new Stage();
                     
@@ -78,10 +80,27 @@ public class App extends Application {
     
         DatePicker datepPicker = new DatePicker();
 
+
+        HBox coverBox = new HBox(8);
+        StringBuilder pathOfCover = new StringBuilder();
         Label coverLabel = new Label("Cover");
         coverLabel.setFont(new Font(25));
-    
-        //upload cover thing
+        Button coverChoose = new Button("Choose file");
+        Button coverDelete = new Button("Delete cover");
+        coverBox.getChildren().addAll(coverChoose, coverDelete);
+        FileChooser coverChooser = new FileChooser();
+        coverChooser.setTitle("Choose file");
+        coverChoose.setOnAction(e -> {
+            File selectedCover = coverChooser.showOpenDialog(null);
+            if (selectedCover != null) {
+                pathOfCover.append(selectedCover.getAbsolutePath().replace('\\', '/'));
+                newPath = pathOfCover.toString();
+                System.out.println(pathOfCover);
+            }
+        });
+        coverDelete.setOnAction(e -> {
+            newPath = "";
+        });
     
         Label ratingLabel = new Label("Rating");
         ratingLabel.setFont(new Font(25));
@@ -121,7 +140,6 @@ public class App extends Application {
         TextField languageField = new TextField();
         languageField.setPrefWidth(180);
 
-    
         Label tagLabel = new Label("Tag/Tags");
         tagLabel.setFont(new Font(25));
 
@@ -135,11 +153,12 @@ public class App extends Application {
             addBookButton.setPrefSize(100.0, 45.0);
             addBookButton.setOnAction(e -> {
 
+                System.out.println(newPath);
+
             String[] authorArray = authorField.getText().split(",");
             ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
             String[] tagArray = tagField.getText().split(",");
             ArrayList<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
-
             String[] translatorArray = translatorField.getText().split(",");
             ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
 
@@ -151,7 +170,7 @@ public class App extends Application {
                 convertedDate = null;
             }
 
-            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(),""));
+            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(),newPath));
             secondStage.close();
             });
             //what is this-arda 
@@ -161,7 +180,7 @@ public class App extends Application {
             VBox.setMargin(rightBox, new Insets(8));
             VBox.setMargin(main, new Insets(8));
 
-            leftBox.getChildren().addAll(titleLabel,titleField,authorLabel,authorField,isbnLabel,isbnField,dateLabel,datepPicker,coverLabel,ratingLabel,ratingField);
+            leftBox.getChildren().addAll(titleLabel,titleField,authorLabel,authorField,isbnLabel,isbnField,dateLabel,datepPicker,coverLabel,coverBox,ratingLabel,ratingField);
 
             rightBox.getChildren().addAll(subtitle,subtitleField,translatorLabel,translatorField,publisherLabel,publisherField,editionLabel,editionField,languagLabel,languageField,tagLabel,tagField,spacer, addBookButton);
 
@@ -177,7 +196,7 @@ public class App extends Application {
         
 
         if (type == 1) {
-            //BURAYA SETTEXTLERİ KOYDUM
+            //SETTEXT HERE
             titleField.setText(book.getTitle());
             isbnField.setText(book.getIsbn());
             ratingField.setText(book.getRating());
@@ -199,7 +218,7 @@ public class App extends Application {
                 for (int i = 0; i < translators.size(); i++) {
                     translatorText.append(translators.get(i));
                     if (i < translators.size() - 1) {
-                        translatorText.append(", "); // Son yazar dışındaki yazarların sonuna virgül ekle
+                        translatorText.append(", "); 
                     }
                 }
                 translatorField.setText(translatorText.toString());
@@ -211,7 +230,7 @@ public class App extends Application {
                 for (int i = 0; i < tags.size(); i++) {
                     tagText.append(tags.get(i));
                     if (i < tags.size() - 1) {
-                        tagText.append(", "); // Son yazar dışındaki yazarların sonuna virgül ekle
+                        tagText.append(", "); 
                     }
                 }
                 tagField.setText(tagText.toString());
@@ -224,7 +243,7 @@ public class App extends Application {
                     for (int i = 0; i < authors.size(); i++) {
                         authorText.append(authors.get(i));
                         if (i < authors.size() - 1) {
-                            authorText.append(", "); // Son yazar dışındaki yazarların sonuna virgül ekle
+                            authorText.append(", "); 
                         }
                     }
                     authorField.setText(authorText.toString());
@@ -262,6 +281,8 @@ public class App extends Application {
             book.setRating(ratingField.getText());
             book.setSubTitle(subtitleField.getText());
             book.setTitle(titleField.getText());
+            book.setCover(newPath);
+            infoStage.close();
             secondStage.close();
         });
 
@@ -274,7 +295,7 @@ public class App extends Application {
         VBox.setMargin(main, new Insets(8));
     
 
-        leftBox.getChildren().addAll(titleLabel,titleField,authorLabel,authorField,isbnLabel,isbnField,dateLabel,datepPicker,coverLabel,ratingLabel,ratingField);
+        leftBox.getChildren().addAll(titleLabel,titleField,authorLabel,authorField,isbnLabel,isbnField,dateLabel,datepPicker,coverLabel,coverBox,ratingLabel,ratingField);
         rightBox.getChildren().addAll(subtitle,subtitleField,translatorLabel,translatorField,publisherLabel,publisherField,editionLabel,editionField,languagLabel,languageField,tagLabel,tagField,spacer, saveButton);
         main.getChildren().addAll(leftBox,rightBox);
         root.getChildren().addAll(main);
@@ -367,11 +388,9 @@ public class App extends Application {
         deleteButton.setMnemonicParsing(false);
         deleteButton.setPrefWidth(100);
 
-        Stage infoStage = new Stage();
-
         deleteButton.setOnAction(e->{
             Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setHeaderText("Deleteion");
+            alert.setHeaderText("Deletion");
             alert.setContentText("You are about to delete this book. Are you sure?");
             alert.setTitle("Warning");
             Optional<ButtonType> result = alert.showAndWait();
