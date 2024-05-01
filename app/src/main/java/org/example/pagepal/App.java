@@ -518,22 +518,15 @@ public class App extends Application {
         // This reloads the previous data. If there is none, creates a new library.
         lib.setFilePath("library.json");
         File file = new File(lib.getFilePath());
-        if (!file.exists()) {
-            try {
-                FileWriter creator = new FileWriter(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                lib.importJSON(lib.getFilePath());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            lib.importJSON(lib.getFilePath());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        
 
         // This saves the file when we close the application.
-        firstStage.setOnCloseRequest(e -> saveWhenExit());
+        firstStage.setOnCloseRequest(e -> saveJSON());
 
 
         root.setPrefSize(640, 400);
@@ -592,6 +585,7 @@ public class App extends Application {
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 
         MenuItem saveMenuItem = new MenuItem("Save");
+        saveMenuItem.setOnAction(e -> saveJSON());
         MenuItem saveAsMenuItem = new MenuItem("Save As...");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
 
@@ -599,7 +593,7 @@ public class App extends Application {
         SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
 
         MenuItem quitMenuItem = new MenuItem("Quit");
-        quitMenuItem.setOnAction(e -> {saveWhenExit();
+        quitMenuItem.setOnAction(e -> {saveJSON();
             firstStage.close();});
         
         fileMenu.getItems().addAll(
@@ -680,17 +674,16 @@ public class App extends Application {
         
         root.getChildren().addAll(menuBar, firstLine,secondLine,thirdLine);
 
+        HBox.setHgrow(root, Priority.ALWAYS);
+        VBox.setVgrow(root, Priority.ALWAYS);
         
         Scene scene = new Scene(root);
         firstStage.setScene(scene);
         firstStage.setTitle("PagePal");
         firstStage.show();
-
-
-        
     }
 
-    public void saveWhenExit() {
+    public void saveJSON() {
         try {
             lib.exportJSON("library.json");
         } catch (Exception e) {
