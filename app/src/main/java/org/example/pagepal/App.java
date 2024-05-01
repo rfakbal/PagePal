@@ -29,6 +29,7 @@ import javafx.scene.image.ImageView;
 
 public class App extends Application {
 
+    Stage firstStage = new Stage();
     Stage infoStage = new Stage();
     VBox root = new VBox();
     Library lib = new Library();
@@ -444,6 +445,68 @@ public class App extends Application {
         bookList.setOnMouseClicked(e-> displayBookInfo(lib.getDisplayBooks().get(bookList.getSelectionModel().getSelectedIndex())));
 
     }
+
+    public void showManual() {
+        Stage manualStage = new Stage();
+        VBox root = new VBox(10);
+        root.setPadding(new Insets(10));
+
+        Label welcomeLabel = new Label("Welcome to PagePal.");
+
+        Label featuresTitle = new Label("Main Features:");
+        Label featuresDetails = new Label(
+                "1. Importing data\n" +
+                "2. Exporting data\n" +
+                "3. Searching through data\n" +
+                "4. Adding data\n" +
+                "5. Deleting data\n" +
+                "6. Editing data"
+        );
+
+        Label importingDataTitle = new Label("Importing Data:");
+        Label importingDataDetails = new Label("To import data, go to 'File' menu and choose 'Import Books'.");
+
+        Label exportingDataTitle = new Label("Exporting Data:");
+        Label exportingDataDetails = new Label("To export data, go to 'File' menu and choose 'Export Books'.");
+
+        Label addingDataTitle = new Label("Adding Data:");
+        Label addingDataDetails = new Label(
+                "To add data, press 'Add Book' button.\n" +
+                "Then enter the information about the book.\n" +
+                "Lastly, press 'Add Book' at the bottom."
+        );
+
+        Label searchingDataTitle = new Label("Searching Data:");
+        Label searchingDataDetails = new Label(
+                "To search data, first select the parameter\n" +
+                "you want to search from the choice box.\n" +
+                "Then write what you want to search in the search bar.\n" +
+                "Finally, click the 'Search' button."
+        );
+
+        Label editingDeletingDataTitle = new Label("Editing and Deleting Data:");
+        Label editingDeletingDataDetails = new Label(
+                "To edit and delete data, first search the book.\n" +
+                "Then click on the book in the list you want to edit or delete.\n" +
+                "In the opening tab, at the right bottom corner,\n" +
+                "there are two buttons for deleting and editing.\n" +
+                "By pressing them, you can delete or edit the book information."
+        );
+
+        root.getChildren().addAll(
+                welcomeLabel,
+                featuresTitle, featuresDetails,
+                importingDataTitle, importingDataDetails,
+                exportingDataTitle, exportingDataDetails,
+                addingDataTitle, addingDataDetails,
+                searchingDataTitle, searchingDataDetails,
+                editingDeletingDataTitle, editingDeletingDataDetails
+        );
+        Scene scene = new Scene(root);
+        manualStage.setScene(scene);
+        manualStage.setTitle("User Manual");
+        manualStage.show();
+    }
         
     @Override
     public void start(Stage firstStage) {
@@ -464,22 +527,12 @@ public class App extends Application {
                 e.printStackTrace();
             }
         }
+
         // This saves the file when we close the application.
-        firstStage.setOnCloseRequest(event -> {
-            try {
-                lib.exportJSON("library.json");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-        
-
-
+        firstStage.setOnCloseRequest(e -> saveWhenExit());
 
 
         root.setPrefSize(640, 400);
-        
         
         //MENU
         MenuBar menuBar = new MenuBar();
@@ -528,7 +581,8 @@ public class App extends Application {
         SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
 
         MenuItem quitMenuItem = new MenuItem("Quit");
-        quitMenuItem.setOnAction(e -> firstStage.close());
+        quitMenuItem.setOnAction(e -> {saveWhenExit();
+            firstStage.close();});
         
         fileMenu.getItems().addAll(
             importMenuItem, exportMenuItem, createMenuItem,
@@ -548,6 +602,7 @@ public class App extends Application {
         });
 
         MenuItem manualMenuItem = new MenuItem("Manual");
+        manualMenuItem.setOnAction(e -> showManual());
         helpMenu.getItems().addAll(aboutMenuItem,manualMenuItem);
         
         menuBar.getMenus().addAll(fileMenu, helpMenu);
@@ -615,6 +670,14 @@ public class App extends Application {
 
 
         
+    }
+
+    public void saveWhenExit() {
+        try {
+            lib.exportJSON("library.json");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public static void main(String[] args) {
