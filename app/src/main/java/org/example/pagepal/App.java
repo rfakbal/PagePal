@@ -55,7 +55,7 @@ public class App extends Application {
     
         VBox listBox = new VBox(8);
         listBox.setAlignment(Pos.CENTER);
-    
+
         //LEFT////////////////////////////////////////////////////////////////////////////
         Label titleLabel = new Label("Title");
         titleLabel.setFont(new Font(25));
@@ -79,7 +79,6 @@ public class App extends Application {
         dateLabel.setFont(new Font(25));
     
         DatePicker datepPicker = new DatePicker();
-
 
         HBox coverBox = new HBox(8);
         StringBuilder pathOfCover = new StringBuilder();
@@ -108,8 +107,7 @@ public class App extends Application {
         TextField ratingField = new TextField();
         ratingField.setPrefWidth(180);
         
-        //right/////////////////////////////////////////////////////
-    
+        //RIGHT/////////////////////////////////////////////////////
         Label subtitle = new Label("Subtitle");
         subtitle.setFont(new Font(25));
     
@@ -153,7 +151,7 @@ public class App extends Application {
             addBookButton.setPrefSize(100.0, 45.0);
             addBookButton.setOnAction(e -> {
 
-                System.out.println(newPath);
+            System.out.println(newPath);
 
             String[] authorArray = authorField.getText().split(",");
             ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
@@ -192,7 +190,7 @@ public class App extends Application {
             secondStage.setScene(scene);
             secondStage.setTitle("Add Book");
             secondStage.show();
-    }
+        }
         
 
         if (type == 1) {
@@ -448,7 +446,38 @@ public class App extends Application {
     }
         
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage firstStage) {
+
+        // This reloads the previous data. If there is none, creates a new library.
+        lib.setFilePath("library.json");
+        File file = new File(lib.getFilePath());
+        if (!file.exists()) {
+            try {
+                FileWriter creator = new FileWriter(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                lib.importJSON(lib.getFilePath());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // This saves the file when we close the application.
+        firstStage.setOnCloseRequest(event -> {
+            try {
+                lib.exportJSON("library.json");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        
+
+
+
+
         root.setPrefSize(640, 400);
         
         
@@ -456,7 +485,6 @@ public class App extends Application {
         MenuBar menuBar = new MenuBar();
 
         Menu fileMenu = new Menu("File");
-        MenuItem addMenuItem = new MenuItem("Add Book");
         MenuItem importMenuItem = new MenuItem("Import Books");
         importMenuItem.setOnAction(e->{
             FileChooser fileChooser = new FileChooser();
@@ -464,7 +492,7 @@ public class App extends Application {
             fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("JSON Files", "*.json")
             );
-            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            File selectedFile = fileChooser.showOpenDialog(firstStage);
             if (selectedFile != null) {
                 try {
                     lib.setFilePath(selectedFile.getAbsolutePath());
@@ -500,9 +528,10 @@ public class App extends Application {
         SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
 
         MenuItem quitMenuItem = new MenuItem("Quit");
+        quitMenuItem.setOnAction(e -> firstStage.close());
         
         fileMenu.getItems().addAll(
-            addMenuItem, importMenuItem, exportMenuItem, createMenuItem,
+            importMenuItem, exportMenuItem, createMenuItem,
             separatorMenuItem, saveMenuItem,
             saveAsMenuItem, separatorMenuItem2,
             preferencesMenuItem, separatorMenuItem3, quitMenuItem
@@ -580,9 +609,9 @@ public class App extends Application {
 
         
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("PagePal");
-        primaryStage.show();
+        firstStage.setScene(scene);
+        firstStage.setTitle("PagePal");
+        firstStage.show();
 
 
         
