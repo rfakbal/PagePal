@@ -341,10 +341,6 @@ public class App extends Application {
         Label titleLabel = new Label(displayBook.getTitle());
         titleLabel.setFont(new Font(18.0));
         titleVBox.getChildren().add(titleLabel);
-
-        Label subTitleLabel = new Label(displayBook.getSubTitle());
-        subTitleLabel.setFont(new Font(9.0));
-        titleVBox.getChildren().add(subTitleLabel);
         rightVBox.getChildren().add(titleVBox);
 
         VBox infoVBox = new VBox();
@@ -367,6 +363,7 @@ public class App extends Application {
                 new Label("Language : "+displayBook.getLanguage()),
                 new Label("ISBN : "+displayBook.getIsbn()),
                 new Label ("Translators : " + displayBook.getTranslator()),
+                new Label("Subtitle  : "+ displayBook.getSubTitle())
         };
 
         for (Label labels : infoLabels) {
@@ -424,6 +421,9 @@ public class App extends Application {
 
         bookInfo.getChildren().add(bookInfoHB);
         Scene infoScene = new Scene(bookInfo);
+
+        infoStage.setWidth(500);
+        infoStage.setHeight(300);
         
         infoStage.setScene(infoScene);
         infoStage.show();
@@ -516,20 +516,10 @@ public class App extends Application {
 
         // This reloads the previous data. If there is none, creates a new library.
         lib.setFilePath("library.json");
-        File file = new File(lib.getFilePath());
-        if (!file.exists()) {
-            try {
-                FileWriter creator = new FileWriter(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                lib.importJSON(lib.getFilePath());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        try {
+            lib.importJSON(lib.getFilePath());
+        } catch (Exception e) {}
+        
 
         // This saves the file when we close the application.
         firstStage.setOnCloseRequest(e -> saveWhenExit());
