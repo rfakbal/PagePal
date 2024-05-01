@@ -571,16 +571,23 @@ public class App extends Application {
 
         MenuItem deleteMenuItem = new MenuItem("Delete Library");
         deleteMenuItem.setOnAction(e -> {
-        try {
-            File toDelete = new File(lib.getFilePath());
-            if(toDelete.exists()) {
-                toDelete.delete();  
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setHeaderText("Delete Library");
+            alert.setContentText("You are about to delete 'library.json' file. Are you sure?");
+            alert.setTitle("Warning");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                try {
+                    File toDelete = new File(lib.getFilePath());
+                    if(toDelete.exists()) {
+                        toDelete.delete();  
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-    );
+        });
+        
         MenuItem clearMenuItem = new MenuItem("Clear All");
         clearMenuItem.setOnAction(e->{
             Alert alert = new Alert(AlertType.CONFIRMATION);
