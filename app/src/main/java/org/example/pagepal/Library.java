@@ -17,7 +17,11 @@ public class Library {
     // public void edit(Book book) { }
     public ArrayList<Book> searchBook(String input, String type) {
         displayBooks.clear(); // Önceki aramaların sonuçlarını temizle
-
+        if("All Books".equals(type)){
+            for(Book book : libraryBooks){
+                displayBooks.add(book);
+            }
+        }
         if ("Title".equals(type)) {
             for (Book book : libraryBooks) {
                 if (book.getTitle().equals(input)) {

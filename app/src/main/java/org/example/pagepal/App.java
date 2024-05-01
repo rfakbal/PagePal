@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 //import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -16,8 +17,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
-
-import org.checkerframework.checker.units.qual.m;
 
 import com.google.gson.Gson;
 
@@ -518,18 +517,26 @@ public class App extends Application {
         // This reloads the previous data. If there is none, creates a new library.
         lib.setFilePath("library.json");
         File file = new File(lib.getFilePath());
-        try {
-            lib.importJSON(lib.getFilePath());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!file.exists()) {
+            try {
+                FileWriter creator = new FileWriter(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                lib.importJSON(lib.getFilePath());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        
 
         // This saves the file when we close the application.
-        firstStage.setOnCloseRequest(e -> saveJSON());
+        firstStage.setOnCloseRequest(e -> saveWhenExit());
 
-
+        
         root.setPrefSize(640, 400);
+        
         
         //MENU
         MenuBar menuBar = new MenuBar();
@@ -585,7 +592,6 @@ public class App extends Application {
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 
         MenuItem saveMenuItem = new MenuItem("Save");
-        saveMenuItem.setOnAction(e -> saveJSON());
         MenuItem saveAsMenuItem = new MenuItem("Save As...");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
 
@@ -593,7 +599,7 @@ public class App extends Application {
         SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
 
         MenuItem quitMenuItem = new MenuItem("Quit");
-        quitMenuItem.setOnAction(e -> {saveJSON();
+        quitMenuItem.setOnAction(e -> {saveWhenExit();
             firstStage.close();});
         
         fileMenu.getItems().addAll(
@@ -636,7 +642,7 @@ public class App extends Application {
         
         
         Label label = new Label("Book Search");
-        label.setFont(new Font(25));
+        label.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         
         
         searchField.setPrefWidth(180);
@@ -645,26 +651,36 @@ public class App extends Application {
         
         
         ObservableList<String> options = FXCollections.observableArrayList();
-        options.addAll("Title", "Subtitle", "Author", "Translator", "Tag", "ISBN", "Publisher", "Date", "Edition", "Language", "Rating");
+        options.addAll("All Books","Title", "Subtitle", "Author", "Translator", "Tag", "ISBN", "Publisher", "Date", "Edition", "Language", "Rating");
         choiceBox.setItems(options);
+        choiceBox.setValue("All Books");
         
         
         Label searchByLabel = new Label("Search by :");
+        searchByLabel.setFont(new Font("Arial", 16));
         
         Button searchButton = new Button("Search");
+        searchButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         searchButton.setFont(new Font(14));
         searchButton.setPrefSize(100.0, 45.0);
 
         Button addButton = new Button("Add Book");
-        addButton.setFont(new Font(14));
+        
+        addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
+
         addButton.setPrefSize(100.0, 45.0);
 
         addButton.setOnAction(e->genBookInfo(null, 0));
         searchButton.setOnAction(e -> searchResults(searchField.getText(), choiceBox.getValue()));
         
-        VBox.setMargin(firstLine, new Insets(8));
-        VBox.setMargin(secondLine, new Insets(8));
-        VBox.setMargin(thirdLine, new Insets(8));
+        root.setStyle("-fx-font-family: Arial; -fx-background-color: #F0F0F0;");
+        VBox.setMargin(firstLine, new Insets(10));
+        VBox.setMargin(secondLine, new Insets(10));
+        VBox.setMargin(thirdLine, new Insets(10));
+
+        firstLine.setSpacing(20);
+        secondLine.setSpacing(10);
+        thirdLine.setSpacing(10);
         
         
         firstLine.getChildren().addAll(label);
@@ -674,16 +690,19 @@ public class App extends Application {
         
         root.getChildren().addAll(menuBar, firstLine,secondLine,thirdLine);
 
-        HBox.setHgrow(root, Priority.ALWAYS);
-        VBox.setVgrow(root, Priority.ALWAYS);
+        root.setStyle("-fx-background-color: #FFFFFF;");
+
         
         Scene scene = new Scene(root);
         firstStage.setScene(scene);
         firstStage.setTitle("PagePal");
         firstStage.show();
+
+
+        
     }
 
-    public void saveJSON() {
+    public void saveWhenExit() {
         try {
             lib.exportJSON("library.json");
         } catch (Exception e) {
