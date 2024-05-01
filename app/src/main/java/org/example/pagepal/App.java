@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
+import org.checkerframework.checker.units.qual.m;
+
 import com.google.gson.Gson;
 
 import javafx.collections.ObservableList;
@@ -81,6 +83,8 @@ public class App extends Application {
     
         DatePicker datepPicker = new DatePicker();
 
+
+        // For cover path selecting and making it compatible with java
         HBox coverBox = new HBox(8);
         StringBuilder pathOfCover = new StringBuilder();
         Label coverLabel = new Label("Cover");
@@ -571,13 +575,27 @@ public class App extends Application {
                 e1.printStackTrace();
             }
         });
+
+        MenuItem deleteMenuItem = new MenuItem("Delete Library");
+        deleteMenuItem.setOnAction(e -> {
+        try {
+            File toDelete = new File(lib.getFilePath());
+            if(toDelete.exists()) {
+                toDelete.delete();  
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    );
+
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 
         MenuItem saveMenuItem = new MenuItem("Save");
-        MenuItem saveAsMenuItem = new MenuItem("Save As…");
+        MenuItem saveAsMenuItem = new MenuItem("Save As...");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
 
-        MenuItem preferencesMenuItem = new MenuItem("Preferences…");
+        MenuItem preferencesMenuItem = new MenuItem("Preferences..."); // old three dot : …
         SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
 
         MenuItem quitMenuItem = new MenuItem("Quit");
@@ -585,7 +603,7 @@ public class App extends Application {
             firstStage.close();});
         
         fileMenu.getItems().addAll(
-            importMenuItem, exportMenuItem, createMenuItem,
+            importMenuItem, exportMenuItem, createMenuItem, deleteMenuItem,
             separatorMenuItem, saveMenuItem,
             saveAsMenuItem, separatorMenuItem2,
             preferencesMenuItem, separatorMenuItem3, quitMenuItem
@@ -596,7 +614,7 @@ public class App extends Application {
         aboutMenuItem.setOnAction(e -> {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setHeaderText("About PagePal");
-            alert.setContentText("This application is made by Ege Sevindi, Ruşen Akbal, Arda Sarı and Ege Yılmaz. It is the project of the course CE 216.");
+            alert.setContentText("This application is made by Ege Sevindi, Rusen Akbal, Arda Sari and Ege Yilmaz. It is the project of the course CE 216.");
             alert.setTitle("About");
             alert.showAndWait();
         });
