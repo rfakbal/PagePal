@@ -37,14 +37,12 @@ public class App extends Application {
     ListView<String> bookList = new ListView<>();
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
-    String newPath;
 
     @SuppressWarnings("unlikely-arg-type")
 
     //BOTH FOR EDIT AND SAVE BOOK TAB
     private void genBookInfo(Book book, int type){  // Type 1 = edit | Type 0 = add || genBookInfo is short for general book information
         Stage secondStage = new Stage();
-                    
         VBox root = new VBox();
         HBox main = new HBox(20);
         root.setPrefSize(500, 550);
@@ -97,12 +95,11 @@ public class App extends Application {
             File selectedCover = coverChooser.showOpenDialog(null);
             if (selectedCover != null) {
                 pathOfCover.append(selectedCover.getAbsolutePath().replace('\\', '/'));
-                newPath = pathOfCover.toString();
                 System.out.println(pathOfCover);
             }
         });
         coverDelete.setOnAction(e -> {
-            newPath = "";
+            pathOfCover.setLength(0);
         });
     
         Label ratingLabel = new Label("Rating");
@@ -155,7 +152,7 @@ public class App extends Application {
             addBookButton.setPrefSize(100.0, 45.0);
             addBookButton.setOnAction(e -> {
 
-            System.out.println(newPath);
+            System.out.println(pathOfCover.toString());
 
             String[] authorArray = authorField.getText().split(",");
             ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
@@ -172,7 +169,8 @@ public class App extends Application {
                 convertedDate = null;
             }
 
-            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(),newPath));
+            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(),pathOfCover.toString()));
+            pathOfCover.setLength(0);
             secondStage.close();
             });
             //what is this-arda 
@@ -283,7 +281,8 @@ public class App extends Application {
             book.setRating(ratingField.getText());
             book.setSubTitle(subtitleField.getText());
             book.setTitle(titleField.getText());
-            book.setCover(newPath);
+            book.setCover(pathOfCover.toString());
+            pathOfCover.setLength(0);
             infoStage.close();
             secondStage.close();
         });
@@ -316,9 +315,6 @@ public class App extends Application {
         System.out.println(displayBook.getDate());
         VBox bookInfo = new VBox(10);
         HBox bookInfoHB = new HBox();
-
-
-
         VBox leftVBox = new VBox();
         leftVBox.setAlignment(Pos.CENTER);
         ImageView imageView = new ImageView();
@@ -326,12 +322,16 @@ public class App extends Application {
         imageView.setFitHeight(195.0);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        try (FileInputStream im = new FileInputStream(displayBook.getCover())) {
-            Image imm = new Image(im);
-            imageView.setImage(imm);
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+        imageView.setImage(null);
+        if (displayBook.getCover() != null && !displayBook.getCover().equals("null")) {
+            try (FileInputStream im = new FileInputStream(displayBook.getCover())) {
+                Image imm = new Image(im);
+                imageView.setImage(imm);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        } else { //TODO buraya default resim path'i girilecek.
+            imageView.setImage(null);
         }
         leftVBox.getChildren().add(imageView);
 
@@ -513,20 +513,23 @@ public class App extends Application {
         
     @Override
     public void start(Stage firstStage) {
-
-        // This reloads the previous data. If there is none, creates a new library.
+        
+        File fi = new File("library.json");
         lib.setFilePath("library.json");
-        try {
-            lib.importJSON(lib.getFilePath());
-        } catch (Exception e) {}
-        
-
+        if(fi.exists()) {
+            try {
+                lib.importJSON(lib.getFilePath());
+            } catch (Exception e) {}
+        } else  {
+            try {
+                fi.createNewFile();
+            } catch(Exception e) {}
+        }
         // This saves the file when we close the application.
-        firstStage.setOnCloseRequest(e -> saveWhenExit());
+        firstStage.setOnCloseRequest(e -> saveJSON());
+        
 
-        
         root.setPrefSize(640, 400);
-        
         
         //MENU
         MenuBar menuBar = new MenuBar();
@@ -578,25 +581,35 @@ public class App extends Application {
         }
     }
     );
+        MenuItem clearMenuItem = new MenuItem("Clear All");
+        clearMenuItem.setOnAction(e->{
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setHeaderText("Clear All");
+            alert.setContentText("You are about to clear all the data present. Are you sure?");
+            alert.setTitle("Warning");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                ArrayList<Book> toClear = new ArrayList<>();
+                lib.setLibraryBooks(toClear);
+                lib.setDisplayBooks(toClear);
+            }
+        });
 
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 
         MenuItem saveMenuItem = new MenuItem("Save");
         MenuItem saveAsMenuItem = new MenuItem("Save As...");
-        SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
-
-        MenuItem preferencesMenuItem = new MenuItem("Preferences..."); // old three dot : …
-        SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
+        SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem(); // old three dot : …
 
         MenuItem quitMenuItem = new MenuItem("Quit");
-        quitMenuItem.setOnAction(e -> {saveWhenExit();
+        quitMenuItem.setOnAction(e -> {saveJSON();
             firstStage.close();});
         
         fileMenu.getItems().addAll(
-            importMenuItem, exportMenuItem, createMenuItem, deleteMenuItem,
+            importMenuItem, exportMenuItem, createMenuItem, deleteMenuItem, clearMenuItem,
             separatorMenuItem, saveMenuItem,
             saveAsMenuItem, separatorMenuItem2,
-            preferencesMenuItem, separatorMenuItem3, quitMenuItem
+            quitMenuItem
         );
         
         Menu helpMenu = new Menu("Help");
@@ -692,11 +705,18 @@ public class App extends Application {
         
     }
 
-    public void saveWhenExit() {
-        try {
-            lib.exportJSON("library.json");
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void saveJSON() {
+        File file = new File("library.json");
+        if(file.exists()) {
+            if(lib.getLibraryBooks().size() != 0) {
+                try {
+                    lib.exportJSON("library.json");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                file.delete();
+            }
         }
     }
     
