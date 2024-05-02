@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -35,6 +36,7 @@ public class App extends Application {
     VBox root = new VBox();
     Library lib = new Library();
     ListView<String> bookList = new ListView<>();
+    TableView bookTable = new TableView();
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
@@ -430,23 +432,70 @@ public class App extends Application {
     }
     //SEARCH RESULT SHOW FUNCTİON
     private void searchResults(String input, String type) {
-        if(input==null || type==null){
+        if(input == null || type == null) {
             return;
         }
-        lib.searchBook(input, type);
-        root.getChildren().remove(bookList);
-        bookList.getItems().clear();
+        TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+        TableColumn<Book, String> subtitleColumn = new TableColumn<>("Subtitle");
+        subtitleColumn.setCellValueFactory(new PropertyValueFactory<>("subtitle"));
+
+        TableColumn<Book, ArrayList<String>> authorsColumn = new TableColumn<>("Authors");
+        authorsColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+
+        TableColumn<Book, ArrayList<String>> translatorsColumn = new TableColumn<>("Translators");
+        translatorsColumn.setCellValueFactory(new PropertyValueFactory<>("translator"));
+
+        TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
+        isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+
+        TableColumn<Book, String> publisherColumn = new TableColumn<>("Publisher");
+        publisherColumn.setCellValueFactory(new PropertyValueFactory<>("publisher"));
+
+        TableColumn<Book, String> dateColumn = new TableColumn<>("Date");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        TableColumn<Book, String> editionColumn = new TableColumn<>("Edition");
+        editionColumn.setCellValueFactory(new PropertyValueFactory<>("edition"));
+
+        TableColumn<Book, String> languageColumn = new TableColumn<>("Language");
+        languageColumn.setCellValueFactory(new PropertyValueFactory<>("language"));
+
+        TableColumn<Book, String> ratingColumn = new TableColumn<>("Rating");
+        ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
+
+        TableColumn<?, ?>[] columns = {
+            titleColumn, subtitleColumn, authorsColumn, translatorsColumn, isbnColumn, publisherColumn,
+            dateColumn, editionColumn, languageColumn, ratingColumn
+            };
+        editColumnWidths(bookTable, columns, 0.083);
+
+        bookTable.getColumns().setAll(titleColumn, subtitleColumn, authorsColumn, translatorsColumn, isbnColumn, publisherColumn, dateColumn, editionColumn, languageColumn, ratingColumn);
+
+        bookTable.getItems().clear();
         lib.setDisplayBooks(lib.searchBook(input, type));
-
-        for (Book book : lib.getDisplayBooks()) {
-            bookList.getItems().add(book.getTitle()+" - "+book.getAuthor());
-            System.out.println(book.getTitle());
+        bookTable.getItems().addAll(lib.getDisplayBooks());
+    
+        if (!root.getChildren().contains(bookTable)) {
+            root.getChildren().add(bookTable);
         }
+        HBox.setHgrow(bookTable, null);
+        VBox.setVgrow(bookTable, null);
+        
+        bookTable.setOnMouseClicked(event -> {
+            Object selectedObject = bookTable.getSelectionModel().getSelectedItem();
+            if (selectedObject instanceof Book) {
+                Book chosen = (Book) selectedObject; 
+                displayBookInfo(chosen);
+            }
+        });
+    }
 
-        root.getChildren().add(bookList);
-
-        bookList.setOnMouseClicked(e-> displayBookInfo(lib.getDisplayBooks().get(bookList.getSelectionModel().getSelectedIndex())));
-
+    private void editColumnWidths(TableView<?> table, TableColumn<?, ?>[] columns, double widthPercentage) {
+        for (TableColumn<?, ?> column : columns) {
+            column.prefWidthProperty().bind(table.widthProperty().multiply(widthPercentage));
+        }
     }
 
     public void showManual() {
