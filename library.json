@@ -1,44 +1,16 @@
 [
 {
-  "title": "anan",
-  "subTitle": "",
-  "author": [""],
-  "translator": [""],
-  "tag": [""],
-  "isbn": "",
-  "publisher": "",
-  "edition": "",
-  "language": "",
-  "rating": "",
-  "date": "null",
-  "cover": ""
-},
-{
-  "title": "sikis",
-  "subTitle": "",
-  "author": [""],
-  "translator": [""],
-  "tag": [""],
-  "isbn": "",
-  "publisher": "",
-  "edition": "",
-  "language": "",
-  "rating": "",
-  "date": "null",
-  "cover": "C:/Users/egese/Desktop/_57096_1.jpg"
-},
-{
-  "title": "sok",
-  "subTitle": "",
-  "author": [""],
-  "translator": [""],
-  "tag": [""],
-  "isbn": "",
-  "publisher": "",
-  "edition": "",
-  "language": "",
-  "rating": "",
-  "date": "null",
-  "cover": ""
+  "title": "götçülüğün kitabı",
+  "subTitle": "yok",
+  "author": ["güvenç ege"],
+  "translator": ["yok"],
+  "tag": ["götüülük","  butikadam","  koyburada"],
+  "isbn": "35 ALD 192",
+  "publisher": "güvenç ege",
+  "edition": "1. edition",
+  "language": "türkçe",
+  "rating": "10",
+  "date": "2003-07-25",
+  "cover": "C:/Users/egese/Desktop/obg2.jpg"
 }
 ]

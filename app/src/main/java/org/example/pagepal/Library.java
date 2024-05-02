@@ -17,84 +17,84 @@ public class Library {
     // public void edit(Book book) { }
     public ArrayList<Book> searchBook(String input, String type) {
         displayBooks.clear(); // Önceki aramaların sonuçlarını temizle
-        if("All Books".equals(type)){
+        if("All Books".contains(type)){
             for(Book book : libraryBooks){
                 displayBooks.add(book);
             }
         }
-        if ("Title".equals(type)) {
+        if ("Title".contains(type)) {
             for (Book book : libraryBooks) {
-                if (book.getTitle().equals(input)) {
+                if (book.getTitle().contains(input)) {
                     displayBooks.add(book);
                 }
             }
-        } else if ("Subtitle".equals(type)) {
+        } else if ("Subtitle".contains(type)) {
             for (Book book : libraryBooks) {
-                if (book.getSubTitle().equals(input)) {
+                if (book.getSubTitle().contains(input)) {
                     displayBooks.add(book);
                 }
             }
-        } else if ("Author".equals(type)) {
+        } else if ("Author".contains(type)) {
             for (Book book : libraryBooks) {
                 for (String author : book.getAuthor()) {
-                    if (author.equals(input)) {
+                    if (author.contains(input)) {
                         displayBooks.add(book);
                         break; // İç içe döngüden çık
                     }
                 }
             }
-        } else if ("Translator".equals(type)) {
+        } else if ("Translator".contains(type)) {
             for (Book book : libraryBooks) {
                 for (String translator : book.getTranslator()) {
-                    if (translator.equals(input)) {
+                    if (translator.contains(input)) {
                         displayBooks.add(book);
                         break; // İç içe döngüden çık
                     }
                 }
             }
-        } else if ("Tag".equals(type)) {
+        } else if ("Tag".contains(type)) {
             for (Book book : libraryBooks) {
                 for (String tag : book.getTag()) {
-                    if (tag.equals(input)) {
+                    if (tag.contains(input)) {
                         displayBooks.add(book);
                         break; // İç içe döngüden çık
                     }
                 }
             }
-        } else if ("ISBN".equals(type)) {
+        } else if ("ISBN".contains(type)) {
             for (Book book : libraryBooks) {
-                if (book.getIsbn().equals(input)) {
+                if (book.getIsbn().contains(input)) {
                     displayBooks.add(book);
                     break;
                 }
             }
-        } else if ("Publisher".equals(type)) {
+        } else if ("Publisher".contains(type)) {
             for (Book book : libraryBooks) {
-                if (book.getPublisher().equals(input)) {
+                if (book.getPublisher().contains(input)) {
                     displayBooks.add(book);
                 }
             }
-        } else if ("Date".equals(type)) {
+        } else if ("Date".contains(type)) {
             for (Book book : libraryBooks) {
-                if (book.getDate().equals(input)) {
+                if (book.getDate().contains(input)) {
                     displayBooks.add(book);
                 }
             }
-        }else if ("Edition".equals(type)) {
+        }else if ("Edition".contains(type)) {
             for (Book book : libraryBooks) {
-                if (book.getEdition().equals(input)) {
+                if (book.getEdition().contains(input)) {
                     displayBooks.add(book);
                 }
             }
-        } else if ("Language".equals(type)) {
+        } else if ("Language".contains(type)) {
             for (Book book : libraryBooks) {
-                if (book.getLanguage().equals(input)) {
+                if (book.getLanguage().contains(input)) {
                     displayBooks.add(book);
                 }
             }
-        } else if ("Rating".equals(type)) {
+        } else if ("Rating".contains(type)) {
             for (Book book : libraryBooks) {
-                if (book.getRating().equals(input)) {
+                if (book.getRating().contains(input)) {
                     displayBooks.add(book);
                 }
             }
