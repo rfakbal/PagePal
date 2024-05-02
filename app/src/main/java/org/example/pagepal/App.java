@@ -18,7 +18,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
+import javax.sound.sampled.SourceDataLine;
+
 import com.google.gson.Gson;
+import com.google.gson.internal.sql.SqlTypesSupport;
 
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
@@ -148,32 +151,59 @@ public class App extends Application {
         tagField.setPrefWidth(180);
 
         if (type == 0) {
-            
             Button addBookButton = new Button("Add");
             addBookButton.setFont(new Font(14));
             addBookButton.setPrefSize(100.0, 45.0);
             addBookButton.setOnAction(e -> {
-
-            System.out.println(pathOfCover.toString());
-
-            String[] authorArray = authorField.getText().split(",");
-            ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
-            String[] tagArray = tagField.getText().split(",");
-            ArrayList<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
-            String[] translatorArray = translatorField.getText().split(",");
-            ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
-
-            String convertedDate;
-
-            if(datepPicker.getValue() != null) {
-                convertedDate = datepPicker.getValue().toString();
-            } else {
-                convertedDate = null;
-            }
-
-            lib.addBook(new Book(titleField.getText(),subtitleField.getText(),authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(),pathOfCover.toString()));
-            pathOfCover.setLength(0);
-            secondStage.close();
+                boolean check = true;
+                String isbnText = isbnField.getText();    
+                try {
+                    long isbn = Long.parseLong(isbnText); //if it can be turned to a long, it has to be a number.
+                } catch (NumberFormatException exc) {
+                    check = false;
+                } 
+                if (check == true) {
+                    boolean control = true;
+                    for (Book ibook : lib.getLibraryBooks()) {
+                        System.out.println(ibook.getIsbn());
+                        if (ibook.getIsbn().equals(isbnField.getText())) {
+                            control = false;
+                        }
+                    }
+                    if (control == true && isbnField.getText().length() == 13) {
+                        System.out.println(pathOfCover.toString());
+                        String[] authorArray = authorField.getText().split(",");
+                        ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
+                        String[] tagArray = tagField.getText().split(",");
+                        ArrayList<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+                        String[] translatorArray = translatorField.getText().split(",");
+                        ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
+            
+                        String convertedDate;
+            
+                        if (datepPicker.getValue() != null) {
+                            convertedDate = datepPicker.getValue().toString();
+                        } else {
+                            convertedDate = null;
+                        }
+            
+                        lib.addBook(new Book(titleField.getText(), subtitleField.getText(), authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(), pathOfCover.toString()));
+                        pathOfCover.setLength(0);
+                        secondStage.close();
+                    } else {
+                        Alert alert = new Alert(AlertType.WARNING);
+                        alert.setHeaderText("Warning");
+                        alert.setContentText("The ISBN you have entered already exists or is of the wrong length.");
+                        alert.setTitle("ISBN Error");
+                        alert.showAndWait();
+                    }
+                } else {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Warning");
+                    alert.setContentText("The ISBN you have entered contains unknown characters.");
+                    alert.setTitle("ISBN Error");
+                    alert.showAndWait();
+                }
             });
             //what is this-arda 
             Region spacer = new Region();
@@ -439,7 +469,7 @@ public class App extends Application {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         TableColumn<Book, String> subtitleColumn = new TableColumn<>("Subtitle");
-        subtitleColumn.setCellValueFactory(new PropertyValueFactory<>("subtitle"));
+        subtitleColumn.setCellValueFactory(new PropertyValueFactory<>("subTitle"));
 
         TableColumn<Book, ArrayList<String>> authorsColumn = new TableColumn<>("Authors");
         authorsColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -469,7 +499,7 @@ public class App extends Application {
             titleColumn, subtitleColumn, authorsColumn, translatorsColumn, isbnColumn, publisherColumn,
             dateColumn, editionColumn, languageColumn, ratingColumn
             };
-        editColumnWidths(bookTable, columns, 0.083);
+        adjustSize(bookTable, columns, 0.0988);
 
         bookTable.getColumns().setAll(titleColumn, subtitleColumn, authorsColumn, translatorsColumn, isbnColumn, publisherColumn, dateColumn, editionColumn, languageColumn, ratingColumn);
 
@@ -492,7 +522,7 @@ public class App extends Application {
         });
     }
 
-    private void editColumnWidths(TableView<?> table, TableColumn<?, ?>[] columns, double widthPercentage) {
+    private void adjustSize(TableView<?> table, TableColumn<?, ?>[] columns, double widthPercentage) {
         for (TableColumn<?, ?> column : columns) {
             column.prefWidthProperty().bind(table.widthProperty().multiply(widthPercentage));
         }
@@ -751,7 +781,8 @@ public class App extends Application {
 
         root.setStyle("-fx-background-color: #FFFFFF;");
 
-        
+        firstStage.setMinHeight(450);
+        firstStage.setMinWidth(700);
         Scene scene = new Scene(root);
         firstStage.setScene(scene);
         firstStage.setTitle("PagePal");
