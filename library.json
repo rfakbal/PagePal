@@ -51,9 +51,9 @@
   "publisher": "publisher6",
   "edition": "2nd ed.",
   "language": "de",
-  "rating": "5",
+  "rating": "4",
   "date": "2024-05-06",
-  "cover": "null"
+  "cover": ""
 },
 {
   "title": "book7",
@@ -65,9 +65,9 @@
   "publisher": "publisher7",
   "edition": "1st ed.",
   "language": "en",
-  "rating": "4",
+  "rating": "",
   "date": "2024-05-07",
-  "cover": "null"
+  "cover": ""
 },
 {
   "title": "book8",
@@ -292,5 +292,33 @@
   "rating": "4",
   "date": "2024-05-23",
   "cover": "null"
+},
+{
+  "title": "topaneşişaen",
+  "subTitle": "",
+  "author": [""],
+  "translator": [""],
+  "tag": [""],
+  "isbn": "3131313131313",
+  "publisher": "",
+  "edition": "",
+  "language": "",
+  "rating": "6666",
+  "date": "null",
+  "cover": ""
+},
+{
+  "title": "fgt",
+  "subTitle": "",
+  "author": [""],
+  "translator": [""],
+  "tag": [""],
+  "isbn": "",
+  "publisher": "",
+  "edition": "",
+  "language": "",
+  "rating": "4",
+  "date": "null",
+  "cover": ""
 }
 ]

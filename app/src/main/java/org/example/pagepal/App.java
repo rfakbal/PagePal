@@ -155,56 +155,86 @@ public class App extends Application {
             addBookButton.setFont(new Font(14));
             addBookButton.setPrefSize(100.0, 45.0);
             addBookButton.setOnAction(e -> {
-                boolean check = true;
-                String isbnText = isbnField.getText();    
+                boolean checki = true;
+                boolean checkr = true;
+                boolean control = true;
+                String isbnText = isbnField.getText();
+                int rating = 0;
                 try {
-                    long isbn = Long.parseLong(isbnText); //if it can be turned to a long, it has to be a number.
-                } catch (NumberFormatException exc) {
-                    check = false;
-                } 
-                if (check == true) {
-                    boolean control = true;
-                    for (Book ibook : lib.getLibraryBooks()) {
-                        System.out.println(ibook.getIsbn());
-                        if (ibook.getIsbn().equals(isbnField.getText())) {
+                    if (!isbnText.equals("")) {
+                        long isbn = Long.parseLong(isbnText);
+                        for (Book ibook : lib.getLibraryBooks()) {
+                            if (ibook.getIsbn().equals(isbnText)) {
+                                if (ibook != book) {
+                                    control = false;
+                                }
+                            }
+                        }
+                        if (isbnText.length() != 13) {
                             control = false;
                         }
                     }
-                    if (control == true && isbnField.getText().length() == 13) {
-                        System.out.println(pathOfCover.toString());
-                        String[] authorArray = authorField.getText().split(",");
-                        ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
-                        String[] tagArray = tagField.getText().split(",");
-                        ArrayList<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
-                        String[] translatorArray = translatorField.getText().split(",");
-                        ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
-            
-                        String convertedDate;
-            
-                        if (datepPicker.getValue() != null) {
-                            convertedDate = datepPicker.getValue().toString();
-                        } else {
-                            convertedDate = null;
-                        }
-            
-                        lib.addBook(new Book(titleField.getText(), subtitleField.getText(), authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(), pathOfCover.toString()));
-                        pathOfCover.setLength(0);
-                        secondStage.close();
-                    } else {
-                        Alert alert = new Alert(AlertType.WARNING);
-                        alert.setHeaderText("Warning");
-                        alert.setContentText("The ISBN you have entered already exists or is of the wrong length.");
-                        alert.setTitle("ISBN Error");
-                        alert.showAndWait();
+                } catch (NumberFormatException exc) {
+                    checki = false;
+                }
+                
+                    try {
+                        rating = Integer.parseInt(ratingField.getText());
+                    } catch (NumberFormatException exc) {
+                        checkr = false;
                     }
-                } else {
+
+                    if(ratingField.getText().isEmpty()) {
+                        checkr = true;
+                    }
+                
+                
+                if (!checki) {
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setHeaderText("Warning");
-                    alert.setContentText("The ISBN you have entered contains unknown characters.");
+                    alert.setContentText("The ISBN you have entered has unknown characters.");
                     alert.setTitle("ISBN Error");
                     alert.showAndWait();
-                }
-            });
+                } else if (!control) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Warning");
+                    alert.setContentText("The ISBN you have entered already exists or is of the wrong length.");
+                    alert.setTitle("ISBN Error");
+                    alert.showAndWait();
+                } else if (!checkr) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Warning");
+                    alert.setContentText("The Rating you have entered has either unknown characters.");
+                    alert.setTitle("Rating Error");
+                    alert.showAndWait();
+                } else if (rating > 10 || rating < 0) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Warning");
+                    alert.setContentText("The Rating you have entered is not between 0 and 10.");
+                    alert.setTitle("Rating Error");
+                    alert.showAndWait();
+                } else {
+                    System.out.println(pathOfCover.toString());
+                    String[] authorArray = authorField.getText().split(",");
+                    ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
+                    String[] tagArray = tagField.getText().split(",");
+                    ArrayList<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+                    String[] translatorArray = translatorField.getText().split(",");
+                    ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
+            
+                    String convertedDate;
+            
+                    if (datepPicker.getValue() != null) {
+                        convertedDate = datepPicker.getValue().toString();
+                    } else {
+                        convertedDate = null;
+                    }
+            
+                    lib.addBook(new Book(titleField.getText(), subtitleField.getText(), authorList, translatorList, tagList, isbnField.getText(), publisherField.getText(), convertedDate, editionField.getText(), languageField.getText(), ratingField.getText(), pathOfCover.toString()));
+                    pathOfCover.setLength(0);
+                    secondStage.close();
+            }});
+
             //what is this-arda 
             Region spacer = new Region();
 
@@ -287,37 +317,99 @@ public class App extends Application {
             saveButton.setFont(new Font(14));
 
             saveButton.setOnAction(e -> {
-            String[] authorArray = authorField.getText().split(",");
-            ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
-    
-            String[] tagArray = tagField.getText().split(",");
-            ArrayList<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
-    
-            String[] translatorArray = translatorField.getText().split(",");
-            ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
+                boolean checki = true;
+                boolean checkr = true;
+                boolean control = true;
+                String isbnText = isbnField.getText();
+                int rating = 0;
+                try {
+                    if (!isbnText.equals("")) {
+                        long isbn = Long.parseLong(isbnText);
+                        for (Book ibook : lib.getLibraryBooks()) {
+                            if (ibook.getIsbn().equals(isbnText)) {
+                                if (ibook != book) {
+                                    control = false;
+                                }
+                            }
+                        }
+                        if (isbnText.length() != 13) {
+                            control = false;
+                        }
+                    }
+                } catch (NumberFormatException exc) {
+                    checki = false;
+                }
+                
+                    try {
+                        rating = Integer.parseInt(ratingField.getText());
+                    } catch (NumberFormatException exc) {
+                        checkr = false;
+                    }
 
-            book.setAuthor(authorList);
-            book.setTag(tagList);
-            book.setTranslator(translatorList);
-            String editedDate;
-            if (datepPicker.getValue() != null ) {
-                editedDate = datepPicker.getValue().toString();
-            } else {
-                editedDate = null;
-            }
-            book.setDate(editedDate);
-            book.setEdition(editionField.getText());
-            book.setIsbn(isbnField.getText());
-            book.setLanguage(languageField.getText());
-            book.setPublisher(publisherField.getText());
-            book.setRating(ratingField.getText());
-            book.setSubTitle(subtitleField.getText());
-            book.setTitle(titleField.getText());
-            book.setCover(pathOfCover.toString());
-            pathOfCover.setLength(0);
-            infoStage.close();
-            secondStage.close();
-        });
+                    if(ratingField.getText().isEmpty()) {
+                        checkr = true;
+                    }
+                
+                
+                if (!checki) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Warning");
+                    alert.setContentText("The ISBN you have entered has unknown characters.");
+                    alert.setTitle("ISBN Error");
+                    alert.showAndWait();
+                } else if (!control) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Warning");
+                    alert.setContentText("The ISBN you have entered already exists or is of the wrong length.");
+                    alert.setTitle("ISBN Error");
+                    alert.showAndWait();
+                } else if (!checkr) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Warning");
+                    alert.setContentText("The Rating you have entered has either unknown characters.");
+                    alert.setTitle("Rating Error");
+                    alert.showAndWait();
+                } else if (rating > 10 || rating < 0) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Warning");
+                    alert.setContentText("The Rating you have entered is not between 0 and 10.");
+                    alert.setTitle("Rating Error");
+                    alert.showAndWait();
+                } else {
+
+                    String[] authorArray = authorField.getText().split(",");
+                    ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
+                
+                    String[] tagArray = tagField.getText().split(",");
+                    ArrayList<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
+                
+                    String[] translatorArray = translatorField.getText().split(",");
+                    ArrayList<String> translatorList = new ArrayList<>(Arrays.asList(translatorArray));
+                
+                    book.setAuthor(authorList);
+                    book.setTag(tagList);
+                    book.setTranslator(translatorList);
+                
+                    String editedDate;
+                    if (datepPicker.getValue() != null) {
+                        editedDate = datepPicker.getValue().toString();
+                    } else {
+                        editedDate = null;
+                    }
+                    book.setDate(editedDate);
+                    book.setEdition(editionField.getText());
+                    book.setIsbn(isbnField.getText());
+                    book.setLanguage(languageField.getText());
+                    book.setPublisher(publisherField.getText());
+                    book.setRating(ratingField.getText());
+                    book.setSubTitle(subtitleField.getText());
+                    book.setTitle(titleField.getText());
+                    book.setCover(pathOfCover.toString());
+                    pathOfCover.setLength(0);
+                
+                    infoStage.close();
+                    secondStage.close();
+                }});
 
 
         saveButton.setPrefSize(100.0, 45.0);
