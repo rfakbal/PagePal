@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-//import javafx.scene.shape.VLineTo;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
@@ -40,15 +39,101 @@ public class App extends Application {
     Stage infoStage = new Stage();
     Stage secondStage = new Stage();
     Stage manualStage = new Stage();
+    Stage tagStage = new Stage();
     VBox root = new VBox();
     Library lib = new Library();
     ListView<String> bookList = new ListView<>();
+    ArrayList<String> tagList = new ArrayList<>();
     TableView bookTable = new TableView();
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    ListView<String> tagListView = new ListView<>();
 
     @SuppressWarnings("unlikely-arg-type")
 
+    public void displayTagsMenu()  {
+        tagListView.getItems().clear();
+        TextField newTagField = new TextField();
+        for(Book book: lib.getLibraryBooks()){
+            for(String tag : book.getTag()){
+                tagList.add(tag);
+            }
+        }
+
+        HashSet<String> set = new HashSet<>();
+        ArrayList<String> nonDuplicates = new ArrayList<>();
+
+        for (String str : tagList) {
+            if (set.add(str)) {
+                nonDuplicates.add(str);
+            }
+        }
+        tagList.clear();
+        tagList.addAll(nonDuplicates);
+
+        for(String tag : tagList){
+            if(tag.equals("")){
+                tagList.remove(tag);
+            }
+        }
+
+        tagListView.getItems().addAll(tagList);
+
+
+        newTagField.setPromptText("Add New Tag");
+       
+        Button addButton = new Button("Add");
+        
+        
+        addButton.setOnAction(e -> {
+            Alert tagAlert = new Alert(AlertType.WARNING);
+            tagAlert.setHeaderText("Warning");
+
+            boolean addToList = true;
+            String newTag = newTagField.getText().trim();
+            if (!newTag.isEmpty()) {
+                for(String tag : tagList){
+                    if(tag.equals(newTag)){
+                        addToList = false;
+                    }
+                }
+                if(addToList){
+                    tagListView.getItems().add(newTag);
+                    tagList.add(newTag);
+                    newTagField.clear();
+                }
+                else{
+                    tagAlert.setContentText("The Tag you have entered is already defined try to add another tag.");
+                    tagAlert.setTitle("Tag Error");
+                    tagAlert.showAndWait();
+                }
+                
+            }
+        });
+        
+        Button deleteButton = new Button("Remove");
+        deleteButton.setOnAction(e -> {
+            int selectedIndex = tagListView.getSelectionModel().getSelectedIndex();
+            if (selectedIndex != -1) {
+                String tag = tagListView.getItems().get(selectedIndex);
+                tagListView.getItems().remove(selectedIndex);
+                tagList.remove(tag);
+                for(Book book : lib.getLibraryBooks()){
+                    for(String bookTag : book.getTag()){
+                        if(tag.equals(bookTag)){
+                            book.getTag().remove(tag);
+                        }
+                    }
+                }
+            }
+        });
+
+        VBox vbox = new VBox(tagListView, newTagField, addButton, deleteButton);
+        Scene scene = new Scene(vbox, 300, 200);
+        tagStage.setScene(scene);
+
+        tagStage.show();
+    }
 
     // BOTH FOR EDIT AND SAVE BOOK TAB
     private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general book information                                         
@@ -924,6 +1009,12 @@ public class App extends Application {
         addButton.setOnAction(e -> genBookInfo(null, 0));
         searchButton.setOnAction(e -> searchResults(searchField.getText(), choiceBox.getValue()));
 
+        Button tagsButton = new Button("Tags");
+        tagsButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
+        tagsButton.setFont(new Font(14));
+        tagsButton.setPrefSize(100.0, 45.0);
+
+        tagsButton.setOnAction(e-> displayTagsMenu());
         root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff);");
         VBox.setMargin(firstLine, new Insets(10));
         VBox.setMargin(secondLine, new Insets(10));
@@ -935,7 +1026,7 @@ public class App extends Application {
 
         firstLine.getChildren().addAll(labelPage, labelPal);
         secondLine.getChildren().addAll(searchField, searchByLabel, choiceBox);
-        thirdLine.getChildren().addAll(searchButton, addButton);
+        thirdLine.getChildren().addAll(searchButton, addButton,tagsButton);
 
         root.getChildren().addAll(menuBar, firstLine, secondLine, thirdLine);
 
