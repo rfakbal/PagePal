@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.animation.ScaleTransition;
 import javafx.util.Duration;
+import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -875,6 +876,10 @@ public class App extends Application {
         labelPal.setStyle("-fx-text-fill: #00457C");
 
         searchField.setPrefWidth(180);
+        searchField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        searchField.setStyle("-fx-background-radius: 35;");
+
+        searchField.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID, new CornerRadii(35), BorderStroke.THIN)));
 
         HBox.setHgrow(searchField, Priority.ALWAYS);
 
@@ -918,7 +923,7 @@ public class App extends Application {
 
         firstStage.setMinHeight(450);
         firstStage.setMinWidth(700);
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,Color.BEIGE);
         firstStage.setScene(scene);
         firstStage.setTitle("PagePal");
         firstStage.show();
