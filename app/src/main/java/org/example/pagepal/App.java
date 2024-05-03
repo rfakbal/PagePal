@@ -514,41 +514,39 @@ public class App extends Application {
 
     // DISPLAY BOOK TAB
     private void displayBookInfo(Book displayBook) {
-
-        System.out.println(displayBook.getDate());
-        VBox bookInfo = new VBox(10);
-        HBox bookInfoHB = new HBox();
-        VBox leftVBox = new VBox();
-        leftVBox.setAlignment(Pos.CENTER);
+        VBox mainBox = new VBox(10);
+        HBox topBox = new HBox(10);
+        VBox leftBox = new VBox(10);
+        VBox rightBox = new VBox(10);
+        VBox bottomVBox = new VBox(10);
+       
         ImageView imageView = new ImageView();
-        imageView.setFitWidth(130.0);
-        imageView.setFitHeight(195.0);
+        HBox forImage = new HBox(10);
+        forImage.getChildren().addAll(imageView);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
+        imageView.fitWidthProperty().bind(infoStage.widthProperty().multiply(0.5)); 
+        imageView.fitHeightProperty().bind(infoStage.heightProperty().multiply(0.9)); 
         imageView.setImage(null);
-        System.out.println(displayBook.getCover());
+        System.out.println(displayBook.getCover()); 
         if (displayBook.getCover() != null && !displayBook.getCover().equals("null") && !displayBook.getCover().equals("")) {
             try (FileInputStream im = new FileInputStream(displayBook.getCover())) {
                 Image imm = new Image(im);
                 imageView.setImage(imm);
             } catch (IOException e1) {
-                e1.printStackTrace();
+                Image imm = new Image("file:../app/cat.jpg");
+                imageView.setImage(imm);
             }
         } else { 
             Image imm = new Image("file:../app/cat.jpg");
             imageView.setImage(imm);
         }
-        leftVBox.getChildren().add(imageView);
+        leftBox.getChildren().add(forImage);
 
-        VBox rightVBox = new VBox();
 
-        VBox titleVBox = new VBox();
         Label titleLabel = new Label(displayBook.getTitle());
-        titleLabel.setFont(new Font(18.0));
-        titleVBox.getChildren().add(titleLabel);
-        rightVBox.getChildren().add(titleVBox);
-
-        VBox infoVBox = new VBox();
+        titleLabel.setFont(new Font(20.0));
+        rightBox.getChildren().add(titleLabel);
 
         Label convertedDate;
 
@@ -572,20 +570,16 @@ public class App extends Application {
         };
 
         for (Label labels : infoLabels) {
-            infoVBox.getChildren().add(labels);
+            labels.setFont(new Font(14));
+            rightBox.getChildren().add(labels);
         }
 
-        rightVBox.getChildren().add(infoVBox);
-        HBox buttonsHBox = new HBox();
-        VBox bottomVBox = new VBox();
 
-        HBox.setMargin(bottomVBox, new Insets(0, 15, 0, 0));
-        buttonsHBox.getChildren().add(bottomVBox);
+        HBox buttonHBox = new HBox();
+        buttonHBox.setAlignment(Pos.BOTTOM_CENTER);
 
-        VBox editVBox = new VBox();
-        editVBox.setAlignment(Pos.CENTER_RIGHT);
-        HBox editButtonsHBox = new HBox(8);
-        editButtonsHBox.setAlignment(Pos.CENTER_RIGHT);
+        //VBox.setMargin(buttonHBox, new Insets(0, 15, 0, 0));
+        bottomVBox.getChildren().addAll(buttonHBox);
 
         Button deleteButton = new Button("Delete Book");
         deleteButton.setStyle(
@@ -652,24 +646,41 @@ public class App extends Application {
         editButton.setMnemonicParsing(false);
         editButton.setPrefWidth(100);
         editButton.setOnAction(e -> genBookInfo(displayBook, 1));
-        editButtonsHBox.getChildren().addAll(deleteButton, editButton);
-        editVBox.getChildren().add(editButtonsHBox);
-        HBox.setHgrow(editButtonsHBox, Priority.ALWAYS);
+        buttonHBox.getChildren().addAll(deleteButton,editButton);
 
-        HBox bottomRightHBox = new HBox();
-        bottomRightHBox.getChildren().add(editVBox);
-        HBox.setMargin(editVBox, new Insets(0, 0, 0, 120));
+        topBox.getChildren().addAll(leftBox, rightBox);
 
-        buttonsHBox.getChildren().add(bottomRightHBox);
-        rightVBox.getChildren().add(buttonsHBox);
+        forImage.setAlignment(Pos.CENTER);
+        buttonHBox.setAlignment(Pos.CENTER);
+        bottomVBox.setAlignment(Pos.BOTTOM_CENTER);
+        rightBox.setAlignment(Pos.CENTER);
+        leftBox.setAlignment(Pos.CENTER);
+        topBox.setAlignment(Pos.CENTER);
 
-        bookInfoHB.getChildren().addAll(leftVBox, rightVBox);
+        mainBox.getChildren().addAll(topBox,bottomVBox);
 
-        bookInfo.getChildren().add(bookInfoHB);
-        Scene infoScene = new Scene(bookInfo);
 
+        //HBox.setMargin(editVBox, new Insets(0, 0, 0, 120));
+
+
+
+
+
+        /* 
+        VBox.setVgrow(imageView, Priority.ALWAYS);
+        VBox.setVgrow(leftBox, Priority.ALWAYS);
+        VBox.setVgrow(bottomVBox, Priority.ALWAYS);
+        HBox.setHgrow(imageView, Priority.ALWAYS);
+        HBox.setHgrow(leftBox, Priority.ALWAYS);
+        HBox.setHgrow(bottomVBox, Priority.ALWAYS);*/
+
+        VBox.setVgrow(mainBox, Priority.ALWAYS);
+        HBox.setHgrow(mainBox, Priority.ALWAYS);
+        
         infoStage.setWidth(500);
-        infoStage.setHeight(300);
+        infoStage.setHeight(425);
+
+        Scene infoScene = new Scene(mainBox);
 
         infoStage.setScene(infoScene);
         infoStage.show();
@@ -685,6 +696,9 @@ public class App extends Application {
 
         TableColumn<Book, String> subtitleColumn = new TableColumn<>("Subtitle");
         subtitleColumn.setCellValueFactory(new PropertyValueFactory<>("subTitle"));
+
+        TableColumn<Book, ArrayList<String>> tagsColumn = new TableColumn<>("Tags");
+        tagsColumn.setCellValueFactory(new PropertyValueFactory<>("tag"));
 
         TableColumn<Book, ArrayList<String>> authorsColumn = new TableColumn<>("Authors");
         authorsColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -712,12 +726,12 @@ public class App extends Application {
 
         TableColumn<?, ?>[] columns = {
                 titleColumn, subtitleColumn, authorsColumn, translatorsColumn, isbnColumn, publisherColumn,
-                dateColumn, editionColumn, languageColumn, ratingColumn
+                dateColumn, editionColumn, languageColumn,tagsColumn, ratingColumn
         };
-        adjustSize(bookTable, columns, 0.0988);
+        adjustSize(bookTable, columns, 0.0895);
 
         bookTable.getColumns().setAll(titleColumn, subtitleColumn, authorsColumn, translatorsColumn, isbnColumn,
-                publisherColumn, dateColumn, editionColumn, languageColumn, ratingColumn);
+                publisherColumn, dateColumn, editionColumn, languageColumn,tagsColumn, ratingColumn);
 
         bookTable.getItems().clear();
         lib.setDisplayBooks(lib.searchBook(input, type));
@@ -987,7 +1001,7 @@ public class App extends Application {
         HBox.setHgrow(searchField, Priority.ALWAYS);
 
         ObservableList<String> options = FXCollections.observableArrayList();
-        options.addAll("All Books", "Title", "Subtitle", "Author", "Translator", "Tag", "ISBN", "Publisher", "Date",
+        options.addAll("All Books", "Title", "Subtitle", "Author", "Translator", "ISBN", "Publisher", "Date",
                 "Edition", "Language", "Rating");
         choiceBox.setItems(options);
         choiceBox.setValue("All Books");
@@ -1030,8 +1044,8 @@ public class App extends Application {
 
         root.getChildren().addAll(menuBar, firstLine, secondLine, thirdLine);
 
-        firstStage.setMinHeight(450);
-        firstStage.setMinWidth(930);
+        firstStage.setHeight(480);
+        firstStage.setWidth(1050);
         Scene scene = new Scene(root,Color.BEIGE);
         firstStage.setScene(scene);
         firstStage.setTitle("PagePal");
