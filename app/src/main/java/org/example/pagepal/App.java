@@ -555,17 +555,17 @@ public class App extends Application {
                         "-fx-padding: 5 10; " +
                         "-fx-font-size: 14px;");
 
-        editButton.setStyle(
-                "-fx-background-color: #6fa8dc; " +
-                        "-fx-background-radius: 5; " +
-                        "-fx-text-fill: black; " +
-                        "-fx-padding: 5 10; " +
-                        "-fx-font-size: 14px;");
-
         editButton.setOnMouseEntered(event -> {
             ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), editButton);
             scaleTransition.setToX(1.1);
             scaleTransition.setToY(1.1);
+            scaleTransition.play();
+        });
+
+        editButton.setOnMouseExited(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), editButton);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
             scaleTransition.play();
         });
 
