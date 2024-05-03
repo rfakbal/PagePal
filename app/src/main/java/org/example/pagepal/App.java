@@ -38,6 +38,7 @@ public class App extends Application {
 
     Stage firstStage = new Stage();
     Stage infoStage = new Stage();
+    Stage secondStage = new Stage();
     VBox root = new VBox();
     Library lib = new Library();
     ListView<String> bookList = new ListView<>();
@@ -47,10 +48,11 @@ public class App extends Application {
 
     @SuppressWarnings("unlikely-arg-type")
 
+
     // BOTH FOR EDIT AND SAVE BOOK TAB
-    private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general
-                                                    // book information
-        Stage secondStage = new Stage();
+    private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general book information                                         
+
+
         VBox root = new VBox();
         HBox main = new HBox(20);
         root.setPrefSize(500, 550);
@@ -161,7 +163,7 @@ public class App extends Application {
                 boolean checkr = true;
                 boolean control = true;
                 String isbnText = isbnField.getText();
-                int rating = 0;
+                float rating = 0;
                 try {
                     if (!isbnText.equals("")) {
                         long isbn = Long.parseLong(isbnText);
@@ -181,7 +183,7 @@ public class App extends Application {
                 }
 
                 try {
-                    rating = Integer.parseInt(ratingField.getText());
+                    rating = Float.parseFloat(ratingField.getText());
                 } catch (NumberFormatException exc) {
                     checkr = false;
                 }
@@ -189,28 +191,21 @@ public class App extends Application {
                 if (ratingField.getText().isEmpty()) {
                     checkr = true;
                 }
-
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setHeaderText("Warning");
                 if (!checki) {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setHeaderText("Warning");
                     alert.setContentText("The ISBN you have entered has unknown characters.");
                     alert.setTitle("ISBN Error");
                     alert.showAndWait();
                 } else if (!control) {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setHeaderText("Warning");
                     alert.setContentText("The ISBN you have entered already exists or is of the wrong length.");
                     alert.setTitle("ISBN Error");
                     alert.showAndWait();
                 } else if (!checkr) {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setHeaderText("Warning");
                     alert.setContentText("The Rating you have entered has either unknown characters.");
                     alert.setTitle("Rating Error");
                     alert.showAndWait();
                 } else if (rating > 10 || rating < 0) {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setHeaderText("Warning");
                     alert.setContentText("The Rating you have entered is not between 0 and 10.");
                     alert.setTitle("Rating Error");
                     alert.showAndWait();
@@ -322,7 +317,7 @@ public class App extends Application {
                 boolean checkr = true;
                 boolean control = true;
                 String isbnText = isbnField.getText();
-                int rating = 0;
+                float rating = 0;
                 try {
                     if (!isbnText.equals("")) {
                         long isbn = Long.parseLong(isbnText);
@@ -342,7 +337,7 @@ public class App extends Application {
                 }
 
                 try {
-                    rating = Integer.parseInt(ratingField.getText());
+                    rating = Float.parseFloat(ratingField.getText());
                 } catch (NumberFormatException exc) {
                     checkr = false;
                 }
@@ -350,28 +345,21 @@ public class App extends Application {
                 if (ratingField.getText().isEmpty()) {
                     checkr = true;
                 }
-
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setHeaderText("Warning");
                 if (!checki) {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setHeaderText("Warning");
                     alert.setContentText("The ISBN you have entered has unknown characters.");
                     alert.setTitle("ISBN Error");
                     alert.showAndWait();
                 } else if (!control) {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setHeaderText("Warning");
                     alert.setContentText("The ISBN you have entered already exists or is of the wrong length.");
                     alert.setTitle("ISBN Error");
                     alert.showAndWait();
                 } else if (!checkr) {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setHeaderText("Warning");
                     alert.setContentText("The Rating you have entered has either unknown characters.");
                     alert.setTitle("Rating Error");
                     alert.showAndWait();
                 } else if (rating > 10 || rating < 0) {
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setHeaderText("Warning");
                     alert.setContentText("The Rating you have entered is not between 0 and 10.");
                     alert.setTitle("Rating Error");
                     alert.showAndWait();
@@ -409,6 +397,7 @@ public class App extends Application {
 
                     infoStage.close();
                     secondStage.close();
+                    searchResults(searchField.getText(), choiceBox.getValue());
                 }
             });
 
@@ -437,6 +426,7 @@ public class App extends Application {
 
     // DISPLAY BOOK TAB
     private void displayBookInfo(Book displayBook) {
+
         System.out.println(displayBook.getDate());
         VBox bookInfo = new VBox(10);
         HBox bookInfoHB = new HBox();
@@ -538,12 +528,12 @@ public class App extends Application {
             alert.setContentText("You are about to delete this book. Are you sure?");
             alert.setTitle("Warning");
             Optional<ButtonType> result = alert.showAndWait();
-
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 bookList.getItems().remove(displayBook);
                 lib.removeBook(displayBook);
                 searchResults(searchField.getText(), choiceBox.getValue());
                 infoStage.close();
+                searchResults(searchField.getText(), choiceBox.getValue());
             }
         });
 
@@ -725,6 +715,8 @@ public class App extends Application {
     public void start(Stage firstStage) {
         try {
             firstStage.getIcons().add(new Image("file:../app/icon.png"));
+            secondStage.getIcons().add(new Image("file:../app/icon.png"));
+            infoStage.getIcons().add(new Image("file:../app/icon.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -815,7 +807,28 @@ public class App extends Application {
                 lib.setLibraryBooks(toClear);
                 lib.setDisplayBooks(toClear);
             }
+            searchResults(searchField.getText(), choiceBox.getValue());
         });
+
+        
+        MenuItem clearDMenuItem = new MenuItem("Clear Displayed");
+        clearDMenuItem.setOnAction(e -> {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setHeaderText("Clear All");
+            alert.setContentText("You are about to clear displayed books. Are you sure?");
+            alert.setTitle("Warning");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                ArrayList<Book> libTemp = lib.getLibraryBooks();
+                ArrayList<Book> disTemp = lib.getDisplayBooks();
+                libTemp.removeAll(disTemp);
+                disTemp.clear();
+                lib.setDisplayBooks(disTemp);
+                lib.setLibraryBooks(libTemp);
+            }
+            searchResults(searchField.getText(), choiceBox.getValue());
+        });
+
 
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 
@@ -830,7 +843,7 @@ public class App extends Application {
         });
 
         fileMenu.getItems().addAll(
-                importMenuItem, exportMenuItem, createMenuItem, deleteMenuItem, clearMenuItem,
+                importMenuItem, exportMenuItem, createMenuItem, deleteMenuItem,clearDMenuItem, clearMenuItem,
                 separatorMenuItem, saveMenuItem,
                 saveAsMenuItem, separatorMenuItem2,
                 quitMenuItem);
@@ -922,7 +935,7 @@ public class App extends Application {
         root.getChildren().addAll(menuBar, firstLine, secondLine, thirdLine);
 
         firstStage.setMinHeight(450);
-        firstStage.setMinWidth(700);
+        firstStage.setMinWidth(930);
         Scene scene = new Scene(root,Color.BEIGE);
         firstStage.setScene(scene);
         firstStage.setTitle("PagePal");

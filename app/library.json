@@ -1,6 +1,6 @@
 [
 {
-  "title": "book3",
+  "title": "book31",
   "subTitle": "yes",
   "author": ["author3"],
   "translator": ["translator3"],
@@ -23,9 +23,9 @@
   "publisher": "publisher4",
   "edition": "3rd ed.",
   "language": "fr",
-  "rating": "3",
+  "rating": "6",
   "date": "2024-05-04",
-  "cover": "null"
+  "cover": ""
 },
 {
   "title": "book5",
@@ -296,28 +296,14 @@
 {
   "title": "topaneşişaen",
   "subTitle": "",
-  "author": [""],
+  "author": ["has","  one","  author","  xd"],
   "translator": [""],
   "tag": [""],
   "isbn": "3131313131313",
   "publisher": "",
   "edition": "",
   "language": "",
-  "rating": "6666",
-  "date": "null",
-  "cover": ""
-},
-{
-  "title": "fgt",
-  "subTitle": "",
-  "author": [""],
-  "translator": [""],
-  "tag": [""],
-  "isbn": "",
-  "publisher": "",
-  "edition": "",
-  "language": "",
-  "rating": "4",
+  "rating": "6.734",
   "date": "null",
   "cover": ""
 }
