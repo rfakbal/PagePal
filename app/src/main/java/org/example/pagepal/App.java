@@ -127,8 +127,10 @@ public class App extends Application {
                 }
             }
         });
-
-        VBox vbox = new VBox(tagListView, newTagField, addButton, deleteButton);
+        HBox forButtons = new HBox(10);
+        forButtons.getChildren().addAll(addButton, deleteButton);
+        forButtons.setAlignment(Pos.CENTER);
+        VBox vbox = new VBox(tagListView, newTagField, forButtons);
         Scene scene = new Scene(vbox, 300, 200);
         tagStage.setScene(scene);
 
@@ -1040,7 +1042,7 @@ public class App extends Application {
 
         firstLine.getChildren().addAll(labelPage, labelPal);
         secondLine.getChildren().addAll(searchField, searchByLabel, choiceBox);
-        thirdLine.getChildren().addAll(searchButton, addButton,tagsButton);
+        thirdLine.getChildren().addAll(tagsButton, searchButton, addButton);
 
         root.getChildren().addAll(menuBar, firstLine, secondLine, thirdLine);
 
