@@ -39,6 +39,7 @@ public class App extends Application {
     Stage firstStage = new Stage();
     Stage infoStage = new Stage();
     Stage secondStage = new Stage();
+    Stage manualStage = new Stage();
     VBox root = new VBox();
     Library lib = new Library();
     ListView<String> bookList = new ListView<>();
@@ -101,7 +102,7 @@ public class App extends Application {
         FileChooser coverChooser = new FileChooser();
         coverChooser.setTitle("Choose file");
         coverChoose.setOnAction(e -> {
-            File selectedCover = coverChooser.showOpenDialog(null);
+        File selectedCover = coverChooser.showOpenDialog(null);
             if (selectedCover != null) {
                 pathOfCover.append(selectedCover.getAbsolutePath().replace('\\', '/'));
                 System.out.println(pathOfCover);
@@ -230,6 +231,8 @@ public class App extends Application {
                             tagList, isbnField.getText(), publisherField.getText(), convertedDate,
                             editionField.getText(), languageField.getText(), ratingField.getText(),
                             pathOfCover.toString()));
+
+                    searchResults(searchField.getText(), choiceBox.getValue());
                     pathOfCover.setLength(0);
                     secondStage.close();
                 }
@@ -438,15 +441,17 @@ public class App extends Application {
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
         imageView.setImage(null);
-        if (displayBook.getCover() != null && !displayBook.getCover().equals("null")) {
+        System.out.println(displayBook.getCover());
+        if (displayBook.getCover() != null && !displayBook.getCover().equals("null") && !displayBook.getCover().equals("")) {
             try (FileInputStream im = new FileInputStream(displayBook.getCover())) {
                 Image imm = new Image(im);
                 imageView.setImage(imm);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        } else { // TODO buraya default resim path'i girilecek.
-            imageView.setImage(null);
+        } else { 
+            Image imm = new Image("file:../app/cat.jpg");
+            imageView.setImage(imm);
         }
         leftVBox.getChildren().add(imageView);
 
@@ -655,7 +660,6 @@ public class App extends Application {
     }
 
     public void showManual() {
-        Stage manualStage = new Stage();
         VBox root = new VBox(10);
         root.setPadding(new Insets(10));
 
@@ -717,6 +721,7 @@ public class App extends Application {
             firstStage.getIcons().add(new Image("file:../app/icon.png"));
             secondStage.getIcons().add(new Image("file:../app/icon.png"));
             infoStage.getIcons().add(new Image("file:../app/icon.png"));
+            manualStage.getIcons().add(new Image("file:../app/icon.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }

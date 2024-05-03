@@ -17,7 +17,7 @@
   "title": "book4",
   "subTitle": "no",
   "author": ["author4"],
-  "translator": ["translator4"],
+  "translator": ["translator4","translator31"],
   "tag": ["mystery"],
   "isbn": "9876543210123",
   "publisher": "publisher4",
@@ -107,9 +107,9 @@
   "publisher": "publisher10",
   "edition": "2nd ed.",
   "language": "es",
-  "rating": "3",
+  "rating": "7",
   "date": "2024-05-10",
-  "cover": "null"
+  "cover": ""
 },
 {
   "title": "book11",
@@ -304,6 +304,34 @@
   "edition": "",
   "language": "",
   "rating": "6.734",
+  "date": "null",
+  "cover": ""
+},
+{
+  "title": "a",
+  "subTitle": "",
+  "author": [""],
+  "translator": [""],
+  "tag": [""],
+  "isbn": "",
+  "publisher": "",
+  "edition": "",
+  "language": "",
+  "rating": "",
+  "date": "null",
+  "cover": ""
+},
+{
+  "title": "b",
+  "subTitle": "",
+  "author": [""],
+  "translator": [""],
+  "tag": [""],
+  "isbn": "",
+  "publisher": "",
+  "edition": "",
+  "language": "",
+  "rating": "",
   "date": "null",
   "cover": ""
 }
