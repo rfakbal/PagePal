@@ -82,10 +82,18 @@ public class Library {
                 }
             } else if ("Date".contains(type)) {
                 for (Book book : libraryBooks) {
-                    if (book.getDate().contains(input)) {
-                        displayBooks.add(book);
+                    String[] toCheck = book.getDate().split("-");
+                    if (input.startsWith("-") && input.length() == 3 && !book.getDate().equals("null")) { // when date is being searched like -xx, it searches only day.
+                        System.out.println(toCheck[2]);
+                        if (input.contains(toCheck[2])) {
+                            displayBooks.add(book);
+                        }
+                    } else {
+                        if (book.getDate().contains(input)) {
+                            displayBooks.add(book);
+                        }
+                        }
                     }
-                }
             }else if ("Edition".contains(type)) {
                 for (Book book : libraryBooks) {
                     if (book.getEdition().contains(input)) {
@@ -169,10 +177,18 @@ public class Library {
                 }
             } else if ("Date".contains(type)) {
                 for (Book book : searchedByTags) {
-                    if (book.getDate().contains(input)) {
-                        displayBooks.add(book);
+                    String[] toCheck = book.getDate().split("-");
+                    if (input.startsWith("-") && input.length() == 3 && !book.getDate().equals("null")) { // when date is being searched like -xx, it searches only day.
+                        System.out.println(toCheck[2]);
+                        if (input.contains(toCheck[2])) {
+                            displayBooks.add(book);
+                        }
+                    } else {
+                        if (book.getDate().contains(input)) {
+                            displayBooks.add(book);
+                        }
+                        }
                     }
-                }
             }else if ("Edition".contains(type)) {
                 for (Book book : searchedByTags) {
                     if (book.getEdition().contains(input)) {

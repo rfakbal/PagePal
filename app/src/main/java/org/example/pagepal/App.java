@@ -170,13 +170,11 @@ public class App extends Application {
         });
 
         tagListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        // ObservableList<String> selectedTags =
-        // tagListView.getSelectionModel().getSelectedItems();
-
         HBox forButtons = new HBox(10);
         forButtons.getChildren().addAll(searchButton, addButton, deleteButton, listTags);
         forButtons.setAlignment(Pos.CENTER);
         VBox vbox = new VBox(tagListView, newTagField, forButtons);
+        vbox.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
         Scene scene = new Scene(vbox, 300, 200);
         tagStage.setScene(scene);
 
@@ -184,10 +182,10 @@ public class App extends Application {
     }
 
     // BOTH FOR EDIT AND SAVE BOOK TAB
-    private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general
-                                                    // book information
+    private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general book information
 
         VBox root = new VBox();
+        root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
         HBox main = new HBox(20);
         root.setPrefSize(500, 550);
 
@@ -551,7 +549,7 @@ public class App extends Application {
                     saveButton);
             main.getChildren().addAll(leftBox, rightBox);
             root.getChildren().addAll(main);
-
+            root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
             Scene scene = new Scene(root);
             secondStage.setScene(scene);
             secondStage.setTitle("Edit Book");
@@ -803,6 +801,7 @@ public class App extends Application {
 
     public void showManual() {
         VBox root = new VBox(10);
+        root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
         root.setPadding(new Insets(10));
 
         Label welcomeLabel = new Label("Welcome to PagePal.");
