@@ -746,10 +746,10 @@ public class App extends Application {
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
 
         TableColumn<?, ?>[] columns = {
-                titleColumn, subtitleColumn, authorsColumn, translatorsColumn, isbnColumn, publisherColumn,
-                dateColumn, editionColumn, languageColumn,tagsColumn, ratingColumn
+                titleColumn, isbnColumn,
+                dateColumn, editionColumn, ratingColumn
         };
-        adjustSize(bookTable, columns, 0.0895);
+        adjustSize(bookTable, columns, 0.2);
 
         bookTable.getColumns().setAll(titleColumn,isbnColumn, dateColumn, editionColumn, ratingColumn);
 
