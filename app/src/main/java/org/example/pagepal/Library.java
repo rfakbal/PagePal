@@ -19,92 +19,183 @@ public class Library {
     private String filePath;
 
     // public void edit(Book book) { }
-    public ArrayList<Book> searchBook(String input, String type) {
+    public ArrayList<Book> searchBook(String input, String type, Boolean listByTags) {
         displayBooks.clear(); // Önceki aramaların sonuçlarını temizle
-        if("All Books".contains(type)){
-            for(Book book : libraryBooks){
-                displayBooks.add(book);
+
+        if(!listByTags){
+            if("All Books".contains(type)){
+                for(Book book : libraryBooks){
+                    displayBooks.add(book);
+                }
+            }
+            if ("Title".contains(type)) {
+                for (Book book : libraryBooks) {
+                    if (book.getTitle().contains(input)) {
+                        displayBooks.add(book);
+                    }
+                }
+            } else if ("Subtitle".contains(type)) {
+                for (Book book : libraryBooks) {
+                    if (book.getSubTitle().contains(input)) {
+                        displayBooks.add(book);
+                    }
+                }
+            } else if ("Author".contains(type)) {
+                for (Book book : libraryBooks) {
+                    for (String author : book.getAuthor()) {
+                        if (author.contains(input)) {
+                            displayBooks.add(book);
+                            break; // İç içe döngüden çık
+                        }
+                    }
+                }
+            } else if ("Translator".contains(type)) {
+                for (Book book : libraryBooks) {
+                    for (String translator : book.getTranslator()) {
+                        if (translator.contains(input)) {
+                            displayBooks.add(book);
+                            break; // İç içe döngüden çık
+                        }
+                    }
+                }
+            } else if ("Tag".contains(type)) {
+                for (Book book : libraryBooks) {
+                    for (String tag : book.getTag()) {
+                        if (tag.contains(input)) {
+                            displayBooks.add(book);
+                            break; // İç içe döngüden çık
+                        }
+                    }
+                }
+            } else if ("ISBN".contains(type)) {
+                for (Book book : libraryBooks) {
+                    if (book.getIsbn().contains(input)) {
+                        displayBooks.add(book);
+                        break;
+                    }
+                }
+            } else if ("Publisher".contains(type)) {
+                for (Book book : libraryBooks) {
+                    if (book.getPublisher().contains(input)) {
+                        displayBooks.add(book);
+                    }
+                }
+            } else if ("Date".contains(type)) {
+                for (Book book : libraryBooks) {
+                    if (book.getDate().contains(input)) {
+                        displayBooks.add(book);
+                    }
+                }
+            }else if ("Edition".contains(type)) {
+                for (Book book : libraryBooks) {
+                    if (book.getEdition().contains(input)) {
+                        displayBooks.add(book);
+                    }
+                }
+            } else if ("Language".contains(type)) {
+                for (Book book : libraryBooks) {
+                    if (book.getLanguage().contains(input)) {
+                        displayBooks.add(book);
+                    }
+                }
+            } else if ("Rating".contains(type)) {
+                for (Book book : libraryBooks) {
+                    if (book.getRating().contains(input)) {
+                        displayBooks.add(book);
+                    }
+                }
+            } else {
+                System.out.println("Geçersiz arama türü: " + type);
             }
         }
-        if ("Title".contains(type)) {
-            for (Book book : libraryBooks) {
-                if (book.getTitle().contains(input)) {
+
+        else{
+            if("All Books".contains(type)){
+                for(Book book : searchedByTags){
                     displayBooks.add(book);
                 }
             }
-        } else if ("Subtitle".contains(type)) {
-            for (Book book : libraryBooks) {
-                if (book.getSubTitle().contains(input)) {
-                    displayBooks.add(book);
-                }
-            }
-        } else if ("Author".contains(type)) {
-            for (Book book : libraryBooks) {
-                for (String author : book.getAuthor()) {
-                    if (author.contains(input)) {
+            if ("Title".contains(type)) {
+                for (Book book : searchedByTags) {
+                    if (book.getTitle().contains(input)) {
                         displayBooks.add(book);
-                        break; // İç içe döngüden çık
                     }
                 }
-            }
-        } else if ("Translator".contains(type)) {
-            for (Book book : libraryBooks) {
-                for (String translator : book.getTranslator()) {
-                    if (translator.contains(input)) {
+            } else if ("Subtitle".contains(type)) {
+                for (Book book : searchedByTags) {
+                    if (book.getSubTitle().contains(input)) {
                         displayBooks.add(book);
-                        break; // İç içe döngüden çık
                     }
                 }
-            }
-        } else if ("Tag".contains(type)) {
-            for (Book book : libraryBooks) {
-                for (String tag : book.getTag()) {
-                    if (tag.contains(input)) {
-                        displayBooks.add(book);
-                        break; // İç içe döngüden çık
+            } else if ("Author".contains(type)) {
+                for (Book book : searchedByTags) {
+                    for (String author : book.getAuthor()) {
+                        if (author.contains(input)) {
+                            displayBooks.add(book);
+                            break; // İç içe döngüden çık
+                        }
                     }
                 }
-            }
-        } else if ("ISBN".contains(type)) {
-            for (Book book : libraryBooks) {
-                if (book.getIsbn().contains(input)) {
-                    displayBooks.add(book);
-                    break;
+            } else if ("Translator".contains(type)) {
+                for (Book book : searchedByTags) {
+                    for (String translator : book.getTranslator()) {
+                        if (translator.contains(input)) {
+                            displayBooks.add(book);
+                            break; // İç içe döngüden çık
+                        }
+                    }
                 }
-            }
-        } else if ("Publisher".contains(type)) {
-            for (Book book : libraryBooks) {
-                if (book.getPublisher().contains(input)) {
-                    displayBooks.add(book);
+            } else if ("Tag".contains(type)) {
+                for (Book book : searchedByTags) {
+                    for (String tag : book.getTag()) {
+                        if (tag.contains(input)) {
+                            displayBooks.add(book);
+                            break; // İç içe döngüden çık
+                        }
+                    }
                 }
-            }
-        } else if ("Date".contains(type)) {
-            for (Book book : libraryBooks) {
-                if (book.getDate().contains(input)) {
-                    displayBooks.add(book);
+            } else if ("ISBN".contains(type)) {
+                for (Book book : searchedByTags) {
+                    if (book.getIsbn().contains(input)) {
+                        displayBooks.add(book);
+                        break;
+                    }
                 }
-            }
-        }else if ("Edition".contains(type)) {
-            for (Book book : libraryBooks) {
-                if (book.getEdition().contains(input)) {
-                    displayBooks.add(book);
+            } else if ("Publisher".contains(type)) {
+                for (Book book : searchedByTags) {
+                    if (book.getPublisher().contains(input)) {
+                        displayBooks.add(book);
+                    }
                 }
-            }
-        } else if ("Language".contains(type)) {
-            for (Book book : libraryBooks) {
-                if (book.getLanguage().contains(input)) {
-                    displayBooks.add(book);
+            } else if ("Date".contains(type)) {
+                for (Book book : searchedByTags) {
+                    if (book.getDate().contains(input)) {
+                        displayBooks.add(book);
+                    }
                 }
-            }
-        } else if ("Rating".contains(type)) {
-            for (Book book : libraryBooks) {
-                if (book.getRating().contains(input)) {
-                    displayBooks.add(book);
+            }else if ("Edition".contains(type)) {
+                for (Book book : searchedByTags) {
+                    if (book.getEdition().contains(input)) {
+                        displayBooks.add(book);
+                    }
                 }
+            } else if ("Language".contains(type)) {
+                for (Book book : searchedByTags) {
+                    if (book.getLanguage().contains(input)) {
+                        displayBooks.add(book);
+                    }
+                }
+            } else if ("Rating".contains(type)) {
+                for (Book book : searchedByTags) {
+                    if (book.getRating().contains(input)) {
+                        displayBooks.add(book);
+                    }
+                }
+            } else {
+                System.out.println("Geçersiz arama türü: " + type);
             }
-        } else {
-            System.out.println("Geçersiz arama türü: " + type);
         }
+        
         return displayBooks;
     }
     /*
@@ -207,12 +298,12 @@ public class Library {
         this.filePath = filePath;
     }
 
-    public void setTags(ArrayList<Book> searchedByTags) {
+    public void setSearchedByTags(ArrayList<Book> searchedByTags) {
         this.searchedByTags = searchedByTags;
     }
 
     // searchedByTags ArrayList'ini getirmek için metot
-    public ArrayList<Book> getTags() {
+    public ArrayList<Book> getSearchedByTags() {
         return searchedByTags;
     }
 

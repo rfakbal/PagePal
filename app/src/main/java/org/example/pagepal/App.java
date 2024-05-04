@@ -48,14 +48,17 @@ public class App extends Application {
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
     ListView<String> tagListView = new ListView<>();
+    Boolean listedByTags = false;
+    HBox thirdLine = new HBox();
+    Button deListButton = new Button("Delist By Tags");
 
     @SuppressWarnings("unlikely-arg-type")
 
-    public void displayTagsMenu()  {
+    public void displayTagsMenu() {
         tagListView.getItems().clear();
         TextField newTagField = new TextField();
-        for(Book book: lib.getLibraryBooks()){
-            for(String tag : book.getTag()){
+        for (Book book : lib.getLibraryBooks()) {
+            for (String tag : book.getTag()) {
                 tagList.add(tag);
             }
         }
@@ -71,23 +74,21 @@ public class App extends Application {
         tagList.clear();
         tagList.addAll(nonDuplicates);
 
-        for(String tag : tagList){
-            if(tag.equals("")){
+        for (String tag : tagList) {
+            if (tag.equals("")) {
                 tagList.remove(tag);
             }
         }
 
         tagListView.getItems().addAll(tagList);
 
-
         newTagField.setPromptText("Add New Tag or Search Tag");
-       
+
         Button addButton = new Button("Add");
-        Button applyButton = new Button("Apply");
         Button searchButton = new Button("Search");
         searchButton.setOnAction(e -> {
             ArrayList<String> found = new ArrayList<>();
-            for(String tag : tagList) {
+            for (String tag : tagList) {
                 if (tag.contains(newTagField.getText())) {
                     found.add(tag);
                 }
@@ -95,11 +96,37 @@ public class App extends Application {
                 tagListView.getItems().addAll(found);
             }
 
-
-
         });
-        
-        
+
+        Button listTags = new Button("List By Tags");
+        listTags.setOnAction(e -> {
+            ObservableList<String> Obs = tagListView.getSelectionModel().getSelectedItems();
+            ArrayList<Book> tempBookList = new ArrayList<>();
+            ArrayList<Book> libraryClone = new ArrayList<>(lib.getLibraryBooks());
+
+            for (String tag : Obs) {
+                ArrayList<Book> tempBooksToRemove = new ArrayList<>(); 
+                for (Book book : libraryClone) {
+                    for (String tempTag : book.getTag()) {
+                        if (tempTag.equals(tag)) {
+                            tempBookList.add(book);
+                            tempBooksToRemove.add(book); 
+                            break; 
+                        }
+                    }
+                }
+                libraryClone.removeAll(tempBooksToRemove);
+            }
+
+            lib.setSearchedByTags(tempBookList);
+            listedByTags = true;
+            searchResults("","All Books");
+            if (listedByTags) {
+                thirdLine.getChildren().add(deListButton);
+            }
+            tagStage.close();
+        });
+
         addButton.setOnAction(e -> {
             Alert tagAlert = new Alert(AlertType.WARNING);
             tagAlert.setHeaderText("Warning");
@@ -107,25 +134,24 @@ public class App extends Application {
             boolean addToList = true;
             String newTag = newTagField.getText().trim();
             if (!newTag.isEmpty()) {
-                for(String tag : tagList){
-                    if(tag.equals(newTag)){
+                for (String tag : tagList) {
+                    if (tag.equals(newTag)) {
                         addToList = false;
                     }
                 }
-                if(addToList){
+                if (addToList) {
                     tagListView.getItems().add(newTag);
                     tagList.add(newTag);
                     newTagField.clear();
-                }
-                else{
+                } else {
                     tagAlert.setContentText("The Tag you have entered is already defined try to add another tag.");
                     tagAlert.setTitle("Tag Error");
                     tagAlert.showAndWait();
                 }
-                
+
             }
         });
-        
+
         Button deleteButton = new Button("Remove");
         deleteButton.setOnAction(e -> {
             int selectedIndex = tagListView.getSelectionModel().getSelectedIndex();
@@ -133,9 +159,9 @@ public class App extends Application {
                 String tag = tagListView.getItems().get(selectedIndex);
                 tagListView.getItems().remove(selectedIndex);
                 tagList.remove(tag);
-                for(Book book : lib.getLibraryBooks()){
-                    for(String bookTag : book.getTag()){
-                        if(tag.equals(bookTag)){
+                for (Book book : lib.getLibraryBooks()) {
+                    for (String bookTag : book.getTag()) {
+                        if (tag.equals(bookTag)) {
                             book.getTag().remove(tag);
                         }
                     }
@@ -144,10 +170,11 @@ public class App extends Application {
         });
 
         tagListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        ObservableList<String> selectedTags = tagListView.getSelectionModel().getSelectedItems();
+        // ObservableList<String> selectedTags =
+        // tagListView.getSelectionModel().getSelectedItems();
 
         HBox forButtons = new HBox(10);
-        forButtons.getChildren().addAll(searchButton , addButton , deleteButton);
+        forButtons.getChildren().addAll(searchButton, addButton, deleteButton, listTags);
         forButtons.setAlignment(Pos.CENTER);
         VBox vbox = new VBox(tagListView, newTagField, forButtons);
         Scene scene = new Scene(vbox, 300, 200);
@@ -157,8 +184,8 @@ public class App extends Application {
     }
 
     // BOTH FOR EDIT AND SAVE BOOK TAB
-    private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general book information                                         
-
+    private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general
+                                                    // book information
 
         VBox root = new VBox();
         HBox main = new HBox(20);
@@ -208,7 +235,7 @@ public class App extends Application {
         FileChooser coverChooser = new FileChooser();
         coverChooser.setTitle("Choose file");
         coverChoose.setOnAction(e -> {
-        File selectedCover = coverChooser.showOpenDialog(null);
+            File selectedCover = coverChooser.showOpenDialog(null);
             if (selectedCover != null) {
                 pathOfCover.append(selectedCover.getAbsolutePath().replace('\\', '/'));
                 System.out.println(pathOfCover);
@@ -540,17 +567,18 @@ public class App extends Application {
         VBox leftBox = new VBox(10);
         VBox rightBox = new VBox(10);
         VBox bottomVBox = new VBox(10);
-       
+
         ImageView imageView = new ImageView();
         HBox forImage = new HBox(10);
         forImage.getChildren().addAll(imageView);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-        imageView.fitWidthProperty().bind(infoStage.widthProperty().multiply(0.5)); 
-        imageView.fitHeightProperty().bind(infoStage.heightProperty().multiply(0.9)); 
+        imageView.fitWidthProperty().bind(infoStage.widthProperty().multiply(0.5));
+        imageView.fitHeightProperty().bind(infoStage.heightProperty().multiply(0.9));
         imageView.setImage(null);
-        System.out.println(displayBook.getCover()); 
-        if (displayBook.getCover() != null && !displayBook.getCover().equals("null") && !displayBook.getCover().equals("")) {
+        System.out.println(displayBook.getCover());
+        if (displayBook.getCover() != null && !displayBook.getCover().equals("null")
+                && !displayBook.getCover().equals("")) {
             try (FileInputStream im = new FileInputStream(displayBook.getCover())) {
                 Image imm = new Image(im);
                 imageView.setImage(imm);
@@ -558,12 +586,11 @@ public class App extends Application {
                 Image imm = new Image("file:../app/cat.jpg");
                 imageView.setImage(imm);
             }
-        } else { 
+        } else {
             Image imm = new Image("file:../app/cat.jpg");
             imageView.setImage(imm);
         }
         leftBox.getChildren().add(forImage);
-
 
         Label titleLabel = new Label(displayBook.getTitle());
         titleLabel.setFont(new Font(20.0));
@@ -595,11 +622,10 @@ public class App extends Application {
             rightBox.getChildren().add(labels);
         }
 
-
         HBox buttonHBox = new HBox();
         buttonHBox.setAlignment(Pos.BOTTOM_CENTER);
 
-        //VBox.setMargin(buttonHBox, new Insets(0, 15, 0, 0));
+        // VBox.setMargin(buttonHBox, new Insets(0, 15, 0, 0));
         bottomVBox.getChildren().addAll(buttonHBox);
 
         Button deleteButton = new Button("Delete Book");
@@ -667,7 +693,7 @@ public class App extends Application {
         editButton.setMnemonicParsing(false);
         editButton.setPrefWidth(100);
         editButton.setOnAction(e -> genBookInfo(displayBook, 1));
-        buttonHBox.getChildren().addAll(deleteButton,editButton);
+        buttonHBox.getChildren().addAll(deleteButton, editButton);
 
         topBox.getChildren().addAll(leftBox, rightBox);
 
@@ -678,26 +704,22 @@ public class App extends Application {
         leftBox.setAlignment(Pos.CENTER);
         topBox.setAlignment(Pos.CENTER);
 
-        mainBox.getChildren().addAll(topBox,bottomVBox);
+        mainBox.getChildren().addAll(topBox, bottomVBox);
 
+        // HBox.setMargin(editVBox, new Insets(0, 0, 0, 120));
 
-        //HBox.setMargin(editVBox, new Insets(0, 0, 0, 120));
-
-
-
-
-
-        /* 
-        VBox.setVgrow(imageView, Priority.ALWAYS);
-        VBox.setVgrow(leftBox, Priority.ALWAYS);
-        VBox.setVgrow(bottomVBox, Priority.ALWAYS);
-        HBox.setHgrow(imageView, Priority.ALWAYS);
-        HBox.setHgrow(leftBox, Priority.ALWAYS);
-        HBox.setHgrow(bottomVBox, Priority.ALWAYS);*/
+        /*
+         * VBox.setVgrow(imageView, Priority.ALWAYS);
+         * VBox.setVgrow(leftBox, Priority.ALWAYS);
+         * VBox.setVgrow(bottomVBox, Priority.ALWAYS);
+         * HBox.setHgrow(imageView, Priority.ALWAYS);
+         * HBox.setHgrow(leftBox, Priority.ALWAYS);
+         * HBox.setHgrow(bottomVBox, Priority.ALWAYS);
+         */
 
         VBox.setVgrow(mainBox, Priority.ALWAYS);
         HBox.setHgrow(mainBox, Priority.ALWAYS);
-        
+
         infoStage.setWidth(500);
         infoStage.setHeight(425);
 
@@ -712,6 +734,7 @@ public class App extends Application {
         if (input == null || type == null) {
             return;
         }
+        bookTable.setVisible(true);
         TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
@@ -751,10 +774,10 @@ public class App extends Application {
         };
         adjustSize(bookTable, columns, 0.2);
 
-        bookTable.getColumns().setAll(titleColumn,isbnColumn, dateColumn, editionColumn, ratingColumn);
+        bookTable.getColumns().setAll(titleColumn, isbnColumn, dateColumn, editionColumn, ratingColumn);
 
         bookTable.getItems().clear();
-        lib.setDisplayBooks(lib.searchBook(input, type));
+        lib.setDisplayBooks(lib.searchBook(input, type, listedByTags));
         bookTable.getItems().addAll(lib.getDisplayBooks());
 
         if (!root.getChildren().contains(bookTable)) {
@@ -935,7 +958,6 @@ public class App extends Application {
             searchResults(searchField.getText(), choiceBox.getValue());
         });
 
-        
         MenuItem clearDMenuItem = new MenuItem("Clear Displayed");
         clearDMenuItem.setOnAction(e -> {
             Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -954,7 +976,6 @@ public class App extends Application {
             searchResults(searchField.getText(), choiceBox.getValue());
         });
 
-
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 
         MenuItem saveMenuItem = new MenuItem("Save");
@@ -968,7 +989,7 @@ public class App extends Application {
         });
 
         fileMenu.getItems().addAll(
-                importMenuItem, exportMenuItem, createMenuItem, deleteMenuItem,clearDMenuItem, clearMenuItem,
+                importMenuItem, exportMenuItem, createMenuItem, deleteMenuItem, clearDMenuItem, clearMenuItem,
                 separatorMenuItem, saveMenuItem,
                 saveAsMenuItem, separatorMenuItem2,
                 quitMenuItem);
@@ -1001,7 +1022,6 @@ public class App extends Application {
         HBox secondLine = new HBox(8);
         secondLine.setAlignment(Pos.CENTER);
 
-        HBox thirdLine = new HBox();
         thirdLine.setSpacing(10);
         thirdLine.setAlignment(Pos.CENTER);
 
@@ -1017,7 +1037,8 @@ public class App extends Application {
         searchField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         searchField.setStyle("-fx-background-radius: 35;");
 
-        searchField.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID, new CornerRadii(35), BorderStroke.THIN)));
+        searchField.setBorder(new Border(
+                new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, new CornerRadii(35), BorderStroke.THIN)));
 
         HBox.setHgrow(searchField, Priority.ALWAYS);
 
@@ -1049,7 +1070,17 @@ public class App extends Application {
         tagsButton.setFont(new Font(14));
         tagsButton.setPrefSize(100.0, 45.0);
 
-        tagsButton.setOnAction(e-> displayTagsMenu());
+        tagsButton.setOnAction(e -> displayTagsMenu());
+
+        deListButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
+        deListButton.setFont(new Font(14));
+        deListButton.setPrefSize(100.0, 45.0);
+        deListButton.setOnAction(e -> {
+            listedByTags = false;
+            thirdLine.getChildren().remove(deListButton);
+            bookTable.setVisible(false);
+        });
+
         root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff);");
         VBox.setMargin(firstLine, new Insets(10));
         VBox.setMargin(secondLine, new Insets(10));
@@ -1067,7 +1098,7 @@ public class App extends Application {
 
         firstStage.setHeight(480);
         firstStage.setWidth(1050);
-        Scene scene = new Scene(root,Color.BEIGE);
+        Scene scene = new Scene(root, Color.BEIGE);
         firstStage.setScene(scene);
         firstStage.setTitle("PagePal");
         firstStage.show();
