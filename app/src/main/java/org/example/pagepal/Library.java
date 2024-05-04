@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,6 +15,7 @@ import java.io.IOException;
 public class Library {
     private ArrayList<Book> libraryBooks = new ArrayList<>();
     private ArrayList<Book> displayBooks = new ArrayList<>();
+    private ArrayList<Book> searchedByTags = new ArrayList<>();
     private String filePath;
 
     // public void edit(Book book) { }
@@ -101,9 +105,25 @@ public class Library {
         } else {
             System.out.println("Geçersiz arama türü: " + type);
         }
-
         return displayBooks;
     }
+    /*
+    public void searchTags(ObservableList<String> selectedTags){
+        ArrayList<Book> temp = new ArrayList<>();
+            for(String tags : selectedTags) {
+                for (Book book : displayBooks) {
+                    for (String tag : book.getTag()) {
+                        if (tag.contains(tags)) {
+                            temp.add(book);
+                            searchedByTags.add(book);
+                        }
+                    }
+                }
+            }
+        
+        displayBooks = temp;
+    }
+    */
 
     public void addBook(Book book) {
         libraryBooks.add(book);
@@ -185,6 +205,15 @@ public class Library {
 
     public void setFilePath(String filePath){
         this.filePath = filePath;
+    }
+
+    public void setTags(ArrayList<Book> searchedByTags) {
+        this.searchedByTags = searchedByTags;
+    }
+
+    // searchedByTags ArrayList'ini getirmek için metot
+    public ArrayList<Book> getTags() {
+        return searchedByTags;
     }
 
 }

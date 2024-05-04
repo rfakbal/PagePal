@@ -80,9 +80,24 @@ public class App extends Application {
         tagListView.getItems().addAll(tagList);
 
 
-        newTagField.setPromptText("Add New Tag");
+        newTagField.setPromptText("Add New Tag or Search Tag");
        
         Button addButton = new Button("Add");
+        Button applyButton = new Button("Apply");
+        Button searchButton = new Button("Search");
+        searchButton.setOnAction(e -> {
+            ArrayList<String> found = new ArrayList<>();
+            for(String tag : tagList) {
+                if (tag.contains(newTagField.getText())) {
+                    found.add(tag);
+                }
+                tagListView.getItems().clear();
+                tagListView.getItems().addAll(found);
+            }
+
+
+
+        });
         
         
         addButton.setOnAction(e -> {
@@ -127,8 +142,12 @@ public class App extends Application {
                 }
             }
         });
+
+        tagListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        ObservableList<String> selectedTags = tagListView.getSelectionModel().getSelectedItems();
+
         HBox forButtons = new HBox(10);
-        forButtons.getChildren().addAll(addButton, deleteButton);
+        forButtons.getChildren().addAll(searchButton , addButton , deleteButton);
         forButtons.setAlignment(Pos.CENTER);
         VBox vbox = new VBox(tagListView, newTagField, forButtons);
         Scene scene = new Scene(vbox, 300, 200);
@@ -823,6 +842,7 @@ public class App extends Application {
             secondStage.getIcons().add(new Image("file:../app/icon.png"));
             infoStage.getIcons().add(new Image("file:../app/icon.png"));
             manualStage.getIcons().add(new Image("file:../app/icon.png"));
+            tagStage.getIcons().add(new Image("file:../app/icon.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
