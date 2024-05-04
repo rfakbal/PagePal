@@ -732,8 +732,7 @@ public class App extends Application {
         };
         adjustSize(bookTable, columns, 0.0895);
 
-        bookTable.getColumns().setAll(titleColumn, subtitleColumn, authorsColumn, translatorsColumn, isbnColumn,
-                publisherColumn, dateColumn, editionColumn, languageColumn,tagsColumn, ratingColumn);
+        bookTable.getColumns().setAll(titleColumn,isbnColumn, dateColumn, editionColumn, ratingColumn);
 
         bookTable.getItems().clear();
         lib.setDisplayBooks(lib.searchBook(input, type));
