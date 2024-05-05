@@ -196,6 +196,7 @@ public class App extends Application {
     private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general book information
 
         VBox root = new VBox();
+        Scene scene = new Scene(root);
         root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
         HBox main = new HBox(20);
         root.setPrefSize(500, 550);
@@ -215,31 +216,55 @@ public class App extends Application {
 
         TextField titleField = new TextField();
         titleField.setPrefWidth(180);
+        titleField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        titleField.setStyle("-fx-background-radius: 5;");
+        titleField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label authorLabel = new Label("Author/Authors");
         authorLabel.setFont(new Font(25));
 
         TextField authorField = new TextField();
+        authorField.setPromptText("Enter multiple using (,)");
         authorField.setPrefWidth(180);
+        authorField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        authorField.setStyle("-fx-background-radius: 5;");
+        authorField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label isbnLabel = new Label("ISBN");
         isbnLabel.setFont(new Font(25));
 
         TextField isbnField = new TextField();
+        isbnField.setPromptText("Enter a 13 digit number.");
         isbnField.setPrefWidth(180);
+        isbnField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        isbnField.setStyle("-fx-background-radius: 5;");
+        isbnField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
+
 
         Label dateLabel = new Label("Date");
         dateLabel.setFont(new Font(25));
 
         DatePicker datepPicker = new DatePicker();
+        datepPicker.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        datepPicker.setStyle("-fx-background-radius: 5;");
+        datepPicker.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
+        
         // For cover path selecting and making it compatible with java
         HBox coverBox = new HBox(8);
         StringBuilder pathOfCover = new StringBuilder();
         Label coverLabel = new Label("Cover");
         coverLabel.setFont(new Font(25));
         Button coverChoose = new Button("Choose file");
+        coverChoose.setStyle(
+            "-fx-background-color: #4CAF50; " +
+                    "-fx-background-radius: 5; " +
+                    "-fx-text-fill: white; ");
         Button coverDelete = new Button("Delete cover");
+        coverDelete.setStyle(
+            "-fx-background-color: #ff3333; " +
+                    "-fx-background-radius: 5; " +
+                    "-fx-text-fill: white; ");
         coverBox.getChildren().addAll(coverChoose, coverDelete);
         FileChooser coverChooser = new FileChooser();
         coverChooser.setTitle("Choose file");
@@ -264,7 +289,12 @@ public class App extends Application {
         ratingLabel.setFont(new Font(25));
 
         TextField ratingField = new TextField();
+        ratingField.setPromptText("Enter a value between 0-10");
         ratingField.setPrefWidth(180);
+        ratingField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        ratingField.setStyle("-fx-background-radius: 5;");
+        ratingField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
+
 
         // RIGHT/////////////////////////////////////////////////////
         Label subtitle = new Label("Subtitle");
@@ -272,36 +302,61 @@ public class App extends Application {
 
         TextField subtitleField = new TextField();
         subtitleField.setPrefWidth(180);
+        subtitleField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        subtitleField.setStyle("-fx-background-radius: 5;");
+        subtitleField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label translatorLabel = new Label("Translator/Translators");
         translatorLabel.setFont(new Font(25));
 
         TextField translatorField = new TextField();
+        translatorField.setPromptText("Enter multiple using (,)");
         translatorField.setPrefWidth(180);
+        translatorField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        translatorField.setStyle("-fx-background-radius: 5;");
+        translatorField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
+
 
         Label publisherLabel = new Label("Publisher");
         publisherLabel.setFont(new Font(25));
 
         TextField publisherField = new TextField();
         publisherField.setPrefWidth(180);
+        publisherField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        publisherField.setStyle("-fx-background-radius: 5;");
+        publisherField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
+
 
         Label editionLabel = new Label("Edition");
         editionLabel.setFont(new Font(25));
 
         TextField editionField = new TextField();
         editionField.setPrefWidth(180);
+        editionField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        editionField.setStyle("-fx-background-radius: 5;");
+        editionField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
+
 
         Label languagLabel = new Label("Language");
         languagLabel.setFont(new Font(25));
 
         TextField languageField = new TextField();
         languageField.setPrefWidth(180);
+        languageField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        languageField.setStyle("-fx-background-radius: 5;");
+        languageField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
+
 
         Label tagLabel = new Label("Tag/Tags");
         tagLabel.setFont(new Font(25));
 
         TextField tagField = new TextField();
+        tagField.setPromptText("Enter multiple using (,)");
         tagField.setPrefWidth(180);
+        tagField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        tagField.setStyle("-fx-background-radius: 5;");
+        tagField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
+
 
         if (type == 0) {
             Button addBookButton = new Button("Add");
@@ -401,10 +456,10 @@ public class App extends Application {
                     addBookButton);
 
             main.getChildren().addAll(leftBox, rightBox);
-
+            main.setAlignment(Pos.CENTER);
             root.getChildren().addAll(main);
+            root.setAlignment(Pos.CENTER);
 
-            Scene scene = new Scene(root);
             secondStage.setScene(scene);
             secondStage.setTitle("Add Book");
             secondStage.show();
@@ -567,7 +622,6 @@ public class App extends Application {
             main.getChildren().addAll(leftBox, rightBox);
             root.getChildren().addAll(main);
             root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
-            Scene scene = new Scene(root);
             secondStage.setScene(scene);
             secondStage.setTitle("Edit Book");
             secondStage.show();
@@ -583,13 +637,18 @@ public class App extends Application {
         VBox rightBox = new VBox(10);
         VBox bottomVBox = new VBox(10);
 
+        mainBox.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
+
+
+        Label spacer = new Label("   ");
         ImageView imageView = new ImageView();
-        HBox forImage = new HBox(10);
-        forImage.getChildren().addAll(imageView);
+        VBox forImage = new VBox(10);
+        VBox imageSpace = new VBox(10);
+        forImage.getChildren().addAll(imageSpace, imageView);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
         imageView.fitWidthProperty().bind(infoStage.widthProperty().multiply(0.5));
-        imageView.fitHeightProperty().bind(infoStage.heightProperty().multiply(0.9));
+        imageView.fitHeightProperty().bind(infoStage.heightProperty().multiply(0.88));
         imageView.setImage(null);
         System.out.println(displayBook.getCover());
         if (displayBook.getCover() != null && !displayBook.getCover().equals("null")
@@ -642,7 +701,6 @@ public class App extends Application {
 
         // VBox.setMargin(buttonHBox, new Insets(0, 15, 0, 0));
         bottomVBox.getChildren().addAll(buttonHBox);
-
         Button deleteButton = new Button("Delete Book");
         deleteButton.setStyle(
                 "-fx-background-color: #ff3333; " +
@@ -708,7 +766,7 @@ public class App extends Application {
         editButton.setMnemonicParsing(false);
         editButton.setPrefWidth(100);
         editButton.setOnAction(e -> genBookInfo(displayBook, 1));
-        buttonHBox.getChildren().addAll(deleteButton, editButton);
+        buttonHBox.getChildren().addAll(deleteButton, spacer, editButton);
 
         topBox.getChildren().addAll(leftBox, rightBox);
 
@@ -721,25 +779,12 @@ public class App extends Application {
 
         mainBox.getChildren().addAll(topBox, bottomVBox);
 
-        // HBox.setMargin(editVBox, new Insets(0, 0, 0, 120));
-
-        /*
-         * VBox.setVgrow(imageView, Priority.ALWAYS);
-         * VBox.setVgrow(leftBox, Priority.ALWAYS);
-         * VBox.setVgrow(bottomVBox, Priority.ALWAYS);
-         * HBox.setHgrow(imageView, Priority.ALWAYS);
-         * HBox.setHgrow(leftBox, Priority.ALWAYS);
-         * HBox.setHgrow(bottomVBox, Priority.ALWAYS);
-         */
-
         VBox.setVgrow(mainBox, Priority.ALWAYS);
         HBox.setHgrow(mainBox, Priority.ALWAYS);
 
         infoStage.setWidth(500);
         infoStage.setHeight(425);
-
         Scene infoScene = new Scene(mainBox);
-
         infoStage.setScene(infoScene);
         infoStage.show();
     }
@@ -795,11 +840,15 @@ public class App extends Application {
         lib.setDisplayBooks(lib.searchBook(input, type, listedByTags));
         bookTable.getItems().addAll(lib.getDisplayBooks());
 
-        if (!root.getChildren().contains(bookTable)) {
-            root.getChildren().add(bookTable);
+        HBox forBookTablePadding = new HBox(bookTable);
+        forBookTablePadding.setPadding(new Insets(10));
+        VBox.setVgrow(forBookTablePadding, Priority.ALWAYS);
+
+        if (!root.getChildren().contains(forBookTablePadding)) {
+            root.getChildren().add(forBookTablePadding);
         }
-        HBox.setHgrow(bookTable, null);
-        VBox.setVgrow(bookTable, null);
+        HBox.setHgrow(bookTable, Priority.ALWAYS);
+        VBox.setVgrow(bookTable, Priority.ALWAYS);
 
         bookTable.setOnMouseClicked(event -> {
             Object selectedObject = bookTable.getSelectionModel().getSelectedItem();
@@ -817,9 +866,11 @@ public class App extends Application {
     }
 
     public void showManual() {
-        VBox root = new VBox(10);
+        HBox root = new HBox(10);
         root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
         root.setPadding(new Insets(10));
+        VBox left = new VBox(10);
+        VBox right = new VBox(10);
 
         Label welcomeLabel = new Label("Welcome to PagePal.");
 
@@ -828,9 +879,10 @@ public class App extends Application {
                 "1. Importing data\n" +
                         "2. Exporting data\n" +
                         "3. Searching through data\n" +
-                        "4. Adding data\n" +
-                        "5. Deleting data\n" +
-                        "6. Editing data");
+                        "4. Filtering By Tags\n"+
+                        "5. Adding data\n" +
+                        "6. Deleting data\n" +
+                        "7. Editing data");
 
         Label importingDataTitle = new Label("Importing Data:");
         Label importingDataDetails = new Label("To import data, go to 'File' menu and choose 'Import Books'.");
@@ -851,22 +903,35 @@ public class App extends Application {
                         "Then write what you want to search in the search bar.\n" +
                         "Finally, click the 'Search' button.");
 
+        Label filteringByTags = new Label("Filtering by Tags:");
+        Label filteringByTagDetails = new Label(
+                "To filter by tags, you have to click on 'Tag Filter' button.\n"+
+                "Then, select the tag(s) you want to filter by.\n" +
+                "After that, hit 'List by Tags' button."
+
+        );
+
         Label editingDeletingDataTitle = new Label("Editing and Deleting Data:");
         Label editingDeletingDataDetails = new Label(
                 "To edit and delete data, first search the book.\n" +
                         "Then click on the book in the list you want to edit or delete.\n" +
-                        "In the opening tab, at the right bottom corner,\n" +
+                        "In the opening tab, at the bottom,\n" +
                         "there are two buttons for deleting and editing.\n" +
-                        "By pressing them, you can delete or edit the book information.");
+                        "By pressing them, you can either delete or edit the book information.");
 
-        root.getChildren().addAll(
+        Label specialConditionsTitle = new Label("Special Conditions");
+
+        left.getChildren().addAll(
                 welcomeLabel,
                 featuresTitle, featuresDetails,
                 importingDataTitle, importingDataDetails,
                 exportingDataTitle, exportingDataDetails,
                 addingDataTitle, addingDataDetails,
                 searchingDataTitle, searchingDataDetails,
+                filteringByTags, filteringByTagDetails,
                 editingDeletingDataTitle, editingDeletingDataDetails);
+        root.setAlignment(Pos.CENTER);
+        root.getChildren().addAll(left,right);
         Scene scene = new Scene(root);
         manualStage.setScene(scene);
         manualStage.setTitle("User Manual");
