@@ -50,7 +50,7 @@ public class App extends Application {
     ListView<String> tagListView = new ListView<>();
     Boolean listedByTags = false;
     HBox thirdLine = new HBox();
-    Button deListButton = new Button("Delist By Tags");
+    Button deListButton = new Button("Remove Filter");
 
     @SuppressWarnings("unlikely-arg-type")
 
@@ -84,8 +84,17 @@ public class App extends Application {
 
         newTagField.setPromptText("Add New Tag or Search Tag");
 
+        newTagField.setPrefWidth(180);
+        newTagField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        newTagField.setStyle("-fx-background-radius: 35;");
+
+        newTagField.setBorder(new Border(
+            new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, new CornerRadii(35), BorderStroke.THIN)));
+
         Button addButton = new Button("Add");
+        addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         Button searchButton = new Button("Search");
+        searchButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         searchButton.setOnAction(e -> {
             ArrayList<String> found = new ArrayList<>();
             for (String tag : tagList) {
@@ -99,6 +108,7 @@ public class App extends Application {
         });
 
         Button listTags = new Button("List By Tags");
+        listTags.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         listTags.setOnAction(e -> {
             ObservableList<String> Obs = tagListView.getSelectionModel().getSelectedItems();
             ArrayList<Book> tempBookList = new ArrayList<>();
@@ -153,6 +163,7 @@ public class App extends Application {
         });
 
         Button deleteButton = new Button("Remove");
+        deleteButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         deleteButton.setOnAction(e -> {
             int selectedIndex = tagListView.getSelectionModel().getSelectedIndex();
             if (selectedIndex != -1) {
@@ -235,10 +246,16 @@ public class App extends Application {
         coverChoose.setOnAction(e -> {
             File selectedCover = coverChooser.showOpenDialog(null);
             if (selectedCover != null) {
+                if (((selectedCover.getAbsolutePath()).contains(".jpg") || (selectedCover.getAbsolutePath().contains(".png")))){
                 pathOfCover.append(selectedCover.getAbsolutePath().replace('\\', '/'));
-                System.out.println(pathOfCover);
+            } else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setContentText("The file you have selected is in the wrong type. Please select a file which is JPG or PNG.");
+                alert.setTitle("Warning");
+                alert.setHeaderText("Wrong file type.");
+                alert.showAndWait();
             }
-        });
+        }});
         coverDelete.setOnAction(e -> {
             pathOfCover.setLength(0);
         });
@@ -960,7 +977,7 @@ public class App extends Application {
         MenuItem clearDMenuItem = new MenuItem("Clear Displayed");
         clearDMenuItem.setOnAction(e -> {
             Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setHeaderText("Clear All");
+            alert.setHeaderText("Clear Displayed");
             alert.setContentText("You are about to clear displayed books. Are you sure?");
             alert.setTitle("Warning");
             Optional<ButtonType> result = alert.showAndWait();
@@ -978,7 +995,6 @@ public class App extends Application {
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 
         MenuItem saveMenuItem = new MenuItem("Save");
-        MenuItem saveAsMenuItem = new MenuItem("Save As...");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem(); // old three dot : …
 
         MenuItem quitMenuItem = new MenuItem("Quit");
@@ -990,7 +1006,7 @@ public class App extends Application {
         fileMenu.getItems().addAll(
                 importMenuItem, exportMenuItem, createMenuItem, deleteMenuItem, clearDMenuItem, clearMenuItem,
                 separatorMenuItem, saveMenuItem,
-                saveAsMenuItem, separatorMenuItem2,
+                separatorMenuItem2,
                 quitMenuItem);
 
         Menu helpMenu = new Menu("Help");
@@ -1064,16 +1080,21 @@ public class App extends Application {
         addButton.setOnAction(e -> genBookInfo(null, 0));
         searchButton.setOnAction(e -> searchResults(searchField.getText(), choiceBox.getValue()));
 
-        Button tagsButton = new Button("Tags");
+        Button tagsButton = new Button("Tag Filter");
         tagsButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         tagsButton.setFont(new Font(14));
         tagsButton.setPrefSize(100.0, 45.0);
 
         tagsButton.setOnAction(e -> displayTagsMenu());
 
-        deListButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
+        deListButton.setStyle(
+            "-fx-background-color: #ff3333; " +
+                    "-fx-background-radius: 5; " +
+                    "-fx-text-fill: white; " +
+                    "-fx-padding: 5 10; " +
+                    "-fx-font-size: 14px;");
         deListButton.setFont(new Font(14));
-        deListButton.setPrefSize(100.0, 45.0);
+        deListButton.setPrefSize(120.0, 45.0);
         deListButton.setOnAction(e -> {
             listedByTags = false;
             thirdLine.getChildren().remove(deListButton);
