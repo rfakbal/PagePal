@@ -30,9 +30,9 @@
 {
   "title": "book6",
   "subTitle": "yes",
-  "author": ["author6"],
+  "author": ["author6","author8"],
   "translator": ["translator6"],
-  "tag": [],
+  "tag": ["fantasy"],
   "isbn": "5038291750462",
   "publisher": "publisher6",
   "edition": "2nd ed.",

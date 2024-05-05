@@ -45,6 +45,7 @@ public class App extends Application {
     ListView<String> bookList = new ListView<>();
     ArrayList<String> tagList = new ArrayList<>();
     TableView bookTable = new TableView();
+    HBox forBookTablePadding = new HBox(bookTable);
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
     ListView<String> tagListView = new ListView<>();
@@ -840,13 +841,13 @@ public class App extends Application {
         lib.setDisplayBooks(lib.searchBook(input, type, listedByTags));
         bookTable.getItems().addAll(lib.getDisplayBooks());
 
-        HBox forBookTablePadding = new HBox(bookTable);
         forBookTablePadding.setPadding(new Insets(10));
         VBox.setVgrow(forBookTablePadding, Priority.ALWAYS);
 
         if (!root.getChildren().contains(forBookTablePadding)) {
             root.getChildren().add(forBookTablePadding);
         }
+
         HBox.setHgrow(bookTable, Priority.ALWAYS);
         VBox.setVgrow(bookTable, Priority.ALWAYS);
 
@@ -920,6 +921,17 @@ public class App extends Application {
                         "By pressing them, you can either delete or edit the book information.");
 
         Label specialConditionsTitle = new Label("Special Conditions");
+        Label specialConditionsType = new Label("Searching by Date");
+        Label specialConditionsDate = new Label(
+                                                    "Date can be searched in 4 different ways.\n"+
+                                                    "1- Specific Date\n"+
+                                                    "You can search a specific date with the pattern 'yyyy-mm-dd'.\n"+
+                                                    "2- Searching by Year\n"+
+                                                    "To search by year, it is enough to enter the year to search bar.\n"+
+                                                    "3- Searching by Month\n"+
+                                                    "To search by month, use the pattern '-mm-'.\n"+
+                                                    "4- Searching by Day \n"+
+                                                    "To search by day, use the pattern '-dd'.\n");
 
         left.getChildren().addAll(
                 welcomeLabel,
@@ -930,6 +942,9 @@ public class App extends Application {
                 searchingDataTitle, searchingDataDetails,
                 filteringByTags, filteringByTagDetails,
                 editingDeletingDataTitle, editingDeletingDataDetails);
+        right.getChildren().addAll(specialConditionsTitle,specialConditionsType,specialConditionsDate);
+        left.setAlignment(Pos.CENTER);
+        right.setAlignment(Pos.CENTER);
         root.setAlignment(Pos.CENTER);
         root.getChildren().addAll(left,right);
         Scene scene = new Scene(root);
