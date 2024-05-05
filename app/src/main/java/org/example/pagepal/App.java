@@ -183,13 +183,28 @@ public class App extends Application {
 
         tagListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         HBox forButtons = new HBox(10);
+        VBox forTagList = new VBox();
+        forTagList.getChildren().addAll(tagListView);
+
+        // Tag Filter gui design 
+        VBox.setVgrow(tagListView, Priority.ALWAYS);
+        VBox.setVgrow(forTagList, Priority.ALWAYS);
+        forTagList.setPadding(new Insets(7,7,0,7));
+        searchButton.setPadding(new Insets(0,3,3,3));
+        addButton.setPadding(new Insets(0,3,3,3));
+        deleteButton.setPadding(new Insets(0,3,3,3));
+        listTags.setPadding(new Insets(0,3,3,3));
+        forButtons.setPadding(new Insets(0,3,3,3));
         forButtons.getChildren().addAll(searchButton, addButton, deleteButton, listTags);
         forButtons.setAlignment(Pos.CENTER);
-        VBox vbox = new VBox(tagListView, newTagField, forButtons);
+        newTagField.setPadding(new Insets(3,3,3,3));
+        VBox vbox = new VBox(5);
+        vbox.getChildren().addAll(forTagList, newTagField, forButtons);
         vbox.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
         Scene scene = new Scene(vbox, 300, 200);
-        tagStage.setScene(scene);
 
+        tagStage.setTitle("Tag List");
+        tagStage.setScene(scene);
         tagStage.show();
     }
 
@@ -939,6 +954,14 @@ public class App extends Application {
                                                     "4- Searching by Day \n"+
                                                     "To search by day, use the pattern '-dd'.\n");
 
+        Label specialConditionsType2 = new Label("Searching and Filtering by Tags");
+        Label specialConditionsFilter = new Label("User can search something and filter by tag at the same time.\n" + 
+                                                "To do that, user has to select the tags by clicking at 'Tag Filter' button.\n"+
+                                                "Then, by clicking 'List by Tags', user can filter by the tags selected.\n"+
+                                                "Lastly, now you can search anything you want.\n"+
+                                                "This way, you can search while the books are filtered by tags.\n"+
+                                                "Note : To select multiple tags, hold 'ctrl' button and click on the tags.\n");
+
         left.getChildren().addAll(
                 welcomeLabel,
                 featuresTitle, featuresDetails,
@@ -948,7 +971,7 @@ public class App extends Application {
                 searchingDataTitle, searchingDataDetails,
                 filteringByTags, filteringByTagDetails,
                 editingDeletingDataTitle, editingDeletingDataDetails);
-        right.getChildren().addAll(specialConditionsTitle,specialConditionsType,specialConditionsDate);
+        right.getChildren().addAll(specialConditionsTitle,specialConditionsType,specialConditionsDate,specialConditionsType2,specialConditionsFilter);
         left.setAlignment(Pos.CENTER);
         right.setAlignment(Pos.CENTER);
         root.setAlignment(Pos.CENTER);
@@ -1074,8 +1097,10 @@ public class App extends Application {
                 disTemp.clear();
                 lib.setDisplayBooks(disTemp);
                 lib.setLibraryBooks(libTemp);
+                bookTable.setVisible(false);
             }
             searchResults(searchField.getText(), choiceBox.getValue());
+            bookTable.setVisible(false);
         });
 
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();

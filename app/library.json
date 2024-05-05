@@ -1,33 +1,5 @@
 [
 {
-  "title": "book4",
-  "subTitle": "no",
-  "author": ["author4"],
-  "translator": ["translator4","translator31"],
-  "tag": ["mystery"],
-  "isbn": "9876543210123",
-  "publisher": "publisher4",
-  "edition": "3rd ed.",
-  "language": "fr",
-  "rating": "6",
-  "date": "2024-05-04",
-  "cover": ""
-},
-{
-  "title": "book5",
-  "subTitle": "yes",
-  "author": ["author5"],
-  "translator": ["translator5"," yeZ"],
-  "tag": ["business","fiction"],
-  "isbn": "1029384756102",
-  "publisher": "publisher5",
-  "edition": "1st ed.",
-  "language": "es",
-  "rating": "4",
-  "date": "2024-05-05",
-  "cover": ""
-},
-{
   "title": "book6",
   "subTitle": "yes",
   "author": ["author6","author8"],
@@ -263,20 +235,6 @@
   "language": "en",
   "rating": "5",
   "date": "2024-05-22",
-  "cover": "null"
-},
-{
-  "title": "book23",
-  "subTitle": "no",
-  "author": ["author23"],
-  "translator": ["translator23"],
-  "tag": ["business"],
-  "isbn": "7381052948615",
-  "publisher": "publisher23",
-  "edition": "1st ed.",
-  "language": "tr",
-  "rating": "4",
-  "date": "2024-05-23",
   "cover": "null"
 },
 {
