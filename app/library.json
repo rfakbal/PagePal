@@ -17,15 +17,15 @@
   "title": "book5",
   "subTitle": "yes",
   "author": ["author5"],
-  "translator": ["translator5"],
-  "tag": [],
+  "translator": ["translator5"," yeZ"],
+  "tag": ["business","fiction"],
   "isbn": "1029384756102",
   "publisher": "publisher5",
   "edition": "1st ed.",
   "language": "es",
   "rating": "4",
   "date": "2024-05-05",
-  "cover": "null"
+  "cover": ""
 },
 {
   "title": "book6",

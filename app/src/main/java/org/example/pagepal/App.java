@@ -359,6 +359,9 @@ public class App extends Application {
         tagField.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
 
+        main.setAlignment(Pos.CENTER);
+        root.setAlignment(Pos.CENTER);
+
         if (type == 0) {
             Button addBookButton = new Button("Add");
             addBookButton.setFont(new Font(14));
@@ -601,6 +604,9 @@ public class App extends Application {
                     book.setTitle(titleField.getText());
                     book.setCover(pathOfCover.toString());
                     pathOfCover.setLength(0);
+
+                    main.setAlignment(Pos.CENTER);
+                    root.setAlignment(Pos.CENTER);
 
                     infoStage.close();
                     secondStage.close();
@@ -1197,7 +1203,7 @@ public class App extends Application {
         root.getChildren().addAll(menuBar, firstLine, secondLine, thirdLine);
 
         firstStage.setHeight(480);
-        firstStage.setWidth(1050);
+        firstStage.setWidth(750);
         Scene scene = new Scene(root, Color.BEIGE);
         firstStage.setScene(scene);
         firstStage.setTitle("PagePal");
