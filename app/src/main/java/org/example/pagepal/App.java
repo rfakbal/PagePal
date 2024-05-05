@@ -75,11 +75,7 @@ public class App extends Application {
         tagList.clear();
         tagList.addAll(nonDuplicates);
 
-        for (String tag : tagList) {
-            if (tag.equals("")) {
-                tagList.remove(tag);
-            }
-        }
+       tagList.remove(tagList.size()-1);
 
         tagListView.getItems().addAll(tagList);
 
