@@ -201,10 +201,10 @@ public class App extends Application {
         root.setPrefSize(500, 550);
 
         VBox leftBox = new VBox(8);
-        leftBox.setAlignment(Pos.CENTER_LEFT);
+        leftBox.setAlignment(Pos.TOP_LEFT);
 
         VBox rightBox = new VBox(8);
-        rightBox.setAlignment(Pos.CENTER_RIGHT);
+        rightBox.setAlignment(Pos.TOP_RIGHT);
 
         VBox listBox = new VBox(8);
         listBox.setAlignment(Pos.CENTER);
