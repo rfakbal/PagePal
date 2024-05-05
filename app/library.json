@@ -1,19 +1,5 @@
 [
 {
-  "title": "book6",
-  "subTitle": "yes",
-  "author": ["author6","author8"],
-  "translator": ["translator6"],
-  "tag": ["fantasy"],
-  "isbn": "5038291750462",
-  "publisher": "publisher6",
-  "edition": "2nd ed.",
-  "language": "de",
-  "rating": "4",
-  "date": "2024-05-06",
-  "cover": ""
-},
-{
   "title": "book7",
   "subTitle": "yes",
   "author": ["author7"],
@@ -26,20 +12,6 @@
   "rating": "",
   "date": "2024-05-07",
   "cover": ""
-},
-{
-  "title": "book8",
-  "subTitle": "yes",
-  "author": ["author8"],
-  "translator": ["translator8"],
-  "tag": ["fantasy"],
-  "isbn": "8364912570302",
-  "publisher": "publisher8",
-  "edition": "4th ed.",
-  "language": "tr",
-  "rating": "5",
-  "date": "2024-05-08",
-  "cover": "null"
 },
 {
   "title": "book9",
