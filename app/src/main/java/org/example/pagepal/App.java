@@ -859,6 +859,11 @@ public class App extends Application {
         TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
+        bookTable.getSortOrder().clear();
+        bookTable.getSortOrder().add(titleColumn);
+        titleColumn.setSortType(TableColumn.SortType.ASCENDING);
+        bookTable.sort();
+
         TableColumn<Book, String> subtitleColumn = new TableColumn<>("Subtitle");
         subtitleColumn.setCellValueFactory(new PropertyValueFactory<>("subTitle"));
 
