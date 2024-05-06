@@ -75,8 +75,6 @@ public class App extends Application {
         tagList.clear();
         tagList.addAll(nonDuplicates);
 
-        tagList.remove(tagList.size() - 1);
-
         tagListView.getItems().addAll(tagList);
 
         newTagField.setPromptText("Add New Tag or Search Tag");
@@ -680,7 +678,7 @@ public class App extends Application {
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
         imageView.fitWidthProperty().bind(infoStage.widthProperty().multiply(0.5));
-        imageView.fitHeightProperty().bind(infoStage.heightProperty().multiply(0.88));
+        imageView.fitHeightProperty().bind(infoStage.heightProperty().multiply(0.86));
         imageView.setImage(null);
         System.out.println(displayBook.getCover());
         if (displayBook.getCover() != null && !displayBook.getCover().equals("null")
@@ -828,7 +826,7 @@ public class App extends Application {
 
         topBox.getChildren().addAll(leftBox, rightBox);
 
-        forImage.setAlignment(Pos.CENTER);
+        forImage.setAlignment(Pos.TOP_CENTER);
         buttonHBox.setAlignment(Pos.CENTER);
         bottomVBox.setAlignment(Pos.BOTTOM_CENTER);
         rightBox.setAlignment(Pos.CENTER);
@@ -841,7 +839,7 @@ public class App extends Application {
         HBox.setHgrow(mainBox, Priority.ALWAYS);
 
         infoStage.setWidth(500);
-        infoStage.setHeight(425);
+        infoStage.setHeight(450);
         Scene infoScene = new Scene(mainBox);
         infoStage.setScene(infoScene);
         infoStage.show();
