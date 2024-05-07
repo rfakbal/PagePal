@@ -57,7 +57,11 @@ public class App extends Application {
         tagListView.getItems().clear();
         TextField newTagField = new TextField();
         for (Book book : lib.getLibraryBooks()) {
-            for (String tag : book.getTag()) {
+            ArrayList<String> tags = book.getTag();
+            if(tags == null){
+                tags = new ArrayList<>();
+            }
+            for (String tag : tags) {
                 tagList.add(tag);
             }
         }
@@ -450,28 +454,8 @@ public class App extends Application {
             addBookButton.setFont(new Font(14));
             addBookButton.setPrefSize(100.0, 45.0);
             addBookButton.setOnAction(e -> {
-                boolean checki = true;
                 boolean checkr = true;
-                boolean control = true;
-                String isbnText = isbnField.getText();
                 float rating = 0;
-                try {
-                    if (!isbnText.equals("")) {
-                        long isbn = Long.parseLong(isbnText);
-                        for (Book ibook : lib.getLibraryBooks()) {
-                            if (ibook.getIsbn().equals(isbnText)) {
-                                if (ibook != book) {
-                                    control = false;
-                                }
-                            }
-                        }
-                        if (isbnText.length() != 13) {
-                            control = false;
-                        }
-                    }
-                } catch (NumberFormatException exc) {
-                    checki = false;
-                }
 
                 try {
                     rating = Float.parseFloat(ratingField.getText());
@@ -484,20 +468,8 @@ public class App extends Application {
                 }
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setHeaderText("Warning");
-                if (!checki) {
-                    alert.setContentText("The ISBN you have entered has unknown characters.");
-                    alert.setTitle("ISBN Error");
-                    alert.showAndWait();
-                } else if (!control) {
-                    alert.setContentText("The ISBN you have entered already exists or is of the wrong length.");
-                    alert.setTitle("ISBN Error");
-                    alert.showAndWait();
-                } else if (!checkr) {
+                if (!checkr) {
                     alert.setContentText("The Rating you have entered has either unknown characters.");
-                    alert.setTitle("Rating Error");
-                    alert.showAndWait();
-                } else if (rating > 10 || rating < 0) {
-                    alert.setContentText("The Rating you have entered is not between 0 and 10.");
                     alert.setTitle("Rating Error");
                     alert.showAndWait();
                 } else {
@@ -567,6 +539,9 @@ public class App extends Application {
             }
 
             ArrayList<String> translators = book.getTranslator();
+            if (translators == null) {
+                translators = new ArrayList<>();
+            }
             StringBuilder translatorText = new StringBuilder();
             if (!translators.isEmpty()) {
                 for (int i = 0; i < translators.size(); i++) {
@@ -579,8 +554,11 @@ public class App extends Application {
             }
 
             ArrayList<String> tags = book.getTag();
+            if (tags == null) {
+                tags = new ArrayList<>();
+            }
             StringBuilder tagText = new StringBuilder();
-            if (!tags.isEmpty() && tags.size() == 0) {
+            if (!tags.isEmpty()) {
                 for (int i = 0; i < tags.size(); i++) {
                     tagText.append(tags.get(i));
                     if (i < tags.size() - 1) {
@@ -591,6 +569,9 @@ public class App extends Application {
             }
 
             ArrayList<String> authors = book.getAuthor();
+            if (authors == null) {
+                authors = new ArrayList<>();
+            }
             StringBuilder authorText = new StringBuilder();
             if (!authors.isEmpty()) {
                 for (int i = 0; i < authors.size(); i++) {
@@ -606,29 +587,9 @@ public class App extends Application {
             saveButton.setFont(new Font(14));
 
             saveButton.setOnAction(e -> {
-                boolean checki = true;
                 boolean checkr = true;
-                boolean control = true;
-                String isbnText = isbnField.getText();
                 float rating = 0;
-                try {
-                    if (!isbnText.equals("")) {
-                        long isbn = Long.parseLong(isbnText);
-                        for (Book ibook : lib.getLibraryBooks()) {
-                            if (ibook.getIsbn().equals(isbnText)) {
-                                if (ibook != book) {
-                                    control = false;
-                                }
-                            }
-                        }
-                        if (isbnText.length() != 13) {
-                            control = false;
-                        }
-                    }
-                } catch (NumberFormatException exc) {
-                    checki = false;
-                }
-
+                
                 try {
                     rating = Float.parseFloat(ratingField.getText());
                 } catch (NumberFormatException exc) {
@@ -640,20 +601,8 @@ public class App extends Application {
                 }
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setHeaderText("Warning");
-                if (!checki) {
-                    alert.setContentText("The ISBN you have entered has unknown characters.");
-                    alert.setTitle("ISBN Error");
-                    alert.showAndWait();
-                } else if (!control) {
-                    alert.setContentText("The ISBN you have entered already exists or is of the wrong length.");
-                    alert.setTitle("ISBN Error");
-                    alert.showAndWait();
-                } else if (!checkr) {
+                 if (!checkr) {
                     alert.setContentText("The Rating you have entered has either unknown characters.");
-                    alert.setTitle("Rating Error");
-                    alert.showAndWait();
-                } else if (rating > 10 || rating < 0) {
-                    alert.setContentText("The Rating you have entered is not between 0 and 10.");
                     alert.setTitle("Rating Error");
                     alert.showAndWait();
                 } else {

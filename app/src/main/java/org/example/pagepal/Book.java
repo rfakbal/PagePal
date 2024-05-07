@@ -51,7 +51,7 @@ public class Book {
 
     public void setTranslator(ArrayList<String> translators) { this.translators = translators; }
 
-    public void setTag(ArrayList<String> tag) { this.tags = tags; }
+    public void setTag(ArrayList<String> tags) {if (tags != null){ this.tags = tags;} }
 
     public void setIsbn(String isbn) { this.isbn = isbn; }
 

@@ -20,7 +20,7 @@ public class Library {
 
     // public void edit(Book book) { }
     public ArrayList<Book> searchBook(String input, String type, Boolean listByTags) {
-        displayBooks.clear(); // Önceki aramaların sonuçlarını temizle
+        displayBooks.clear(); 
 
         if(!listByTags){
             if("All Books".contains(type)){
@@ -45,7 +45,7 @@ public class Library {
                     for (String author : book.getAuthor()) {
                         if (author.contains(input)) {
                             displayBooks.add(book);
-                            break; // İç içe döngüden çık
+                            break; 
                         }
                     }
                 }
@@ -54,7 +54,7 @@ public class Library {
                     for (String translator : book.getTranslator()) {
                         if (translator.contains(input)) {
                             displayBooks.add(book);
-                            break; // İç içe döngüden çık
+                            break;
                         }
                     }
                 }
@@ -63,7 +63,7 @@ public class Library {
                     for (String tag : book.getTag()) {
                         if (tag.contains(input)) {
                             displayBooks.add(book);
-                            break; // İç içe döngüden çık
+                            break; 
                         }
                     }
                 }
@@ -82,16 +82,8 @@ public class Library {
                 }
             } else if ("Date".contains(type)) {
                 for (Book book : libraryBooks) {
-                    String[] toCheck = book.getDate().split("-");
-                    if (input.startsWith("-") && input.length() == 3 && !book.getDate().equals("null")) { // when date is being searched like -xx, it searches only day.
-                        System.out.println(toCheck[2]);
-                        if (input.contains(toCheck[2])) {
-                            displayBooks.add(book);
-                        }
-                    } else {
                         if (book.getDate().contains(input)) {
                             displayBooks.add(book);
-                        }
                         }
                     }
             }else if ("Edition".contains(type)) {
@@ -140,7 +132,7 @@ public class Library {
                     for (String author : book.getAuthor()) {
                         if (author.contains(input)) {
                             displayBooks.add(book);
-                            break; // İç içe döngüden çık
+                            break;
                         }
                     }
                 }
@@ -149,7 +141,7 @@ public class Library {
                     for (String translator : book.getTranslator()) {
                         if (translator.contains(input)) {
                             displayBooks.add(book);
-                            break; // İç içe döngüden çık
+                            break; 
                         }
                     }
                 }
@@ -158,7 +150,7 @@ public class Library {
                     for (String tag : book.getTag()) {
                         if (tag.contains(input)) {
                             displayBooks.add(book);
-                            break; // İç içe döngüden çık
+                            break; 
                         }
                     }
                 }
@@ -177,16 +169,8 @@ public class Library {
                 }
             } else if ("Date".contains(type)) {
                 for (Book book : searchedByTags) {
-                    String[] toCheck = book.getDate().split("-");
-                    if (input.startsWith("-") && input.length() == 3 && !book.getDate().equals("null")) { // when date is being searched like -xx, it searches only day.
-                        System.out.println(toCheck[2]);
-                        if (input.contains(toCheck[2])) {
-                            displayBooks.add(book);
-                        }
-                    } else {
                         if (book.getDate().contains(input)) {
                             displayBooks.add(book);
-                        }
                         }
                     }
             }else if ("Edition".contains(type)) {
@@ -214,23 +198,6 @@ public class Library {
         
         return displayBooks;
     }
-    /*
-    public void searchTags(ObservableList<String> selectedTags){
-        ArrayList<Book> temp = new ArrayList<>();
-            for(String tags : selectedTags) {
-                for (Book book : displayBooks) {
-                    for (String tag : book.getTag()) {
-                        if (tag.contains(tags)) {
-                            temp.add(book);
-                            searchedByTags.add(book);
-                        }
-                    }
-                }
-            }
-        
-        displayBooks = temp;
-    }
-    */
 
     public void addBook(Book book) {
         libraryBooks.add(book);
@@ -241,7 +208,7 @@ public class Library {
     }
 
     public void importJSON(String path) throws Exception {
-        //empty json file error - will be solved
+        //TODO empty json file error - will be solved
         Gson gson = new Gson();
 
         JsonReader reader = new JsonReader(new FileReader(path));
