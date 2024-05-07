@@ -747,11 +747,11 @@ public class App extends Application {
                 Image imm = new Image(im);
                 imageView.setImage(imm);
             } catch (IOException e1) {
-                Image imm = new Image("file:../app/defaultCover.png");
+                Image imm = new Image("file:../PagePal/defaultCover.png");
                 imageView.setImage(imm);
             }
         } else {
-            Image imm = new Image("file:../app/defaultCover.png");
+            Image imm = new Image("file:../PagePal/defaultCover.png");
             imageView.setImage(imm);
         }
         leftBox.getChildren().add(forImage);
@@ -1073,11 +1073,11 @@ public class App extends Application {
     @Override
     public void start(Stage firstStage) {
         try {
-            firstStage.getIcons().add(new Image("file:../app/icon.png"));
-            secondStage.getIcons().add(new Image("file:../app/icon.png"));
-            infoStage.getIcons().add(new Image("file:../app/icon.png"));
-            manualStage.getIcons().add(new Image("file:../app/icon.png"));
-            tagStage.getIcons().add(new Image("file:../app/icon.png"));
+            firstStage.getIcons().add(new Image("file:../PagePal/icon.png"));
+            secondStage.getIcons().add(new Image("file:../PagePal/icon.png"));
+            infoStage.getIcons().add(new Image("file:../PagePal/icon.png"));
+            manualStage.getIcons().add(new Image("file:../PagePal/icon.png"));
+            tagStage.getIcons().add(new Image("file:../PagePal/icon.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
