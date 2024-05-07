@@ -21,10 +21,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
-import javax.sound.sampled.SourceDataLine;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.sql.SqlTypesSupport;
 
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
@@ -93,6 +91,19 @@ public class App extends Application {
 
         Button addButton = new Button("Add");
         addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
+        addButton.setOnMouseEntered(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), addButton);
+            scaleTransition.setToX(1.1);
+            scaleTransition.setToY(1.1);
+            scaleTransition.play();
+        });
+
+        addButton.setOnMouseExited(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), addButton);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+            scaleTransition.play();
+        });
         Button searchButton = new Button("Search");
         searchButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         searchButton.setOnAction(e -> {
@@ -107,7 +118,35 @@ public class App extends Application {
 
         });
 
+        searchButton.setOnMouseEntered(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), searchButton);
+            scaleTransition.setToX(1.1);
+            scaleTransition.setToY(1.1);
+            scaleTransition.play();
+        });
+
+        searchButton.setOnMouseExited(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), searchButton);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+            scaleTransition.play();
+        });
+
         Button listTags = new Button("List By Tags");
+        
+        listTags.setOnMouseEntered(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), listTags);
+            scaleTransition.setToX(1.1);
+            scaleTransition.setToY(1.1);
+            scaleTransition.play();
+        });
+
+        listTags.setOnMouseExited(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), listTags);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+            scaleTransition.play();
+        });
         listTags.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         listTags.setOnAction(e -> {
             if(listedByTags){
@@ -170,7 +209,22 @@ public class App extends Application {
             }
         });
 
-        Button deleteButton = new Button("Remove");
+        Button deleteButton = new Button("Remove"); 
+        
+        deleteButton.setOnMouseEntered(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), deleteButton);
+            scaleTransition.setToX(1.1);
+            scaleTransition.setToY(1.1);
+            scaleTransition.play();
+        });
+
+        deleteButton.setOnMouseExited(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), deleteButton);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+            scaleTransition.play();
+        });
+
         deleteButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         deleteButton.setOnAction(e -> {
             int selectedIndex = tagListView.getSelectionModel().getSelectedIndex();
@@ -1197,11 +1251,11 @@ public class App extends Application {
         thirdLine.setAlignment(Pos.CENTER);
 
         Label labelPage = new Label("Page");
-        labelPage.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        labelPage.setFont(Font.font("Arial", FontWeight.BOLD, 40));
         labelPage.setStyle("-fx-text-fill: #0079C1");
 
         Label labelPal = new Label("Pal");
-        labelPal.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        labelPal.setFont(Font.font("Arial", FontWeight.BOLD, 40));
         labelPal.setStyle("-fx-text-fill: #00457C");
 
         searchField.setPrefWidth(180);
@@ -1227,9 +1281,37 @@ public class App extends Application {
         searchButton.setFont(new Font(14));
         searchButton.setPrefSize(100.0, 45.0);
 
+        searchButton.setOnMouseEntered(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), searchButton);
+            scaleTransition.setToX(1.1);
+            scaleTransition.setToY(1.1);
+            scaleTransition.play();
+        });
+
+        searchButton.setOnMouseExited(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), searchButton);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+            scaleTransition.play();
+        });
+
         Button addButton = new Button("Add Book");
 
         addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
+
+        addButton.setOnMouseEntered(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), addButton);
+            scaleTransition.setToX(1.1);
+            scaleTransition.setToY(1.1);
+            scaleTransition.play();
+        });
+
+        addButton.setOnMouseExited(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), addButton);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+            scaleTransition.play();
+        });
 
         addButton.setPrefSize(100.0, 45.0);
 
@@ -1237,6 +1319,21 @@ public class App extends Application {
         searchButton.setOnAction(e -> searchResults(searchField.getText(), choiceBox.getValue()));
 
         Button tagsButton = new Button("Tag Filter");
+
+        tagsButton.setOnMouseEntered(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), tagsButton);
+            scaleTransition.setToX(1.1);
+            scaleTransition.setToY(1.1);
+            scaleTransition.play();
+        });
+
+        tagsButton.setOnMouseExited(event -> {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), tagsButton);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+            scaleTransition.play();
+        });
+
         tagsButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         tagsButton.setFont(new Font(14));
         tagsButton.setPrefSize(100.0, 45.0);
