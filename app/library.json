@@ -292,5 +292,19 @@
   "rating": "",
   "date": "2021-05-23",
   "cover": ""
+},
+{
+  "title": "Arda yeni",
+  "subTitle": "",
+  "author": ["Oxy"],
+  "translator": [""],
+  "tag": [""],
+  "isbn": "",
+  "publisher": "",
+  "edition": "",
+  "language": "",
+  "rating": "",
+  "date": "null",
+  "cover": "C:/Users/ardas/OneDrive/Masaüstü/Oxy/Oxy Logo.png"
 }
 ]
