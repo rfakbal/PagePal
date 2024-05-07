@@ -167,7 +167,11 @@ public class App extends Application {
                 for (String tag : Obs) {
                     ArrayList<Book> tempBooksToRemove = new ArrayList<>();
                     for (Book book : libraryClone) {
-                        for (String tempTag : book.getTag()) {
+                        ArrayList<String> tags = book.getTag();
+                        if(tags == null){
+                            tags = new ArrayList<>();
+                        }
+                        for (String tempTag : tags) {
                             if (tempTag.equals(tag)) {
                                 tempBookList.add(book);
                                 tempBooksToRemove.add(book);
