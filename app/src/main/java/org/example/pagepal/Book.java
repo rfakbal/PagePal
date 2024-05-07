@@ -3,10 +3,10 @@ import java.util.ArrayList;
 
 public class Book {
     private String title;
-    private String subTitle;
-    private ArrayList<String> author;
-    private ArrayList<String> translator;
-    private ArrayList<String> tag;
+    private String subtitle;
+    private ArrayList<String> authors = new ArrayList<>();
+    private ArrayList<String> translators = new ArrayList<>();
+    private ArrayList<String> tags = new ArrayList<>();
     private String isbn;
     private String publisher;
     private String date;
@@ -17,10 +17,10 @@ public class Book {
 
     public Book(
         String title, 
-        String subTitle, 
-        ArrayList<String> author, 
-        ArrayList<String> translator,
-        ArrayList<String> tag,
+        String subtitle, 
+        ArrayList<String> authors, 
+        ArrayList<String> translators,
+        ArrayList<String> tags,
         String isbn,
         String publisher,
         String date,
@@ -30,14 +30,14 @@ public class Book {
         String cover
     ){
         this.title = title;
-        this.subTitle = subTitle;
-        this.author = author;
-        this.tag = tag;
+        this.subtitle = subtitle;
+        this.authors = authors;
+        this.tags = tags;
         this.isbn = isbn;
         this.publisher = publisher;
         this.date = date;
         this.edition = edition;
-        this.translator = translator;
+        this.translators = translators;
         this.language = language;
         this.rating = rating;
         this.cover = cover;
@@ -45,13 +45,13 @@ public class Book {
 
     public void setTitle(String title) { this.title = title; }
 
-    public void setSubTitle(String subTitle) { this.subTitle = subTitle; }
+    public void setSubTitle(String subtitle) { this.subtitle = subtitle; }
 
-    public void setAuthor(ArrayList<String> author) { this.author = author; }
+    public void setAuthor(ArrayList<String> authors) { this.authors = authors; }
 
-    public void setTranslator(ArrayList<String> translator) { this.translator = translator; }
+    public void setTranslator(ArrayList<String> translators) { this.translators = translators; }
 
-    public void setTag(ArrayList<String> tag) { this.tag = tag; }
+    public void setTag(ArrayList<String> tag) { this.tags = tags; }
 
     public void setIsbn(String isbn) { this.isbn = isbn; }
 
@@ -69,7 +69,7 @@ public class Book {
 
 
     public ArrayList<String> getAuthor() {
-        return author;
+        return authors;
     }
 
     public String getTitle() {
@@ -77,15 +77,15 @@ public class Book {
     }
 
     public String getSubTitle() {
-        return subTitle;
+        return subtitle;
     }
 
     public ArrayList<String> getTag() {
-        return tag;
+        return tags;
     }
 
     public ArrayList<String> getTranslator() {
-        return translator;
+        return translators;
     }
 
     public String getIsbn() {

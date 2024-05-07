@@ -266,10 +266,10 @@ public class Library {
             for (int i = 0; i < libraryBooks.size(); i++) {
                 writer.write("{\n");
                 writer.write("  \"title\": \"" + libraryBooks.get(i).getTitle() + "\",\n");
-                writer.write("  \"subTitle\": \"" + libraryBooks.get(i).getSubTitle() + "\",\n");
-                writer.write("  \"author\": " + gson.toJson(libraryBooks.get(i).getAuthor()) + ",\n");
-                writer.write("  \"translator\": " + gson.toJson(libraryBooks.get(i).getTranslator()) + ",\n");
-                writer.write("  \"tag\": " + gson.toJson(libraryBooks.get(i).getTag()) + ",\n");
+                writer.write("  \"subtitle\": \"" + libraryBooks.get(i).getSubTitle() + "\",\n");
+                writer.write("  \"authors\": " + gson.toJson(libraryBooks.get(i).getAuthor()) + ",\n");
+                writer.write("  \"translators\": " + gson.toJson(libraryBooks.get(i).getTranslator()) + ",\n");
+                writer.write("  \"tags\": " + gson.toJson(libraryBooks.get(i).getTag()) + ",\n");
                 writer.write("  \"isbn\": \"" + libraryBooks.get(i).getIsbn() + "\",\n");
                 writer.write("  \"publisher\": \"" + libraryBooks.get(i).getPublisher() + "\",\n");
                 writer.write("  \"edition\": \"" + libraryBooks.get(i).getEdition() + "\",\n");

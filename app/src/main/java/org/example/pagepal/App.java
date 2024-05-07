@@ -526,7 +526,7 @@ public class App extends Application {
 
             ArrayList<String> tags = book.getTag();
             StringBuilder tagText = new StringBuilder();
-            if (!tags.isEmpty()) {
+            if (!tags.isEmpty() && tags.size() == 0) {
                 for (int i = 0; i < tags.size(); i++) {
                     tagText.append(tags.get(i));
                     if (i < tags.size() - 1) {
@@ -865,7 +865,7 @@ public class App extends Application {
         bookTable.sort();
 
         TableColumn<Book, String> subtitleColumn = new TableColumn<>("Subtitle");
-        subtitleColumn.setCellValueFactory(new PropertyValueFactory<>("subTitle"));
+        subtitleColumn.setCellValueFactory(new PropertyValueFactory<>("subtitle"));
 
         TableColumn<Book, ArrayList<String>> tagsColumn = new TableColumn<>("Tags");
         tagsColumn.setCellValueFactory(new PropertyValueFactory<>("tag"));
