@@ -137,7 +137,7 @@
   "language": "English",
   "rating": "4.8",
   "date": "2024-05-09",
-  "cover": ""
+  "cover": "src/coverImages/0553418025.jpg"
 },
 {
   "title": "Harry Potter and the Philosopher's Stone",
@@ -151,7 +151,7 @@
   "language": "English",
   "rating": "4.8",
   "date": "1997-07-20",
-  "cover": ""
+  "cover": "src/coverImages/0747532745.jpg"
 },
 {
   "title": "Second Book",
@@ -286,6 +286,34 @@
   "translators": [],
   "tags": null,
   "isbn": "4231-3213-2131-2",
+  "publisher": "",
+  "edition": "",
+  "language": "",
+  "rating": "",
+  "date": "null",
+  "cover": ""
+},
+{
+  "title": "dnmzaa",
+  "subtitle": "",
+  "authors": [""],
+  "translators": [""],
+  "tags": [""],
+  "isbn": "",
+  "publisher": "",
+  "edition": "",
+  "language": "",
+  "rating": "",
+  "date": "null",
+  "cover": "C:/Users/egese/Desktop/Mezuniyet/20210811_213239.jpgC:/Users/egese/Desktop/Mezuniyet/20210811_213239.jpg"
+},
+{
+  "title": "dert",
+  "subtitle": "",
+  "authors": [""],
+  "translators": [""],
+  "tags": [""],
+  "isbn": "1111111111111",
   "publisher": "",
   "edition": "",
   "language": "",

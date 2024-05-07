@@ -40,7 +40,9 @@ public class Book {
         this.translators = translators;
         this.language = language;
         this.rating = rating;
-        this.cover = cover;
+        StringBuilder pathOfCover = new StringBuilder(cover);
+        pathOfCover.append(cover.replace('\\', '/'));
+        this.cover = pathOfCover.toString();
     }
 
     public void setTitle(String title) { this.title = title; }

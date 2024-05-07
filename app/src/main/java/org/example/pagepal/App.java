@@ -458,8 +458,25 @@ public class App extends Application {
             addBookButton.setFont(new Font(14));
             addBookButton.setPrefSize(100.0, 45.0);
             addBookButton.setOnAction(e -> {
+                boolean checki = true;
                 boolean checkr = true;
+                boolean control = true;
+                String isbnText = isbnField.getText();
                 float rating = 0;
+                try {
+                    if (!isbnText.equals("")) {
+                        long isbn = Long.parseLong(isbnText);
+                        for (Book ibook : lib.getLibraryBooks()) {
+                            if (ibook.getIsbn().equals(isbnText)) {
+                                if (ibook != book) {
+                                    control = false;
+                                }
+                            }
+                        }
+                    }
+                } catch (NumberFormatException exc) {
+                    checki = false;
+                }
 
                 try {
                     rating = Float.parseFloat(ratingField.getText());
@@ -472,8 +489,12 @@ public class App extends Application {
                 }
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setHeaderText("Warning");
-                if (!checkr) {
-                    alert.setContentText("The Rating you have entered has either unknown characters.");
+                if (!control) {
+                    alert.setContentText("The ISBN you have entered already exists.");
+                    alert.setTitle("ISBN Error");
+                    alert.showAndWait();
+                } else if (!checkr) {
+                    alert.setContentText("The Rating you have entered has unknown characters.");
                     alert.setTitle("Rating Error");
                     alert.showAndWait();
                 } else {
@@ -591,9 +612,26 @@ public class App extends Application {
             saveButton.setFont(new Font(14));
 
             saveButton.setOnAction(e -> {
+                boolean checki = true;
                 boolean checkr = true;
+                boolean control = true;
+                String isbnText = isbnField.getText();
                 float rating = 0;
-                
+                try {
+                    if (!isbnText.equals("")) {
+                        long isbn = Long.parseLong(isbnText);
+                        for (Book ibook : lib.getLibraryBooks()) {
+                            if (ibook.getIsbn().equals(isbnText)) {
+                                if (ibook != book) {
+                                    control = false;
+                                }
+                            }
+                        }
+                    }
+                } catch (NumberFormatException exc) {
+                    checki = false;
+                }
+
                 try {
                     rating = Float.parseFloat(ratingField.getText());
                 } catch (NumberFormatException exc) {
@@ -605,8 +643,12 @@ public class App extends Application {
                 }
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setHeaderText("Warning");
-                 if (!checkr) {
-                    alert.setContentText("The Rating you have entered has either unknown characters.");
+                if (!control) {
+                    alert.setContentText("The ISBN you have entered already exists.");
+                    alert.setTitle("ISBN Error");
+                    alert.showAndWait();
+                } else if (!checkr) {
+                    alert.setContentText("The Rating you have entered has unknown characters.");
                     alert.setTitle("Rating Error");
                     alert.showAndWait();
                 } else {
@@ -993,17 +1035,6 @@ public class App extends Application {
                         "By pressing them, you can either delete or edit the book information.");
 
         Label specialConditionsTitle = new Label("Special Conditions");
-        Label specialConditionsType = new Label("Searching by Date");
-        Label specialConditionsDate = new Label(
-                "Date can be searched in 4 different ways.\n" +
-                        "1- Specific Date\n" +
-                        "You can search a specific date with the pattern 'yyyy-mm-dd'.\n" +
-                        "2- Searching by Year\n" +
-                        "To search by year, it is enough to enter the year to search bar.\n" +
-                        "3- Searching by Month\n" +
-                        "To search by month, use the pattern '-mm-'.\n" +
-                        "4- Searching by Day \n" +
-                        "To search by day, use the pattern '-dd'.\n");
 
         Label specialConditionsType2 = new Label("Searching and Filtering by Tags");
         Label specialConditionsFilter = new Label("User can search something and filter by tag at the same time.\n" +
@@ -1022,7 +1053,7 @@ public class App extends Application {
                 searchingDataTitle, searchingDataDetails,
                 filteringByTags, filteringByTagDetails,
                 editingDeletingDataTitle, editingDeletingDataDetails);
-        right.getChildren().addAll(specialConditionsTitle, specialConditionsType, specialConditionsDate,
+        right.getChildren().addAll(specialConditionsTitle,
                 specialConditionsType2, specialConditionsFilter);
         left.setAlignment(Pos.CENTER);
         right.setAlignment(Pos.CENTER);
