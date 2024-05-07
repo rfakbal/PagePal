@@ -45,6 +45,7 @@ public class App extends Application {
     ListView<String> bookList = new ListView<>();
     ArrayList<String> tagList = new ArrayList<>();
     TableView bookTable = new TableView();
+    HBox forBookTablePadding = new HBox(bookTable);
     TextField searchField = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
     ListView<String> tagListView = new ListView<>();
@@ -73,13 +74,12 @@ public class App extends Application {
         }
         tagList.clear();
         tagList.addAll(nonDuplicates);
-
-        for (String tag : tagList) {
-            if (tag.equals("")) {
-                tagList.remove(tag);
+        for(int i = 0;i<tagList.size();i++){
+            if(tagList.get(i).equals("")){
+                tagList.remove(i);
+                break;
             }
         }
-
         tagListView.getItems().addAll(tagList);
 
         newTagField.setPromptText("Add New Tag or Search Tag");
@@ -89,7 +89,7 @@ public class App extends Application {
         newTagField.setStyle("-fx-background-radius: 35;");
 
         newTagField.setBorder(new Border(
-            new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, new CornerRadii(35), BorderStroke.THIN)));
+                new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, new CornerRadii(35), BorderStroke.THIN)));
 
         Button addButton = new Button("Add");
         addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
@@ -110,31 +110,39 @@ public class App extends Application {
         Button listTags = new Button("List By Tags");
         listTags.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         listTags.setOnAction(e -> {
-            ObservableList<String> Obs = tagListView.getSelectionModel().getSelectedItems();
-            ArrayList<Book> tempBookList = new ArrayList<>();
-            ArrayList<Book> libraryClone = new ArrayList<>(lib.getLibraryBooks());
-
-            for (String tag : Obs) {
-                ArrayList<Book> tempBooksToRemove = new ArrayList<>(); 
-                for (Book book : libraryClone) {
-                    for (String tempTag : book.getTag()) {
-                        if (tempTag.equals(tag)) {
-                            tempBookList.add(book);
-                            tempBooksToRemove.add(book); 
-                            break; 
+            if(listedByTags){
+            Alert alreadyFiltered = new Alert(AlertType.WARNING);
+            alreadyFiltered.setContentText("To list by tags you must remove the currently applied filter");
+            alreadyFiltered.setTitle("Error");
+            alreadyFiltered.showAndWait();
+            }
+            else{
+                ObservableList<String> Obs = tagListView.getSelectionModel().getSelectedItems();
+                ArrayList<Book> tempBookList = new ArrayList<>();
+                ArrayList<Book> libraryClone = new ArrayList<>(lib.getLibraryBooks());
+    
+                for (String tag : Obs) {
+                    ArrayList<Book> tempBooksToRemove = new ArrayList<>();
+                    for (Book book : libraryClone) {
+                        for (String tempTag : book.getTag()) {
+                            if (tempTag.equals(tag)) {
+                                tempBookList.add(book);
+                                tempBooksToRemove.add(book);
+                                break;
+                            }
                         }
                     }
+                    libraryClone.removeAll(tempBooksToRemove);
                 }
-                libraryClone.removeAll(tempBooksToRemove);
+    
+                lib.setSearchedByTags(tempBookList);
+                listedByTags = true;
+                searchResults("", "All Books");
+                if (listedByTags) {
+                    thirdLine.getChildren().add(deListButton);
+                }
+                tagStage.close();
             }
-
-            lib.setSearchedByTags(tempBookList);
-            listedByTags = true;
-            searchResults("","All Books");
-            if (listedByTags) {
-                thirdLine.getChildren().add(deListButton);
-            }
-            tagStage.close();
         });
 
         addButton.setOnAction(e -> {
@@ -182,20 +190,37 @@ public class App extends Application {
 
         tagListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         HBox forButtons = new HBox(10);
+        VBox forTagList = new VBox();
+        forTagList.getChildren().addAll(tagListView);
+
+        // Tag Filter gui design
+        VBox.setVgrow(tagListView, Priority.ALWAYS);
+        VBox.setVgrow(forTagList, Priority.ALWAYS);
+        forTagList.setPadding(new Insets(7, 7, 0, 7));
+        searchButton.setPadding(new Insets(0, 3, 3, 3));
+        addButton.setPadding(new Insets(0, 3, 3, 3));
+        deleteButton.setPadding(new Insets(0, 3, 3, 3));
+        listTags.setPadding(new Insets(0, 3, 3, 3));
+        forButtons.setPadding(new Insets(0, 3, 3, 3));
         forButtons.getChildren().addAll(searchButton, addButton, deleteButton, listTags);
         forButtons.setAlignment(Pos.CENTER);
-        VBox vbox = new VBox(tagListView, newTagField, forButtons);
+        newTagField.setPadding(new Insets(3, 3, 3, 3));
+        VBox vbox = new VBox(5);
+        vbox.getChildren().addAll(forTagList, newTagField, forButtons);
         vbox.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
         Scene scene = new Scene(vbox, 300, 200);
-        tagStage.setScene(scene);
 
+        tagStage.setTitle("Tag List");
+        tagStage.setScene(scene);
         tagStage.show();
     }
 
     // BOTH FOR EDIT AND SAVE BOOK TAB
-    private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general book information
+    private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general
+                                                    // book information
 
         VBox root = new VBox();
+        Scene scene = new Scene(root);
         root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
         HBox main = new HBox(20);
         root.setPrefSize(500, 550);
@@ -215,23 +240,41 @@ public class App extends Application {
 
         TextField titleField = new TextField();
         titleField.setPrefWidth(180);
+        titleField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        titleField.setStyle("-fx-background-radius: 5;");
+        titleField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label authorLabel = new Label("Author/Authors");
         authorLabel.setFont(new Font(25));
 
         TextField authorField = new TextField();
+        authorField.setPromptText("Enter multiple using (,)");
         authorField.setPrefWidth(180);
+        authorField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        authorField.setStyle("-fx-background-radius: 5;");
+        authorField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label isbnLabel = new Label("ISBN");
         isbnLabel.setFont(new Font(25));
 
         TextField isbnField = new TextField();
+        isbnField.setPromptText("Enter a 13 digit number.");
         isbnField.setPrefWidth(180);
+        isbnField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        isbnField.setStyle("-fx-background-radius: 5;");
+        isbnField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label dateLabel = new Label("Date");
         dateLabel.setFont(new Font(25));
 
         DatePicker datepPicker = new DatePicker();
+        datepPicker.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        datepPicker.setStyle("-fx-background-radius: 5;");
+        datepPicker.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         // For cover path selecting and making it compatible with java
         HBox coverBox = new HBox(8);
@@ -239,23 +282,34 @@ public class App extends Application {
         Label coverLabel = new Label("Cover");
         coverLabel.setFont(new Font(25));
         Button coverChoose = new Button("Choose file");
+        coverChoose.setStyle(
+                "-fx-background-color: #4CAF50; " +
+                        "-fx-background-radius: 5; " +
+                        "-fx-text-fill: white; ");
         Button coverDelete = new Button("Delete cover");
+        coverDelete.setStyle(
+                "-fx-background-color: #ff3333; " +
+                        "-fx-background-radius: 5; " +
+                        "-fx-text-fill: white; ");
         coverBox.getChildren().addAll(coverChoose, coverDelete);
         FileChooser coverChooser = new FileChooser();
         coverChooser.setTitle("Choose file");
         coverChoose.setOnAction(e -> {
             File selectedCover = coverChooser.showOpenDialog(null);
             if (selectedCover != null) {
-                if (((selectedCover.getAbsolutePath()).contains(".jpg") || (selectedCover.getAbsolutePath().contains(".png")))){
-                pathOfCover.append(selectedCover.getAbsolutePath().replace('\\', '/'));
-            } else {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setContentText("The file you have selected is in the wrong type. Please select a file which is JPG or PNG.");
-                alert.setTitle("Warning");
-                alert.setHeaderText("Wrong file type.");
-                alert.showAndWait();
+                if (((selectedCover.getAbsolutePath()).contains(".jpg")
+                        || (selectedCover.getAbsolutePath().contains(".png")))) {
+                    pathOfCover.append(selectedCover.getAbsolutePath().replace('\\', '/'));
+                } else {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setContentText(
+                            "The file you have selected is in the wrong type. Please select a file which is JPG or PNG.");
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("Wrong file type.");
+                    alert.showAndWait();
+                }
             }
-        }});
+        });
         coverDelete.setOnAction(e -> {
             pathOfCover.setLength(0);
         });
@@ -264,7 +318,12 @@ public class App extends Application {
         ratingLabel.setFont(new Font(25));
 
         TextField ratingField = new TextField();
+        ratingField.setPromptText("Enter a value between 0-10");
         ratingField.setPrefWidth(180);
+        ratingField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        ratingField.setStyle("-fx-background-radius: 5;");
+        ratingField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         // RIGHT/////////////////////////////////////////////////////
         Label subtitle = new Label("Subtitle");
@@ -272,36 +331,65 @@ public class App extends Application {
 
         TextField subtitleField = new TextField();
         subtitleField.setPrefWidth(180);
+        subtitleField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        subtitleField.setStyle("-fx-background-radius: 5;");
+        subtitleField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label translatorLabel = new Label("Translator/Translators");
         translatorLabel.setFont(new Font(25));
 
         TextField translatorField = new TextField();
+        translatorField.setPromptText("Enter multiple using (,)");
         translatorField.setPrefWidth(180);
+        translatorField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        translatorField.setStyle("-fx-background-radius: 5;");
+        translatorField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label publisherLabel = new Label("Publisher");
         publisherLabel.setFont(new Font(25));
 
         TextField publisherField = new TextField();
         publisherField.setPrefWidth(180);
+        publisherField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        publisherField.setStyle("-fx-background-radius: 5;");
+        publisherField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label editionLabel = new Label("Edition");
         editionLabel.setFont(new Font(25));
 
         TextField editionField = new TextField();
         editionField.setPrefWidth(180);
+        editionField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        editionField.setStyle("-fx-background-radius: 5;");
+        editionField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label languagLabel = new Label("Language");
         languagLabel.setFont(new Font(25));
 
         TextField languageField = new TextField();
         languageField.setPrefWidth(180);
+        languageField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        languageField.setStyle("-fx-background-radius: 5;");
+        languageField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
 
         Label tagLabel = new Label("Tag/Tags");
         tagLabel.setFont(new Font(25));
 
         TextField tagField = new TextField();
+        tagField.setPromptText("Enter multiple using (,)");
         tagField.setPrefWidth(180);
+        tagField.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        tagField.setStyle("-fx-background-radius: 5;");
+        tagField.setBorder(new Border(
+                new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.THIN)));
+
+        main.setAlignment(Pos.CENTER);
+        root.setAlignment(Pos.CENTER);
 
         if (type == 0) {
             Button addBookButton = new Button("Add");
@@ -401,10 +489,10 @@ public class App extends Application {
                     addBookButton);
 
             main.getChildren().addAll(leftBox, rightBox);
-
+            main.setAlignment(Pos.CENTER);
             root.getChildren().addAll(main);
+            root.setAlignment(Pos.CENTER);
 
-            Scene scene = new Scene(root);
             secondStage.setScene(scene);
             secondStage.setTitle("Add Book");
             secondStage.show();
@@ -546,6 +634,9 @@ public class App extends Application {
                     book.setCover(pathOfCover.toString());
                     pathOfCover.setLength(0);
 
+                    main.setAlignment(Pos.CENTER);
+                    root.setAlignment(Pos.CENTER);
+
                     infoStage.close();
                     secondStage.close();
                     searchResults(searchField.getText(), choiceBox.getValue());
@@ -567,7 +658,6 @@ public class App extends Application {
             main.getChildren().addAll(leftBox, rightBox);
             root.getChildren().addAll(main);
             root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
-            Scene scene = new Scene(root);
             secondStage.setScene(scene);
             secondStage.setTitle("Edit Book");
             secondStage.show();
@@ -583,13 +673,17 @@ public class App extends Application {
         VBox rightBox = new VBox(10);
         VBox bottomVBox = new VBox(10);
 
+        mainBox.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
+
+        Label spacer = new Label("   ");
         ImageView imageView = new ImageView();
-        HBox forImage = new HBox(10);
-        forImage.getChildren().addAll(imageView);
+        VBox forImage = new VBox(10);
+        VBox imageSpace = new VBox(10);
+        forImage.getChildren().addAll(imageSpace, imageView);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
         imageView.fitWidthProperty().bind(infoStage.widthProperty().multiply(0.5));
-        imageView.fitHeightProperty().bind(infoStage.heightProperty().multiply(0.9));
+        imageView.fitHeightProperty().bind(infoStage.heightProperty().multiply(0.86));
         imageView.setImage(null);
         System.out.println(displayBook.getCover());
         if (displayBook.getCover() != null && !displayBook.getCover().equals("null")
@@ -598,11 +692,11 @@ public class App extends Application {
                 Image imm = new Image(im);
                 imageView.setImage(imm);
             } catch (IOException e1) {
-                Image imm = new Image("file:../app/cat.jpg");
+                Image imm = new Image("file:../app/defaultCover.png");
                 imageView.setImage(imm);
             }
         } else {
-            Image imm = new Image("file:../app/cat.jpg");
+            Image imm = new Image("file:../app/defaultCover.png");
             imageView.setImage(imm);
         }
         leftBox.getChildren().add(forImage);
@@ -642,7 +736,6 @@ public class App extends Application {
 
         // VBox.setMargin(buttonHBox, new Insets(0, 15, 0, 0));
         bottomVBox.getChildren().addAll(buttonHBox);
-
         Button deleteButton = new Button("Delete Book");
         deleteButton.setStyle(
                 "-fx-background-color: #ff3333; " +
@@ -680,6 +773,32 @@ public class App extends Application {
                 searchResults(searchField.getText(), choiceBox.getValue());
                 infoStage.close();
                 searchResults(searchField.getText(), choiceBox.getValue());
+                if (listedByTags) {
+                    ObservableList<String> Obs = tagListView.getSelectionModel().getSelectedItems();
+                    ArrayList<Book> tempBookList = new ArrayList<>();
+                    ArrayList<Book> libraryClone = new ArrayList<>(lib.getLibraryBooks());
+
+                    for (String tag : Obs) {
+                        ArrayList<Book> tempBooksToRemove = new ArrayList<>();
+                        for (Book book : libraryClone) {
+                            for (String tempTag : book.getTag()) {
+                                if (tempTag.equals(tag)) {
+                                    tempBookList.add(book);
+                                    tempBooksToRemove.add(book);
+                                    break;
+                                }
+                            }
+                        }
+                        libraryClone.removeAll(tempBooksToRemove);
+                    }
+
+                    lib.setSearchedByTags(tempBookList);
+                    listedByTags = true;
+                    searchResults("", "All Books");
+                    if (listedByTags) {
+                        thirdLine.getChildren().add(deListButton);
+                    }
+                }
             }
         });
 
@@ -708,11 +827,11 @@ public class App extends Application {
         editButton.setMnemonicParsing(false);
         editButton.setPrefWidth(100);
         editButton.setOnAction(e -> genBookInfo(displayBook, 1));
-        buttonHBox.getChildren().addAll(deleteButton, editButton);
+        buttonHBox.getChildren().addAll(deleteButton, spacer, editButton);
 
         topBox.getChildren().addAll(leftBox, rightBox);
 
-        forImage.setAlignment(Pos.CENTER);
+        forImage.setAlignment(Pos.TOP_CENTER);
         buttonHBox.setAlignment(Pos.CENTER);
         bottomVBox.setAlignment(Pos.BOTTOM_CENTER);
         rightBox.setAlignment(Pos.CENTER);
@@ -721,25 +840,12 @@ public class App extends Application {
 
         mainBox.getChildren().addAll(topBox, bottomVBox);
 
-        // HBox.setMargin(editVBox, new Insets(0, 0, 0, 120));
-
-        /*
-         * VBox.setVgrow(imageView, Priority.ALWAYS);
-         * VBox.setVgrow(leftBox, Priority.ALWAYS);
-         * VBox.setVgrow(bottomVBox, Priority.ALWAYS);
-         * HBox.setHgrow(imageView, Priority.ALWAYS);
-         * HBox.setHgrow(leftBox, Priority.ALWAYS);
-         * HBox.setHgrow(bottomVBox, Priority.ALWAYS);
-         */
-
         VBox.setVgrow(mainBox, Priority.ALWAYS);
         HBox.setHgrow(mainBox, Priority.ALWAYS);
 
         infoStage.setWidth(500);
-        infoStage.setHeight(425);
-
+        infoStage.setHeight(450);
         Scene infoScene = new Scene(mainBox);
-
         infoStage.setScene(infoScene);
         infoStage.show();
     }
@@ -752,6 +858,11 @@ public class App extends Application {
         bookTable.setVisible(true);
         TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+        bookTable.getSortOrder().clear();
+        bookTable.getSortOrder().add(titleColumn);
+        titleColumn.setSortType(TableColumn.SortType.ASCENDING);
+        bookTable.sort();
 
         TableColumn<Book, String> subtitleColumn = new TableColumn<>("Subtitle");
         subtitleColumn.setCellValueFactory(new PropertyValueFactory<>("subTitle"));
@@ -795,11 +906,15 @@ public class App extends Application {
         lib.setDisplayBooks(lib.searchBook(input, type, listedByTags));
         bookTable.getItems().addAll(lib.getDisplayBooks());
 
-        if (!root.getChildren().contains(bookTable)) {
-            root.getChildren().add(bookTable);
+        forBookTablePadding.setPadding(new Insets(10));
+        VBox.setVgrow(forBookTablePadding, Priority.ALWAYS);
+
+        if (!root.getChildren().contains(forBookTablePadding)) {
+            root.getChildren().add(forBookTablePadding);
         }
-        HBox.setHgrow(bookTable, null);
-        VBox.setVgrow(bookTable, null);
+
+        HBox.setHgrow(bookTable, Priority.ALWAYS);
+        VBox.setVgrow(bookTable, Priority.ALWAYS);
 
         bookTable.setOnMouseClicked(event -> {
             Object selectedObject = bookTable.getSelectionModel().getSelectedItem();
@@ -817,9 +932,11 @@ public class App extends Application {
     }
 
     public void showManual() {
-        VBox root = new VBox(10);
+        HBox root = new HBox(10);
         root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
         root.setPadding(new Insets(10));
+        VBox left = new VBox(10);
+        VBox right = new VBox(10);
 
         Label welcomeLabel = new Label("Welcome to PagePal.");
 
@@ -828,9 +945,10 @@ public class App extends Application {
                 "1. Importing data\n" +
                         "2. Exporting data\n" +
                         "3. Searching through data\n" +
-                        "4. Adding data\n" +
-                        "5. Deleting data\n" +
-                        "6. Editing data");
+                        "4. Filtering By Tags\n" +
+                        "5. Adding data\n" +
+                        "6. Deleting data\n" +
+                        "7. Editing data");
 
         Label importingDataTitle = new Label("Importing Data:");
         Label importingDataDetails = new Label("To import data, go to 'File' menu and choose 'Import Books'.");
@@ -851,22 +969,58 @@ public class App extends Application {
                         "Then write what you want to search in the search bar.\n" +
                         "Finally, click the 'Search' button.");
 
+        Label filteringByTags = new Label("Filtering by Tags:");
+        Label filteringByTagDetails = new Label(
+                "To filter by tags, you have to click on 'Tag Filter' button.\n" +
+                        "Then, select the tag(s) you want to filter by.\n" +
+                        "After that, hit 'List by Tags' button."
+
+        );
+
         Label editingDeletingDataTitle = new Label("Editing and Deleting Data:");
         Label editingDeletingDataDetails = new Label(
                 "To edit and delete data, first search the book.\n" +
                         "Then click on the book in the list you want to edit or delete.\n" +
-                        "In the opening tab, at the right bottom corner,\n" +
+                        "In the opening tab, at the bottom,\n" +
                         "there are two buttons for deleting and editing.\n" +
-                        "By pressing them, you can delete or edit the book information.");
+                        "By pressing them, you can either delete or edit the book information.");
 
-        root.getChildren().addAll(
+        Label specialConditionsTitle = new Label("Special Conditions");
+        Label specialConditionsType = new Label("Searching by Date");
+        Label specialConditionsDate = new Label(
+                "Date can be searched in 4 different ways.\n" +
+                        "1- Specific Date\n" +
+                        "You can search a specific date with the pattern 'yyyy-mm-dd'.\n" +
+                        "2- Searching by Year\n" +
+                        "To search by year, it is enough to enter the year to search bar.\n" +
+                        "3- Searching by Month\n" +
+                        "To search by month, use the pattern '-mm-'.\n" +
+                        "4- Searching by Day \n" +
+                        "To search by day, use the pattern '-dd'.\n");
+
+        Label specialConditionsType2 = new Label("Searching and Filtering by Tags");
+        Label specialConditionsFilter = new Label("User can search something and filter by tag at the same time.\n" +
+                "To do that, user has to select the tags by clicking at 'Tag Filter' button.\n" +
+                "Then, by clicking 'List by Tags', user can filter by the tags selected.\n" +
+                "Lastly, now you can search anything you want.\n" +
+                "This way, you can search while the books are filtered by tags.\n" +
+                "Note : To select multiple tags, hold 'ctrl' button and click on the tags.\n");
+
+        left.getChildren().addAll(
                 welcomeLabel,
                 featuresTitle, featuresDetails,
                 importingDataTitle, importingDataDetails,
                 exportingDataTitle, exportingDataDetails,
                 addingDataTitle, addingDataDetails,
                 searchingDataTitle, searchingDataDetails,
+                filteringByTags, filteringByTagDetails,
                 editingDeletingDataTitle, editingDeletingDataDetails);
+        right.getChildren().addAll(specialConditionsTitle, specialConditionsType, specialConditionsDate,
+                specialConditionsType2, specialConditionsFilter);
+        left.setAlignment(Pos.CENTER);
+        right.setAlignment(Pos.CENTER);
+        root.setAlignment(Pos.CENTER);
+        root.getChildren().addAll(left, right);
         Scene scene = new Scene(root);
         manualStage.setScene(scene);
         manualStage.setTitle("User Manual");
@@ -988,8 +1142,10 @@ public class App extends Application {
                 disTemp.clear();
                 lib.setDisplayBooks(disTemp);
                 lib.setLibraryBooks(libTemp);
+                bookTable.setVisible(false);
             }
             searchResults(searchField.getText(), choiceBox.getValue());
+            bookTable.setVisible(false);
         });
 
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
@@ -1088,11 +1244,11 @@ public class App extends Application {
         tagsButton.setOnAction(e -> displayTagsMenu());
 
         deListButton.setStyle(
-            "-fx-background-color: #ff3333; " +
-                    "-fx-background-radius: 5; " +
-                    "-fx-text-fill: white; " +
-                    "-fx-padding: 5 10; " +
-                    "-fx-font-size: 14px;");
+                "-fx-background-color: #ff3333; " +
+                        "-fx-background-radius: 5; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-padding: 5 10; " +
+                        "-fx-font-size: 14px;");
         deListButton.setFont(new Font(14));
         deListButton.setPrefSize(120.0, 45.0);
         deListButton.setOnAction(e -> {
@@ -1117,7 +1273,7 @@ public class App extends Application {
         root.getChildren().addAll(menuBar, firstLine, secondLine, thirdLine);
 
         firstStage.setHeight(480);
-        firstStage.setWidth(1050);
+        firstStage.setWidth(750);
         Scene scene = new Scene(root, Color.BEIGE);
         firstStage.setScene(scene);
         firstStage.setTitle("PagePal");
