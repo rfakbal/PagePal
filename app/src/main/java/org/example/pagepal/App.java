@@ -243,6 +243,7 @@ public class App extends Application {
                 tagList.remove(tag);
                 for (Book book : lib.getLibraryBooks()) {
                     ArrayList<String> newTagArr = new ArrayList<>();
+                    try {
                     if (book.getTag() != null) {
                         for (String bookTag : book.getTag()) {
                             if (tag.equals(bookTag)) {
@@ -253,6 +254,9 @@ public class App extends Application {
                         }
                     }
                     book.setTag(newTagArr);
+                } catch (Exception ex) {
+
+                }
                 }
             }
         });
