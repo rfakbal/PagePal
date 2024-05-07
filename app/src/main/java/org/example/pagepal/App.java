@@ -51,6 +51,7 @@ public class App extends Application {
     Boolean listedByTags = false;
     HBox thirdLine = new HBox();
     Button deListButton = new Button("Remove Filter");
+    StringBuilder pathOfCover = new StringBuilder();
 
     @SuppressWarnings("unlikely-arg-type")
 
@@ -243,6 +244,7 @@ public class App extends Application {
                 tagList.remove(tag);
                 for (Book book : lib.getLibraryBooks()) {
                     ArrayList<String> newTagArr = new ArrayList<>();
+                    try {
                     if (book.getTag() != null) {
                         for (String bookTag : book.getTag()) {
                             if (tag.equals(bookTag)) {
@@ -253,6 +255,9 @@ public class App extends Application {
                         }
                     }
                     book.setTag(newTagArr);
+                } catch (Exception ex) {
+
+                }
                 }
             }
         });
@@ -347,7 +352,6 @@ public class App extends Application {
 
         // For cover path selecting and making it compatible with java
         HBox coverBox = new HBox(8);
-        StringBuilder pathOfCover = new StringBuilder();
         Label coverLabel = new Label("Cover");
         coverLabel.setFont(new Font(25));
         Button coverChoose = new Button("Choose file");
@@ -362,6 +366,7 @@ public class App extends Application {
                         "-fx-text-fill: white; ");
         coverBox.getChildren().addAll(coverChoose, coverDelete);
         FileChooser coverChooser = new FileChooser();
+        String toCheckPath;
         coverChooser.setTitle("Choose file");
         coverChoose.setOnAction(e -> {
             File selectedCover = coverChooser.showOpenDialog(null);
@@ -505,7 +510,6 @@ public class App extends Application {
                     alert.setTitle("Rating Error");
                     alert.showAndWait();
                 } else {
-                    System.out.println(pathOfCover.toString());
                     String[] authorArray = authorField.getText().split(",");
                     ArrayList<String> authorList = new ArrayList<>(Arrays.asList(authorArray));
                     String[] tagArray = tagField.getText().split(",");
@@ -564,6 +568,8 @@ public class App extends Application {
             publisherField.setText(book.getPublisher());
             editionField.setText(book.getEdition());
             languageField.setText(book.getLanguage());
+
+            pathOfCover = new StringBuilder(book.getCover());
 
             if (!"null".equals(book.getDate()) && book.getDate() != null) {
                 datepPicker.setValue(LocalDate.parse(book.getDate()));
@@ -686,7 +692,9 @@ public class App extends Application {
                     book.setRating(ratingField.getText());
                     book.setSubTitle(subtitleField.getText());
                     book.setTitle(titleField.getText());
-                    book.setCover(pathOfCover.toString());
+                    if(!book.getCover().equals(pathOfCover.toString())){
+                        book.setCover(pathOfCover.toString());
+                    }
                     pathOfCover.setLength(0);
 
                     main.setAlignment(Pos.CENTER);
@@ -885,12 +893,13 @@ public class App extends Application {
 
         topBox.getChildren().addAll(leftBox, rightBox);
 
-        forImage.setAlignment(Pos.TOP_CENTER);
+        forImage.setAlignment(Pos.CENTER);
         buttonHBox.setAlignment(Pos.CENTER);
         bottomVBox.setAlignment(Pos.BOTTOM_CENTER);
         rightBox.setAlignment(Pos.CENTER);
         leftBox.setAlignment(Pos.CENTER);
         topBox.setAlignment(Pos.CENTER);
+        mainBox.setAlignment(Pos.CENTER);
 
         mainBox.getChildren().addAll(topBox, bottomVBox);
 
