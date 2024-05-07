@@ -241,11 +241,17 @@ public class App extends Application {
                 tagListView.getItems().remove(selectedIndex);
                 tagList.remove(tag);
                 for (Book book : lib.getLibraryBooks()) {
-                    for (String bookTag : book.getTag()) {
-                        if (tag.equals(bookTag)) {
-                            book.getTag().remove(tag);
+                    ArrayList<String> newTagArr = new ArrayList<>();
+                    if (book.getTag() != null) {
+                        for (String bookTag : book.getTag()) {
+                            if (tag.equals(bookTag)) {
+                                book.getTag().remove(tag);
+                            } else {
+                                newTagArr.add(bookTag);
+                            }
                         }
                     }
+                    book.setTag(newTagArr);
                 }
             }
         });
