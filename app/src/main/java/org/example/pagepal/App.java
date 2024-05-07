@@ -889,12 +889,13 @@ public class App extends Application {
 
         topBox.getChildren().addAll(leftBox, rightBox);
 
-        forImage.setAlignment(Pos.TOP_CENTER);
+        forImage.setAlignment(Pos.CENTER);
         buttonHBox.setAlignment(Pos.CENTER);
         bottomVBox.setAlignment(Pos.BOTTOM_CENTER);
         rightBox.setAlignment(Pos.CENTER);
         leftBox.setAlignment(Pos.CENTER);
         topBox.setAlignment(Pos.CENTER);
+        mainBox.setAlignment(Pos.CENTER);
 
         mainBox.getChildren().addAll(topBox, bottomVBox);
 
