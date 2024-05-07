@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.animation.ScaleTransition;
 import javafx.util.Duration;
@@ -531,7 +532,6 @@ public class App extends Application {
                 }
             });
 
-            // what is this-arda
             Region spacer = new Region();
 
             VBox.setMargin(leftBox, new Insets(8));
@@ -789,7 +789,6 @@ public class App extends Application {
         HBox buttonHBox = new HBox();
         buttonHBox.setAlignment(Pos.BOTTOM_CENTER);
 
-        // VBox.setMargin(buttonHBox, new Insets(0, 15, 0, 0));
         bottomVBox.getChildren().addAll(buttonHBox);
         Button deleteButton = new Button("Delete Book");
         deleteButton.setStyle(
@@ -1124,7 +1123,19 @@ public class App extends Application {
             }
         });
         MenuItem exportMenuItem = new MenuItem("Export Books");
-        exportMenuItem.setOnAction(e -> lib.exportJSON("library.json"));
+        exportMenuItem.setOnAction(e -> {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Select directory to export");
+            File selectedDirectory = directoryChooser.showDialog(firstStage);
+            if (selectedDirectory != null) {
+                System.out.println(selectedDirectory.getAbsolutePath());
+                try {
+                    lib.exportJSON(selectedDirectory.getAbsolutePath()+"\\library.json");
+                } catch (Exception ex) {
+                    System.out.println("Error importing JSON file: " + ex.getMessage());
+                }
+            }
+        });
         MenuItem createMenuItem = new MenuItem("Create Library");
         createMenuItem.setOnAction(e -> {
             Gson gson = new Gson();
