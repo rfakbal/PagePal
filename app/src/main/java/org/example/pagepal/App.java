@@ -1202,12 +1202,6 @@ public class App extends Application {
             alert.setTitle("Warning");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                ArrayList<Book> libTemp = lib.getLibraryBooks();
-                ArrayList<Book> disTemp = lib.getDisplayBooks();
-                libTemp.removeAll(disTemp);
-                disTemp.clear();
-                lib.setDisplayBooks(disTemp);
-                lib.setLibraryBooks(libTemp);
                 bookTable.setVisible(false);
             }
             searchResults(searchField.getText(), choiceBox.getValue());

@@ -28,6 +28,62 @@
   "cover": "src/images/tokillmockingbird.jpg"
 },
 {
+  "title": "Brave New World",
+  "subtitle": "",
+  "authors": ["Aldous Huxley"],
+  "translators": [],
+  "tags": ["Science Fiction","Dystopian Fiction"],
+  "isbn": "9780-0608-5052-0",
+  "publisher": "Harper Perennial Modern Classics",
+  "edition": "1",
+  "language": "English",
+  "rating": "4.3",
+  "date": "1932-10-19",
+  "cover": "src/images/default.jpg"
+},
+{
+  "title": "Pride and Prejudice",
+  "subtitle": "",
+  "authors": ["Jane Austen"],
+  "translators": [],
+  "tags": ["Romantic Fiction","Regency Novel"],
+  "isbn": "5482-3346-6666-6",
+  "publisher": "Penguin Classics",
+  "edition": "12",
+  "language": "English",
+  "rating": "4.7",
+  "date": "1813-01-28",
+  "cover": "src/images/prideandprejudice.jpg"
+},
+{
+  "title": "Istanbul Hatirasi",
+  "subtitle": "",
+  "authors": ["Ahmet Umit"],
+  "translators": ["Fulya Kocak"],
+  "tags": ["Polisiye","Tarih"],
+  "isbn": "9789-7528-9044-3",
+  "publisher": "Everest Yayinlari",
+  "edition": "8",
+  "language": "Turkish",
+  "rating": "4.5",
+  "date": "2023-08-10",
+  "cover": "src/images/istanbulhatirasi.jpeg"
+},
+{
+  "title": "The Catcher in the Rye",
+  "subtitle": "",
+  "authors": ["J.D. Salinger"],
+  "translators": [],
+  "tags": ["Coming-of-age Fiction"],
+  "isbn": "3243-2534-6545-5",
+  "publisher": "Little, Brown and Company",
+  "edition": "1",
+  "language": "English",
+  "rating": "4.1",
+  "date": "1951-07-16",
+  "cover": "src/images/catcherintherye.jpg"
+},
+{
   "title": "Wuthering Heights",
   "subtitle": "",
   "authors": [],
@@ -70,6 +126,20 @@
   "cover": ""
 },
 {
+  "title": "The Martian",
+  "subtitle": "",
+  "authors": ["Andy Weir"],
+  "translators": [""],
+  "tags": ["science fiction","space","survival"],
+  "isbn": "4658-8768-4868-1",
+  "publisher": "Crown Publishing Group",
+  "edition": "1",
+  "language": "English",
+  "rating": "4.8",
+  "date": "2024-05-09",
+  "cover": "src/coverImages/0553418025.jpg"
+},
+{
   "title": "Harry Potter and the Philosopher's Stone",
   "subtitle": "",
   "authors": ["J.K. Rowling"],
@@ -82,6 +152,34 @@
   "rating": "4.8",
   "date": "1997-07-20",
   "cover": "src/coverImages/0747532745.jpg"
+},
+{
+  "title": "Second Book",
+  "subtitle": "",
+  "authors": ["Bob Smith"],
+  "translators": [],
+  "tags": ["literature","novel"],
+  "isbn": "0987654321",
+  "publisher": "Beta Publishers",
+  "edition": "",
+  "language": "French",
+  "rating": "3.8",
+  "date": "2023-02-20",
+  "cover": "null"
+},
+{
+  "title": "Another Sample Book",
+  "subtitle": "",
+  "authors": ["Clara Oswald"],
+  "translators": [""],
+  "tags": ["history","biography"],
+  "isbn": "1122-3344-5523-2",
+  "publisher": "Gamma Publishing",
+  "edition": "",
+  "language": "Spanish",
+  "rating": "4.2",
+  "date": "2021-05-10",
+  "cover": "src/coverImages/default_image.jpg"
 },
 {
   "title": "First Book",
@@ -102,7 +200,7 @@
   "subtitle": "",
   "authors": ["Khaled Hosseini"],
   "translators": [""],
-  "tags": [],
+  "tags": ["drama","historical fiction"],
   "isbn": "6747-5456-4754-2",
   "publisher": "Riverhead Books",
   "edition": "2",
@@ -168,6 +266,20 @@
   "cover": "src/coverImages/default_image.jpg"
 },
 {
+  "title": "hhhhhhhh",
+  "subtitle": "",
+  "authors": ["Clara Oswald"],
+  "translators": [""],
+  "tags": ["history","biography"],
+  "isbn": "8976634578",
+  "publisher": "Gamma Publishing",
+  "edition": "",
+  "language": "Spanish",
+  "rating": "4.2",
+  "date": "2021-05-10",
+  "cover": "null"
+},
+{
   "title": "",
   "subtitle": "",
   "authors": [],
@@ -182,10 +294,10 @@
   "cover": ""
 },
 {
-  "title": "astraj",
+  "title": "dnmzaa",
   "subtitle": "",
-  "authors": ["opel"],
-  "translators": ["ege"],
+  "authors": [""],
+  "translators": [""],
   "tags": [""],
   "isbn": "",
   "publisher": "",
@@ -193,7 +305,7 @@
   "language": "",
   "rating": "",
   "date": "null",
-  "cover": "C:/Users/egese/Desktop/fotolar/obelmasaüstü.jpg"
+  "cover": "C:/Users/egese/Desktop/Mezuniyet/20210811_213239.jpgC:/Users/egese/Desktop/Mezuniyet/20210811_213239.jpg"
 },
 {
   "title": "dert",
@@ -208,5 +320,19 @@
   "rating": "",
   "date": "null",
   "cover": ""
+},
+{
+  "title": "Sefiller",
+  "subtitle": "",
+  "authors": ["Victor Hugo"],
+  "translators": [""],
+  "tags": ["Novel","  Polisiye"],
+  "isbn": "",
+  "publisher": "İtaki Yayınları",
+  "edition": "4",
+  "language": "Türkçe",
+  "rating": "8",
+  "date": "null",
+  "cover": "C:/Users/rusen/Desktop/TEST.jpg"
 }
 ]
