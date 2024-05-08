@@ -15,10 +15,7 @@ import javafx.animation.ScaleTransition;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -139,7 +136,7 @@ public class App extends Application {
         });
 
         Button listTags = new Button("List By Tags");
-        
+
         listTags.setOnMouseEntered(event -> {
             ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), listTags);
             scaleTransition.setToX(1.1);
@@ -156,16 +153,16 @@ public class App extends Application {
         listTags.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px;");
         listTags.setOnAction(e -> {
             if(listedByTags){
-            Alert alreadyFiltered = new Alert(AlertType.WARNING);
-            alreadyFiltered.setContentText("To list by tags you must remove the currently applied filter");
-            alreadyFiltered.setTitle("Error");
-            alreadyFiltered.showAndWait();
+                Alert alreadyFiltered = new Alert(AlertType.WARNING);
+                alreadyFiltered.setContentText("To list by tags you must remove the currently applied filter");
+                alreadyFiltered.setTitle("Error");
+                alreadyFiltered.showAndWait();
             }
             else{
                 ObservableList<String> Obs = tagListView.getSelectionModel().getSelectedItems();
                 ArrayList<Book> tempBookList = new ArrayList<>();
                 ArrayList<Book> libraryClone = new ArrayList<>(lib.getLibraryBooks());
-    
+
                 for (String tag : Obs) {
                     ArrayList<Book> tempBooksToRemove = new ArrayList<>();
                     for (Book book : libraryClone) {
@@ -183,7 +180,7 @@ public class App extends Application {
                     }
                     libraryClone.removeAll(tempBooksToRemove);
                 }
-    
+
                 lib.setSearchedByTags(tempBookList);
                 listedByTags = true;
                 searchResults("", "All Books");
@@ -219,8 +216,8 @@ public class App extends Application {
             }
         });
 
-        Button deleteButton = new Button("Remove"); 
-        
+        Button deleteButton = new Button("Remove");
+
         deleteButton.setOnMouseEntered(event -> {
             ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), deleteButton);
             scaleTransition.setToX(1.1);
@@ -245,19 +242,19 @@ public class App extends Application {
                 for (Book book : lib.getLibraryBooks()) {
                     ArrayList<String> newTagArr = new ArrayList<>();
                     try {
-                    if (book.getTag() != null) {
-                        for (String bookTag : book.getTag()) {
-                            if (tag.equals(bookTag)) {
-                                book.getTag().remove(tag);
-                            } else {
-                                newTagArr.add(bookTag);
+                        if (book.getTag() != null) {
+                            for (String bookTag : book.getTag()) {
+                                if (tag.equals(bookTag)) {
+                                    book.getTag().remove(tag);
+                                } else {
+                                    newTagArr.add(bookTag);
+                                }
                             }
                         }
-                    }
-                    book.setTag(newTagArr);
-                } catch (Exception ex) {
+                        book.setTag(newTagArr);
+                    } catch (Exception ex) {
 
-                }
+                    }
                 }
             }
         });
@@ -291,7 +288,7 @@ public class App extends Application {
 
     // BOTH FOR EDIT AND SAVE BOOK TAB
     private void genBookInfo(Book book, int type) { // Type 1 = edit | Type 0 = add || genBookInfo is short for general
-                                                    // book information
+        // book information
 
         VBox root = new VBox();
         Scene scene = new Scene(root);
@@ -997,84 +994,22 @@ public class App extends Application {
     }
 
     public void showManual() {
-        HBox root = new HBox(10);
-        root.setStyle("-fx-background-color: linear-gradient(to top right, #6fa8dc, #ffffff); ");
-        root.setPadding(new Insets(10));
-        VBox left = new VBox(10);
-        VBox right = new VBox(10);
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader("README.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        Label welcomeLabel = new Label("Welcome to PagePal.");
-
-        Label featuresTitle = new Label("Main Features:");
-        Label featuresDetails = new Label(
-                "1. Importing data\n" +
-                        "2. Exporting data\n" +
-                        "3. Searching through data\n" +
-                        "4. Filtering By Tags\n" +
-                        "5. Adding data\n" +
-                        "6. Deleting data\n" +
-                        "7. Editing data");
-
-        Label importingDataTitle = new Label("Importing Data:");
-        Label importingDataDetails = new Label("To import data, go to 'File' menu and choose 'Import Books'.");
-
-        Label exportingDataTitle = new Label("Exporting Data:");
-        Label exportingDataDetails = new Label("To export data, go to 'File' menu and choose 'Export Books'.");
-
-        Label addingDataTitle = new Label("Adding Data:");
-        Label addingDataDetails = new Label(
-                "To add data, press 'Add Book' button.\n" +
-                        "Then enter the information about the book.\n" +
-                        "Lastly, press 'Add Book' at the bottom.");
-
-        Label searchingDataTitle = new Label("Searching Data:");
-        Label searchingDataDetails = new Label(
-                "To search data, first select the parameter\n" +
-                        "you want to search from the choice box.\n" +
-                        "Then write what you want to search in the search bar.\n" +
-                        "Finally, click the 'Search' button.");
-
-        Label filteringByTags = new Label("Filtering by Tags:");
-        Label filteringByTagDetails = new Label(
-                "To filter by tags, you have to click on 'Tag Filter' button.\n" +
-                        "Then, select the tag(s) you want to filter by.\n" +
-                        "After that, hit 'List by Tags' button."
-
-        );
-
-        Label editingDeletingDataTitle = new Label("Editing and Deleting Data:");
-        Label editingDeletingDataDetails = new Label(
-                "To edit and delete data, first search the book.\n" +
-                        "Then click on the book in the list you want to edit or delete.\n" +
-                        "In the opening tab, at the bottom,\n" +
-                        "there are two buttons for deleting and editing.\n" +
-                        "By pressing them, you can either delete or edit the book information.");
-
-        Label specialConditionsTitle = new Label("Special Conditions");
-
-        Label specialConditionsType2 = new Label("Searching and Filtering by Tags");
-        Label specialConditionsFilter = new Label("User can search something and filter by tag at the same time.\n" +
-                "To do that, user has to select the tags by clicking at 'Tag Filter' button.\n" +
-                "Then, by clicking 'List by Tags', user can filter by the tags selected.\n" +
-                "Lastly, now you can search anything you want.\n" +
-                "This way, you can search while the books are filtered by tags.\n" +
-                "Note : To select multiple tags, hold 'ctrl' button and click on the tags.\n");
-
-        left.getChildren().addAll(
-                welcomeLabel,
-                featuresTitle, featuresDetails,
-                importingDataTitle, importingDataDetails,
-                exportingDataTitle, exportingDataDetails,
-                addingDataTitle, addingDataDetails,
-                searchingDataTitle, searchingDataDetails,
-                filteringByTags, filteringByTagDetails,
-                editingDeletingDataTitle, editingDeletingDataDetails);
-        right.getChildren().addAll(specialConditionsTitle,
-                specialConditionsType2, specialConditionsFilter);
-        left.setAlignment(Pos.CENTER);
-        right.setAlignment(Pos.CENTER);
-        root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(left, right);
+        TextArea textArea = new TextArea(content.toString());
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        StackPane root = new StackPane(textArea);
+        root.setPrefHeight(400);
+        root.setPrefWidth(400);
         Scene scene = new Scene(root);
         manualStage.setScene(scene);
         manualStage.setTitle("User Manual");
