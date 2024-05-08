@@ -105,7 +105,7 @@ public class Library {
                     }
                 }
             } else {
-                System.out.println("Geçersiz arama türü: " + type);
+                //System.out.println("Geçersiz arama türü: " + type);
             }
         }
 
@@ -192,7 +192,7 @@ public class Library {
                     }
                 }
             } else {
-                System.out.println("Geçersiz arama türü: " + type);
+                //System.out.println("Geçersiz arama türü: " + type);
             }
         }
         

@@ -795,7 +795,8 @@ public class App extends Application {
         }
 
         HBox buttonHBox = new HBox();
-        buttonHBox.setAlignment(Pos.BOTTOM_CENTER);
+        try{buttonHBox.setAlignment(Pos.BOTTOM_CENTER);}
+        catch(Exception E){}
 
         bottomVBox.getChildren().addAll(buttonHBox);
         Button deleteButton = new Button("Delete Book");
@@ -858,7 +859,8 @@ public class App extends Application {
                     listedByTags = true;
                     searchResults("", "All Books");
                     if (listedByTags) {
-                        thirdLine.getChildren().add(deListButton);
+                        try{thirdLine.getChildren().add(deListButton);}
+                        catch(Exception ee){}
                     }
                 }
             }
